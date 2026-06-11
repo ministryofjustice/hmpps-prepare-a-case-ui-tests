@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+<suite name="Suite" parallel="tests">
+    <!--parallel="tests"-->
+    <!-- <listeners>
+         <listener class-name="com.vmd.test.listeners.ReportListener"/>
+         <listener class-name="com.vmd.test.listeners.TestNgListener"/>
+     </listeners>-->
+
+    <test name="Test - 1" parallel="methods">
+        <classes>
+            <class name="org.pacfs.test.testRunners.TestRunner">
+                <methods>
+                    <include name="runTest"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+
+</suite>
