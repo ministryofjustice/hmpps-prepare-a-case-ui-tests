@@ -3,6 +3,7 @@ package org.pacfs.framework.config;
 import org.pacfs.framework.base.BrowserTypes;
 import org.pacfs.framework.base.LocalDriverContext;
 
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -10,9 +11,25 @@ import java.util.ArrayList;
 import java.util.Properties;
 
 /**
- * Created by Ibi on 08/05/2026.
+ * Reads configuration from environment variables (preferred) with fallback
+ * to GlobalConfig.properties for local development.
+ *
+ * Environment variable mapping:
+ *   PAC_AUT_URL            -> AUT
+ *   PAC_AUT1_URL           -> AUT1
+ *   PAC_USERNAME           -> UserName
+ *   PAC_PASSWORD           -> Password
+ *   PAC_BROWSER_TYPE       -> BrowserType
+ *   PAC_ENVIRONMENT_TYPE   -> environmentType
+ *   PAC_SELENIUM_GRID      -> SeleniumGrid
+ *   PAC_AUT_CONNECTION     -> AUTConnectionString
+ *   PAC_REPORTING_CONNECTION -> ReportingConnectionString
+ *   PAC_DRIVER_TYPE        -> DriverType
+ *   PAC_LOG_PATH           -> LogPath
+ *   PAC_EXCEL_PATH         -> ExcelSheetPath
+ *   PAC_EXCEL_SHEET        -> ExcelSheetName
+ *   PAC_AAD_URL            -> AADURL
  */
-
 public class ConfigReader {
     //Create Property Object
     Properties p = new Properties();
@@ -20,45 +37,54 @@ public class ConfigReader {
     String os;
     BrowserTypes bt = null;
 
-    public static  void PopulateSettings() throws IOException {
+    private static final String CONFIG_FILE_PATH = "src/main/java/org/pacfs/framework/config/GlobalConfig.properties";
+
+    public static void PopulateSettings() throws IOException {
         ConfigReader reader = new ConfigReader();
         reader.ReadProperty();
     }
 
+    /**
+     * Returns the value from environment variable if set, otherwise falls back to properties file.
+     */
+    private String getConfigValue(String envVarName, String propertyName) {
+        String envValue = System.getenv(envVarName);
+        if (envValue != null && !envValue.isEmpty()) {
+            return envValue;
+        }
+        return p.getProperty(propertyName);
+    }
 
     private void ReadProperty() throws IOException {
-        //Load the Property file available in same package
-        InputStream inputStream = new FileInputStream("src/main/java/org/pacfs/framework/config/GlobalConfig.properties");
-        p.load(inputStream);
+        // Load properties file if it exists (for local development)
+        File configFile = new File(CONFIG_FILE_PATH);
+        if (configFile.exists()) {
+            InputStream inputStream = new FileInputStream(configFile);
+            p.load(inputStream);
+            inputStream.close();
+        }
 
-        /**Get LogPath*/
-        Settings.LogPath = p.getProperty("LogPath");
-        /**Get AUT*/
-        Settings.AUT = p.getProperty("AUT");
-        /**Get AUT1*/
-        Settings.AUT1 = p.getProperty("AUT1");
-        /** User Name**/
-        Settings.UserName = p.getProperty("UserName");
-        /** Password**/
-        Settings.Password = p.getProperty("Password");
-        /**Get Browser type*/
-        Settings.BrowserType = BrowserTypes.valueOf(p.getProperty("BrowserType"));
-        /**GEt ExcelSheetPath*/
-        Settings.ExcelSheetPath = p.getProperty("ExcelSheetPath");
-        /**GEt ExcelSheetName*/
-        Settings.ExcelSheetName = p.getProperty("ExcelSheetName");
-        //Get DriverType
-        Settings.DriverType = p.getProperty("DriverType");
-        /**Get Reporting String*/
-        Settings.ReportingConnectionString = p.getProperty("ReportingConnectionString");
-        /**Get AUTConnection String*/
-        Settings.AUTConnectionString = p.getProperty("AUTConnectionString");
-        /**Selenium grid Hub*/
-        Settings.SeleniumGridHub = p.getProperty("SeleniumGrid");
-        // AAD url
-        Settings.AADURL=p.getProperty("AADURL");
+        // Read config values - environment variables take precedence over properties file
+        Settings.LogPath = getConfigValue("PAC_LOG_PATH", "LogPath");
+        Settings.AUT = getConfigValue("PAC_AUT_URL", "AUT");
+        Settings.AUT1 = getConfigValue("PAC_AUT1_URL", "AUT1");
+        Settings.UserName = getConfigValue("PAC_USERNAME", "UserName");
+        Settings.Password = getConfigValue("PAC_PASSWORD", "Password");
 
-        ArrayList envDetails =environmentDetails();
+        String browserType = getConfigValue("PAC_BROWSER_TYPE", "BrowserType");
+        if (browserType != null) {
+            Settings.BrowserType = BrowserTypes.valueOf(browserType);
+        }
+
+        Settings.ExcelSheetPath = getConfigValue("PAC_EXCEL_PATH", "ExcelSheetPath");
+        Settings.ExcelSheetName = getConfigValue("PAC_EXCEL_SHEET", "ExcelSheetName");
+        Settings.DriverType = getConfigValue("PAC_DRIVER_TYPE", "DriverType");
+        Settings.ReportingConnectionString = getConfigValue("PAC_REPORTING_CONNECTION", "ReportingConnectionString");
+        Settings.AUTConnectionString = getConfigValue("PAC_AUT_CONNECTION", "AUTConnectionString");
+        Settings.SeleniumGridHub = getConfigValue("PAC_SELENIUM_GRID", "SeleniumGrid");
+        Settings.AADURL = getConfigValue("PAC_AAD_URL", "AADURL");
+
+        ArrayList envDetails = environmentDetails();
         // To run different Environments
         Settings.EnvironmentType = envDetails.get(0).toString();
     }
@@ -66,18 +92,20 @@ public class ConfigReader {
     public ArrayList environmentDetails() {
         ArrayList ar = new ArrayList();
         String envType = System.getProperty("environmentType");
-        if ((envType==null) || envType.equals("local")){
-            env = p.getProperty("environmentType");
-            //os = p.getProperty("Os");
-            bt = BrowserTypes.valueOf(p.getProperty("BrowserType"));
+        if (envType == null || envType.isEmpty()) {
+            envType = System.getenv("PAC_ENVIRONMENT_TYPE");
+        }
+        if ((envType == null) || envType.equals("local")) {
+            env = p.getProperty("environmentType", "local");
+            bt = Settings.BrowserType;
         } else if (envType.equals("BrowserStack") || envType.equals("grid")) {
             env = envType;
-            //os = System.getProperty("Os");
-            bt = BrowserTypes.valueOf(System.getProperty("BrowserType"));
+            String btProp = System.getProperty("BrowserType");
+            if (btProp == null) btProp = System.getenv("PAC_BROWSER_TYPE");
+            if (btProp != null) bt = BrowserTypes.valueOf(btProp);
         }
         LocalDriverContext.getRemoteWebDriver();
         ar.add(env);
-        //ar.add(os);
         ar.add(bt);
         return ar;
     }
