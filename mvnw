@@ -125,7 +125,8 @@ verbose "Using MAVEN_PROJECTBASEDIR: $MAVEN_PROJECTBASEDIR"
 
 # Download maven if needed
 distributionUrlName="${distributionUrl##*/}"
-distributionUrlNameMain="${distributionUrlName%%.*}"
+distributionUrlNameMain="${distributionUrlName%.zip}"
+distributionUrlNameMain="${distributionUrlNameMain%.tar.gz}"
 distributionUrlNameMain="${distributionUrlNameMain%-bin}"
 MAVEN_HOME_LOCAL="${MAVEN_PROJECTBASEDIR}/.mvn/wrapper/${distributionUrlNameMain}"
 
