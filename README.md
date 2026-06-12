@@ -1,4 +1,4 @@
-# hmpps-prepare-a-case-ui-tests
+# HMPPS Prepare A Case UI Tests
 
 [![repo standards badge](https://img.shields.io/endpoint?labelColor=231f20&color=005ea5&style=for-the-badge&url=https%3A%2F%2Foperations-engineering-reports.cloud-platform.service.justice.gov.uk%2Fapi%2Fv1%2Fcompliant_public_repositories%2Fendpoint%2Fhmpps-prepare-a-case-ui-tests&logo=data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACgAAAAoCAYAAACM/rhtAAAABmJLR0QA/wD/AP+gvaeTAAAHJElEQVRYCe2YessrSRSHOwkJ...)](https://operations-engineering-reports.cloud-platform.service.justice.gov.uk/public-github-repositories.html#hmpps-prepare-a-case-ui-tests)
 
@@ -6,8 +6,8 @@ Automated UI tests for the [HMPPS Prepare a Case](https://github.com/ministryofj
 
 ## Prerequisites
 
-- Java 11+
-- Maven 3.6+
+- Java 25 (see `.java-version`)
+- Maven 3.9.9 (provided via the Maven Wrapper — no need to install Maven)
 - Chrome browser (for local execution)
 - ChromeDriver (managed automatically via WebDriverManager)
 
@@ -36,13 +36,13 @@ Edit `GlobalConfig.properties` with your environment-specific values (URLs, cred
 ### 3. Run the tests
 
 ```bash
-mvn clean test
+./mvnw clean test
 ```
 
 To generate the Cucumber report:
 
 ```bash
-mvn clean verify
+./mvnw clean verify
 ```
 
 The report will be available in `target/`.
@@ -77,7 +77,7 @@ PAC_AUT_URL="https://your-env.example.com" \
 PAC_USERNAME="testuser" \
 PAC_PASSWORD="testpass" \
 PAC_BROWSER_TYPE="Headless" \
-mvn clean test
+./mvnw clean test
 ```
 
 ## Running from GitHub Actions
@@ -94,6 +94,12 @@ This repo is designed to be triggered from another repository's GitHub Actions p
 Example workflow step:
 
 ```yaml
+- name: Set up JDK 25
+  uses: actions/setup-java@v4
+  with:
+    java-version: '25'
+    distribution: 'temurin'
+
 - name: Run UI Tests
   env:
     PAC_AUT_URL: ${{ secrets.PAC_AUT_URL }}
@@ -102,7 +108,7 @@ Example workflow step:
     PAC_BROWSER_TYPE: "Headless"
     PAC_ENVIRONMENT_TYPE: "local"
   run: |
-    mvn clean verify
+    ./mvnw clean verify
 ```
 
 ## Project Structure
