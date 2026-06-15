@@ -2,7 +2,7 @@ Feature: Session stability and navigation reliability
 
   @SessionTimeout
   Scenario: Verify session stability when navigating to Outcomes flow
-      Given the user is logged into the application via "Guildford Magistrates' Court"
+    Given the user is logged into the application via "Guildford Magistrates' Court"
     When the user navigates to the Outcomes flow multiple times
     Then the user should remain logged in
     And the system should not display "There is a problem with this service"

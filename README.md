@@ -31,7 +31,7 @@ cp src/main/java/org/pacfs/framework/config/GlobalConfig.properties.template \
 
 Edit `GlobalConfig.properties` with your environment-specific values (URLs, credentials, etc.).
 
-> ⚠️ **Never commit `GlobalConfig.properties`** — it is git-ignored because it contains secrets.
+> **Never commit `GlobalConfig.properties`** — it is git-ignored because it contains secrets.
 
 ### 3. Run the tests
 
@@ -111,26 +111,4 @@ Example workflow step:
     ./mvnw clean verify
 ```
 
-## Project Structure
-
-```
-src/
-├── main/java/org/pacfs/framework/
-│   ├── base/           # WebDriver setup and browser management
-│   ├── config/         # Configuration reader and settings
-│   ├── controls/       # UI control wrappers
-│   └── utilities/      # Logging and helper utilities
-├── main/resources/
-│   └── logs/           # Test execution logs (git-ignored)
-└── test/java/org/pacfs/test/
-    ├── features/       # Cucumber feature files
-    ├── stepdefs/       # Step definitions
-    ├── pages/          # Page Object Model classes
-    ├── listeners/      # TestNG listeners
-    └── testRunners/    # TestNG test runner
-```
-
-## Licence
-
-[MIT License](LICENCE)
 
