@@ -7,5 +7,6 @@ package org.pacfs.framework.base;
 public enum BrowserTypes {
     Firefox,
     Chrome,
-    IE
+    IE,
+    Headless
 }

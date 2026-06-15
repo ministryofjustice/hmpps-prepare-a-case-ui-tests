@@ -63,6 +63,30 @@ public class FrameworkInitialize extends Base {
                     Settings.logs.Write("Starting Firefox browser");
                     break;
                 }
+                case Headless: {
+                    HashMap<String, Object> headlessPreferences = new HashMap<>();
+                    headlessPreferences.put("profile.password_manager_enabled", false);
+                    ChromeOptions headlessOptions = new ChromeOptions();
+                    headlessOptions.addArguments("--headless=new");
+                    headlessOptions.addArguments("--no-sandbox");
+                    headlessOptions.addArguments("--disable-dev-shm-usage");
+                    headlessOptions.addArguments("--disable-gpu");
+                    headlessOptions.addArguments("--window-size=1920,1080");
+                    headlessOptions.addArguments("--test-type");
+                    headlessOptions.addArguments("chrome.switches", "--disable-extensions");
+                    headlessOptions.addArguments("--no-default-browser-check");
+                    headlessOptions.setExperimentalOption("prefs", headlessPreferences);
+
+                    if (environmentType.equalsIgnoreCase("local")) {
+                        driver = new ChromeDriver(headlessOptions);
+                    } else if (environmentType.equalsIgnoreCase("grid")) {
+                        driver = new RemoteWebDriver(new URL(Settings.SeleniumGridHub), headlessOptions);
+                    }
+
+                    LocalDriverContext.setRemoteWebDriverThreadLocal(driver);
+                    Settings.logs.Write("Starting Chrome browser in headless mode");
+                    break;
+                }
                 case IE: {
                     InternetExplorerOptions options = new InternetExplorerOptions();
 
