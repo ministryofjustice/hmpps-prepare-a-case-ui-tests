@@ -1,0 +1,11 @@
+# Gitleaks configuration
+# https://github.com/gitleaks/gitleaks
+
+title = "hmpps-prepare-a-case-ui-tests gitleaks config"
+
+[allowlist]
+  description = "Allowlist for test automation repo"
+  paths = [
+    '''GlobalConfig\.properties\.template''',
+  ]
+
