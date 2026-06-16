@@ -40,6 +40,6 @@ public class caseSummaryPageStepdefs extends Base {
     @And("the probation status should match the value from the cases page")
     public void theProbationStatusShouldMatchTheValueFromTheCasesPage() {
 
-        CurrentPage.As(CaseSummaryPage.class).ValidateProbationStatusMatches();
+        CurrentPage.As(CaseSummaryPage.class).ValidateProbationStatusMatches2();
     }
 }

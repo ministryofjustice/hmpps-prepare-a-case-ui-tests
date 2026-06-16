@@ -63,4 +63,34 @@ public static String expectedDefendantName;
         return actualProbationStatus.equalsIgnoreCase(expectedProbationStatus.trim());
     }
 
+    public boolean ValidateProbationStatusMatches2() {
+
+        // Locate Probation Status on Case Summary page
+        WebElement probationStatusElement =
+                LocalDriverContext.getRemoteWebDriver()
+                        .findElement(By.xpath(
+                                "//section[@class='pac-key-details-bar']/div/div[1]/div[2]/div/span"
+                        ));
+
+        String rawProbationStatusText = probationStatusElement.getText().trim();
+
+        // ==============================
+        // Extract ONLY actual value (after :)
+        // ==============================
+
+        String actualProbationStatus = rawProbationStatusText;
+
+        if (rawProbationStatusText.contains(":")) {
+            actualProbationStatus = rawProbationStatusText.split(":")[1].trim();
+        }
+
+        System.out.println("Expected Probation Status: " + CourtCasesDetailsPage.selectedProbationStatus);
+        System.out.println("Actual Probation Status: " + actualProbationStatus);
+
+        // ==============================
+        // VALIDATION
+        // ==============================
+
+        return actualProbationStatus.equalsIgnoreCase(CourtCasesDetailsPage.selectedProbationStatus.trim());
+    }
 }
