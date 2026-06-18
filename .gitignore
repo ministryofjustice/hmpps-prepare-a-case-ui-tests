@@ -4,6 +4,9 @@ target/
 !**/src/test/**/target/
 .kotlin
 
+### Maven Wrapper downloaded distribution ###
+.mvn/wrapper/apache-maven-*/
+
 ### IntelliJ IDEA ###
 .idea/
 *.iws

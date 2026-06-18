@@ -1,13 +1,13 @@
 package org.pacfs.framework.base;
 
-import org.openqa.selenium.firefox.FirefoxOptions;
-import org.pacfs.framework.config.Settings;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.firefox.FirefoxDriver;
+import org.openqa.selenium.firefox.FirefoxOptions;
 import org.openqa.selenium.ie.InternetExplorerDriver;
 import org.openqa.selenium.ie.InternetExplorerOptions;
 import org.openqa.selenium.remote.RemoteWebDriver;
+import org.pacfs.framework.config.Settings;
 
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -29,9 +29,8 @@ public class FrameworkInitialize extends Base {
                     HashMap<String, Object> chromePreferences = new HashMap<>();
                     chromePreferences.put("profile.password_manager_enabled", false);
                     ChromeOptions options = new ChromeOptions();
-                    options.addArguments("--test-type");
-                    options.addArguments("chrome.switches", "--disable-extensions");
-                    options.addArguments("chrome.switches", "--disable-extensions --disable-extensions-file-access-check --disable-extensions-http-throttling");
+                    options.addArguments("--test-type=browser");
+                    options.addArguments("chrome.switches", "--disable-extensions-file-access-check --disable-extensions-http-throttling");
                     options.addArguments("--no-default-browser-check");
                     options.setExperimentalOption("prefs", chromePreferences);
 
@@ -61,6 +60,30 @@ public class FrameworkInitialize extends Base {
 
                     LocalDriverContext.setRemoteWebDriverThreadLocal(driver);
                     Settings.logs.Write("Starting Firefox browser");
+                    break;
+                }
+                case Headless: {
+                    HashMap<String, Object> headlessPreferences = new HashMap<>();
+                    headlessPreferences.put("profile.password_manager_enabled", false);
+                    ChromeOptions headlessOptions = new ChromeOptions();
+                    headlessOptions.addArguments("--headless=new");
+                    headlessOptions.addArguments("--no-sandbox");
+                    headlessOptions.addArguments("--disable-dev-shm-usage");
+                    headlessOptions.addArguments("--disable-gpu");
+                    headlessOptions.addArguments("--window-size=1920,1080");
+                    headlessOptions.addArguments("--test-type=browser");
+                    headlessOptions.addArguments("chrome.switches", "--disable-extensions-file-access-check --disable-extensions-http-throttling");
+                    headlessOptions.addArguments("--no-default-browser-check");
+                    headlessOptions.setExperimentalOption("prefs", headlessPreferences);
+
+                    if (environmentType.equalsIgnoreCase("local")) {
+                        driver = new ChromeDriver(headlessOptions);
+                    } else if (environmentType.equalsIgnoreCase("grid")) {
+                        driver = new RemoteWebDriver(new URL(Settings.SeleniumGridHub), headlessOptions);
+                    }
+
+                    LocalDriverContext.setRemoteWebDriverThreadLocal(driver);
+                    Settings.logs.Write("Starting Chrome browser in headless mode");
                     break;
                 }
                 case IE: {
