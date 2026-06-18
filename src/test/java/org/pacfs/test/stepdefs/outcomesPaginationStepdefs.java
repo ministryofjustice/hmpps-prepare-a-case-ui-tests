@@ -75,13 +75,15 @@ public class outcomesPaginationStepdefs extends Base {
     @Then("I verify that defendant names across all pagination pages in the Outcomes tab are unique and consistently ordered")
     public void iVerifyThatDefendantNamesAcrossAllPaginationPagesInTheOutcomesTabAreUniqueAndConsistentlyOrdered() {
 
-        CurrentPage.As(HearingOutcomesPage.class).validateDuplicateDefendantNamesAcrossPages2();
+        //CurrentPage.As(HearingOutcomesPage.class).validateDuplicateDefendantNamesAcrossPages2();
+        CurrentPage.As(HearingOutcomesPage.class).validateDuplicateDefendantHrefsAcrossPages();
     }
 
     @When("I select the defendant name from the case results")
     public void iSelectTheDefendantNameFromTheCaseResults() {
 
-        CurrentPage.As(HearingOutcomesPage.class).selectFirstDefendantCheckbox();
+        //CurrentPage.As(HearingOutcomesPage.class).selectFirstDefendantCheckbox();
+        CurrentPage.As(HearingOutcomesPage.class).selectFirstDefendantCheckbox2();
     }
 
     @And("I assign the case to myself using the {string} button")
@@ -106,24 +108,27 @@ public class outcomesPaginationStepdefs extends Base {
     @And("the defendant name should no longer appear in the Outcomes case results list")
     public void theDefendantNameShouldNoLongerAppearInTheOutcomesCaseResultsList() {
 
-        CurrentPage.As(HearingOutcomesPage.class).validateSelectedDefendantNameNoLongerExistsAcrossPages();
+        //CurrentPage.As(HearingOutcomesPage.class).validateSelectedDefendantNameNoLongerExistsAcrossPages();
+        CurrentPage.As(HearingOutcomesPage.class).validateSelectedDefendantHrefNoLongerExistsAcrossPages();
     }
 
     @Then("I should see the defendant name in the in progress cases list")
     public void iShouldSeeTheDefendantNameInTheInProgressCasesList() {
 
-        CurrentPage.As(HearingOutcomesPage.class).validateSelectedDefendantExistsAcrossPages();
+        //CurrentPage.As(HearingOutcomesPage.class).validateSelectedDefendantExistsAcrossPages();
+        CurrentPage.As(HearingOutcomesPage.class).validateSelectedDefendantExistsAcrossPages2();
     }
 
     @When("I select the {string} action for defendant")
     public void iSelectTheActionForDefendant(String arg0) {
 
-        CurrentPage.As(HearingOutcomesPage.class).clickMoveToResultedForSelectedDefendant();
+        //CurrentPage.As(HearingOutcomesPage.class).clickMoveToResultedForSelectedDefendant();
+        CurrentPage.As(HearingOutcomesPage.class).clickMoveToResultedForSelectedDefendant3();
     }
 
     @Then("I should see the defendant name in the resulted cases list")
     public void iShouldSeeTheDefendantNameInTheResultedCasesList() {
 
-        CurrentPage.As(HearingOutcomesPage.class).validateSelectedDefendantExistsAcrossPages();
+        CurrentPage.As(HearingOutcomesPage.class).validateSelectedDefendantExistsAcrossPages22();
     }
 }

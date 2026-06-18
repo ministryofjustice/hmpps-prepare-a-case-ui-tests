@@ -8,6 +8,7 @@ Feature: Case Summary Page - Defendant details, case actions and updates
     And the "Cases" tab should be selected by default
     And I navigate to "Hearing outcome still to be added" tab
 
+  @Regression
   Scenario: View and validate defendant details on Case Summary page
     When I select a defendant from the case list
     Then I should be navigated to the Case Summary page
@@ -15,8 +16,8 @@ Feature: Case Summary Page - Defendant details, case actions and updates
 #    And the PNC number should match the value from the cases page
     And the probation status should match the value from the cases page
 
-  Scenario: Upload documents to a case from Case Summary page
-    Given I am on the Case Summary page
+#  Scenario: Upload documents to a case from Case Summary page
+#    Given I am on the Case Summary page
 #    When I upload a document to the case
 #    Then the document should be successfully attached to the case
 #

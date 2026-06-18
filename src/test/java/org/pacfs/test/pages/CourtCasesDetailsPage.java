@@ -76,9 +76,13 @@ public class CourtCasesDetailsPage extends BasePage {
 
     // Store defendant name so it can be used in other methods
     public static String selectedDefendantName;
+    public static String selectedProbationStatus;
 
     public CaseSummaryPage selectFirstDefendantName() {
 
+        // ==============================
+        // CAPTURE DEFENDANT NAME
+        // ==============================
         WebElement defendantNameElement = LocalDriverContext.getRemoteWebDriver().findElement(
                 By.xpath("//table/tbody/tr[1]/td[position()=1]/a"));
 
@@ -86,6 +90,20 @@ public class CourtCasesDetailsPage extends BasePage {
 
         System.out.println("Selected Defendant Name: " + selectedDefendantName);
 
+        // ==============================
+        // CAPTURE PROBATION STATUS (SAME ROW)
+        // ==============================
+        WebElement probationStatusElement = LocalDriverContext.getRemoteWebDriver().findElement(
+                By.xpath("//table/tbody/tr[1]/td[position()=2]"));
+
+        selectedProbationStatus = probationStatusElement.getText().trim();
+
+        System.out.println("Selected Probation Status: " + selectedProbationStatus);
+
+
+        // ==============================
+        // CLICK DEFENDANT
+        // ==============================
         defendantNameElement.click();
 
         System.out.println("Clicked Defendant Link: " + selectedDefendantName);

@@ -20,13 +20,10 @@ Feature: Validate Outcomes page pagination, sorting and data consistency
     And I assign the case to myself using the "Actions" button
     Then I should see the success message "You are assigned to result <selectedDefendantName>. Their case has moved to the in progress tab."
     And the defendant name should no longer appear in the Outcomes case results list
-
     When I navigate to the "In progress" tab
     Then I should see the defendant name in the in progress cases list
-
     When I select the "Move to result" action for defendant
     Then I should see the success message "You have moved <selectedDefendantName> case to resulted cases."
-
     When I navigate to the "Resulted cases" tab
     Then I should see the defendant name in the resulted cases list
 
