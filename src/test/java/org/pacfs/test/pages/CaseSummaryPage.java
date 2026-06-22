@@ -5,12 +5,46 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.How;
 import org.pacfs.framework.base.BasePage;
+import org.pacfs.framework.base.DriverContext;
 import org.pacfs.framework.base.LocalDriverContext;
 
 public class CaseSummaryPage extends BasePage {
 
     @FindBy(how = How.XPATH, using = "//main[@id='main-content']/child::div[position()=1]/child::div/child::h2")
     private WebElement CaseSummaryTitle;
+
+    @FindBy(how = How.XPATH, using = "//table/descendant::form/descendant::summary/child::span")
+    private WebElement expandIcon;
+
+    @FindBy(how = How.XPATH, using = "//table/descendant::form/descendant::div/child::textarea")
+    private WebElement textBox;
+
+    @FindBy(how = How.XPATH, using = "//table/tbody/child::tr[position()=1]/descendant::form/child::textarea")
+    private WebElement editTextBox;
+
+    @FindBy(how = How.XPATH, using = "//table/descendant::form/descendant::div/child::div/child::button")
+    private WebElement saveButton;
+
+    @FindBy(how = How.XPATH, using = "//table/tbody/child::tr[position()=1]/descendant::form/child::div/child::button")
+    private WebElement editSaveButton;
+
+    @FindBy(how = How.XPATH, using = "//table/descendant::form/descendant::div/child::div/child::a")
+    private WebElement cancelButton;
+
+    @FindBy(how = How.XPATH, using = "//tbody/child::tr[position()=1]/child::td/child::div[position()=1]/child::div[position()=1]/child::span")
+    private WebElement savedText;
+
+    @FindBy(how = How.LINK_TEXT, using = "Edit")
+    private WebElement linkTextEdit;
+
+    @FindBy(how = How.LINK_TEXT, using = "Delete")
+    private WebElement linkTextDelete;
+
+    @FindBy(how = How.XPATH, using = "//main/child::form/child::div[position()=3]/descendant::button")
+    private WebElement bntDeleteNote;
+
+    @FindBy(how = How.XPATH, using = "//main/child::div[position()=1]/child::div[position()=2]/child::p")
+    private WebElement hearingNoteSuccessMessage;
 
 
 
@@ -93,4 +127,86 @@ public static String expectedDefendantName;
 
         return actualProbationStatus.equalsIgnoreCase(CourtCasesDetailsPage.selectedProbationStatus.trim());
     }
+
+    public void expandHearingNote() {
+
+        //expandIcon.click();
+        DriverContext.WaitForElementToBeClickable(expandIcon);
+    }
+
+    public void enterHearingNote(String noteText) {
+
+        //DriverContext.WaitForElementToBePresenceLocated(textBox);
+        textBox.clear();
+        textBox.sendKeys(noteText);
+    }
+
+    public void clickSaveHearingNote() {
+
+        //saveButton.click();
+        DriverContext.WaitForElementToBeClickable(saveButton);
+    }
+
+    public void clickCancelHearingNote() {
+
+        cancelButton.click();
+    }
+
+    public String getSavedHearingNoteText() {
+
+        //DriverContext.WaitForElementToBePresenceLocated(savedText);
+        return savedText.getText();
+    }
+
+    public boolean isEditLinkDisplayed() {
+
+        //DriverContext.WaitForElementToBePresenceLocated(linkTextEdit);
+        return linkTextEdit.isDisplayed();
+    }
+
+    public boolean isDeleteLinkDisplayed() {
+
+        //DriverContext.WaitForElementToBePresenceLocated(linkTextDelete);
+        return linkTextDelete.isDisplayed();
+    }
+
+    public void addHearingNote(String noteText) {
+        expandHearingNote();
+        enterHearingNote(noteText);
+        clickSaveHearingNote();
+    }
+
+    public void clickDeleteHearingNote() {
+
+        //linkTextDelete.click();
+        DriverContext.WaitForElementToBeClickable(linkTextDelete);
+
+        DriverContext.WaitForElementToBeClickable(bntDeleteNote);
+    }
+
+    public String getDeleteSuccessMessage() {
+
+        //DriverContext.WaitForElementToBePresenceLocated(hearingNoteSuccessMessage);
+        return hearingNoteSuccessMessage.getText();
+    }
+
+    public void editHearingNote() {
+        // Click Edit link
+        DriverContext.WaitForElementToBeClickable(linkTextEdit);
+
+        // Get current value
+        //DriverContext.WaitForElementToBePresenceLocated(editTextBox);
+        String existingText = editTextBox.getAttribute("value");
+
+        // Append update
+        String updatedText = "Updated " + existingText;
+
+        editTextBox.clear();
+        editTextBox.sendKeys(updatedText);
+
+        // Click Save button
+        DriverContext.WaitForElementToBeClickable(editSaveButton);
+    }
+
+
 }

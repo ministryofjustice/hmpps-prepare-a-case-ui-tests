@@ -42,4 +42,48 @@ public class caseSummaryPageStepdefs extends Base {
 
         CurrentPage.As(CaseSummaryPage.class).ValidateProbationStatusMatches2();
     }
+
+    @Given("I am on the Case Summary page")
+    public void iAmOnTheCaseSummaryPage() {
+
+        CurrentPage = CurrentPage.As(CourtCasesDetailsPage.class).selectFirstDefendantName();
+        Assert.assertEquals(CurrentPage.As(CaseSummaryPage.class).GetCaseSummary(),"Case summary");
+    }
+
+    @When("I add a comment with notes and observations about the case")
+    public void iAddACommentWithNotesAndObservationsAboutTheCase() {
+
+        CurrentPage.As(CaseSummaryPage.class).addHearingNote("Suggested Assertion Example");
+    }
+
+    @Then("the comment should be saved and visible to colleagues")
+    public void theCommentShouldBeSavedAndVisibleToColleagues() {
+
+        Assert.assertEquals(CurrentPage.As(CaseSummaryPage.class).getSavedHearingNoteText(),"Suggested Assertion Example");
+    }
+
+    @And("the Edit and Cancel buttons are displayed.")
+    public void theEditAndCancelButtonsAreDisplayed() {
+
+        Assert.assertTrue(CurrentPage.As(CaseSummaryPage.class).isEditLinkDisplayed());
+        Assert.assertTrue(CurrentPage.As(CaseSummaryPage.class).isDeleteLinkDisplayed());
+    }
+
+    @And("I delete the hearing note that was just created")
+    public void iDeleteTheHearingNoteThatWasJustCreated() {
+
+        CurrentPage.As(CaseSummaryPage.class).clickDeleteHearingNote();
+    }
+
+    @And("the success message {string} should be displayed")
+    public void theSuccessMessageShouldBeDisplayed(String successfullyMsg) {
+
+        Assert.assertEquals(CurrentPage.As(CaseSummaryPage.class).getDeleteSuccessMessage(), successfullyMsg);
+    }
+
+    @When("I update the hearing note by clicking the Edit button")
+    public void iUpdateTheHearingNoteByClickingTheEditButton() {
+
+        CurrentPage.As(CaseSummaryPage.class).editHearingNote();
+    }
 }
