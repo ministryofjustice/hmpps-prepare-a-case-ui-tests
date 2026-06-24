@@ -6,7 +6,6 @@ import org.openqa.selenium.WebElement;
 /**
  * Created by Ibi on 08/05/2026.
  */
-
 public class HyperLinkBase extends ControlBase implements HyperLink {
     public HyperLinkBase(WebElement element) {
         super(element);

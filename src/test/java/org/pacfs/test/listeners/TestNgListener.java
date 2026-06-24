@@ -7,9 +7,7 @@ import org.testng.ITestResult;
 /**
  * Created by Ibi on 08/05/2026.
  */
-
-
-public class TestNgListener implements IInvokedMethodListener{
+public class TestNgListener implements IInvokedMethodListener {
     @Override
     public void beforeInvocation(IInvokedMethod iInvokedMethod, ITestResult iTestResult) {
 

@@ -29,25 +29,25 @@ public class CourtCasesDetailsPage extends BasePage {
     private WebElement HearingOutcomeStillToBeAdded;
 
 
-    public String GetNameOfCourt(){
+    public String GetNameOfCourt() {
 
         DriverContext.WaitForPageToLoad();
         return MyCourtDetailsTxt.getText();
     }
 
-    public boolean CheckCasesTabSelected(){
+    public boolean CheckCasesTabSelected() {
 
         return DriverContext.IsCasesTabSelected(IsCasesTabSel);
     }
 
-    public HearingOutcomesPage ClickOutcomeTab(){
+    public HearingOutcomesPage ClickOutcomeTab() {
 
         DriverContext.WaitForElementToBeClickable(IsOutcomeTabSel);
 
         return GetInstance(HearingOutcomesPage.class);
     }
 
-    public boolean IsSignOutLinkPresent(){
+    public boolean IsSignOutLinkPresent() {
 
         return DriverContext.IsElementPresent(SignOutLnk);
     }
@@ -69,7 +69,7 @@ public class CourtCasesDetailsPage extends BasePage {
         return isSessionActive;
     }
 
-    public String GetHearingOutcomeStillToBeAdded(){
+    public String GetHearingOutcomeStillToBeAdded() {
 
         return HearingOutcomeStillToBeAdded.getText();
     }
@@ -110,5 +110,4 @@ public class CourtCasesDetailsPage extends BasePage {
         DriverContext.WaitForPageToLoad();
         return GetInstance(CaseSummaryPage.class);
     }
-
 }

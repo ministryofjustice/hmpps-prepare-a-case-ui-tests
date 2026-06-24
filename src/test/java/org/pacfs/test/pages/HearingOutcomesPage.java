@@ -1234,5 +1234,4 @@ public class HearingOutcomesPage extends BasePage {
         DriverContext.WaitForPageToLoad();
         return GetInstance(CourtCasesDetailsPage.class);
     }
-
 }

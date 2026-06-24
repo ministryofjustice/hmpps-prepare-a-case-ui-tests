@@ -13,6 +13,4 @@ public interface Button extends Control {
     void PerformClick();
     String GetButtonTest();
     void PerformSubmit();
-
-
 }

@@ -53,7 +53,7 @@ public class MyCourtsPage extends BasePage {
         return GetInstance(CourtCasesDetailsPage.class);
     }
 
-    public String GetMyCourtsText(){
+    public String GetMyCourtsText() {
 
         return MyCourtsTxt.getText();
     }
@@ -98,7 +98,7 @@ public class MyCourtsPage extends BasePage {
 
             if (!isOnCourtCasesPage) {
 
-                throw new AssertionError(
+                throw new AssertionError (
                         "Failed to navigate to Court Cases page for court: " + courtName);
             }
 
@@ -122,12 +122,12 @@ public class MyCourtsPage extends BasePage {
         System.out.println("Completed navigation through all available courts");
     }
 
-    public boolean IsMyCourtsTextPresent(){
+    public boolean IsMyCourtsTextPresent() {
 
         return DriverContext.IsElementPresent(MyCourtsTxt);
     }
 
-    public boolean IsSignOutLinkPresent(){
+    public boolean IsSignOutLinkPresent() {
 
         return DriverContext.IsElementPresent(SignOutLnk);
     }

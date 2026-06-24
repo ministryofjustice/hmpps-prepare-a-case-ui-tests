@@ -14,7 +14,7 @@ public class DatabaseUtil {
      * @gitURL https://github.com/Microsoft/mssql-jdbc
      */
 
-    public static Connection Open(String connectionString){
+    public static Connection Open(String connectionString) {
 
         try{
             Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver").newInstance();
@@ -26,11 +26,11 @@ public class DatabaseUtil {
         return null;
     }
 
-    public static void Close(){
+    public static void Close() {
 
     }
 
-    public static void ExecuteQuery(String query, Connection connection){
+    public static void ExecuteQuery(String query, Connection connection) {
 
         Statement statement = null;
         try{
@@ -42,7 +42,7 @@ public class DatabaseUtil {
         }
     }
 
-    public static void ExecuteStoredProc(String procedureName, Hashtable parameters, Connection connection){
+    public static void ExecuteStoredProc(String procedureName, Hashtable parameters, Connection connection) {
 
         try{
             int paramterLength = parameters.size();
@@ -70,7 +70,6 @@ public class DatabaseUtil {
 
                 /**Set parameters name and value*/
                 stmt.setString(paramaName, parameters.get(paramaName).toString());
-
             }
 
             /**Execute Query*/

@@ -9,8 +9,7 @@ import java.util.List;
 /**
  * Created by Ibi on 08/05/2026.
  */
-
-public class ControlBase implements Control{
+public class ControlBase implements Control {
 
     private final WebElement element;
 

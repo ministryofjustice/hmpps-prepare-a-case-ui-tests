@@ -59,7 +59,7 @@ public class ExcelUtil {
         return wrksheet.getCell(column, row).getContents();
     }
 
-    public static String ReadCell(String columnName, int rowNumber){
+    public static String ReadCell(String columnName, int rowNumber) {
 
         return ReadCell(GetCell(columnName), rowNumber);
     }

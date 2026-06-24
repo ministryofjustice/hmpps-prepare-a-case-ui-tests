@@ -52,6 +52,7 @@ public class CaseSummaryPage extends BasePage {
 
         return CaseSummaryTitle.getText();
     }
+
 public static String expectedDefendantName;
     public boolean ValidateDefendantNameMatches() {
 
@@ -207,6 +208,4 @@ public static String expectedDefendantName;
         // Click Save button
         DriverContext.WaitForElementToBeClickable(editSaveButton);
     }
-
-
 }

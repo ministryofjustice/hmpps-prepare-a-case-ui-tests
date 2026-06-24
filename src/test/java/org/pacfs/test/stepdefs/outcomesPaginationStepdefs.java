@@ -95,11 +95,11 @@ public class outcomesPaginationStepdefs extends Base {
     @Then("I should see the success message {string}")
     public void iShouldSeeTheSuccessMessage(String mgs) {
 
-        if(mgs.equalsIgnoreCase("You are assigned to result <selectedDefendantName>. Their case has moved to the in progress tab.")){
+        if(mgs.equalsIgnoreCase("You are assigned to result <selectedDefendantName>. Their case has moved to the in progress tab.")) {
 
             CurrentPage.As(HearingOutcomesPage.class).validateAssignToMeSuccessMessage();
 
-        }else if(mgs.equalsIgnoreCase("You have moved <selectedDefendantName> case to resulted cases.")){
+        }else if(mgs.equalsIgnoreCase("You have moved <selectedDefendantName> case to resulted cases.")) {
 
             CurrentPage.As(HearingOutcomesPage.class).validateMoveToResultedSuccessMessage();
         }

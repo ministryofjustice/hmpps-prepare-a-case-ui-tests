@@ -15,13 +15,13 @@ public class CucumberUtil {
      * @return
      * it will convert datatble into a dictionary
      */
-    public static List<DataCollection> ConvertDataTableToDict(DataTable table){// calling data table into custom collection
+    public static List<DataCollection> ConvertDataTableToDict(DataTable table) {// calling data table into custom collection
 
         _dataCollection.clear();
         var data = table.asList();
         int rowNumber = 0;
 
-        for(String col : data){//navigate through all the column
+        for(String col : data) {//navigate through all the column
 
                 /**storing all the values for the particular column while get(colIndex) is the dynamic values
                  * @new DataCollection(data.get(0).get(colIndex) is storing all the values
@@ -41,7 +41,7 @@ public class CucumberUtil {
     }*/
 
     //ToDo: Passing the rowIndex to get the columnValue based on Row number - multiply row index
-    public static String GetCellValueWithRowIndex(String columnName, int rowNumber){
+    public static String GetCellValueWithRowIndex(String columnName, int rowNumber) {
 
         final String[] columnValue = {null};
 
@@ -56,7 +56,7 @@ public class CucumberUtil {
     /**
      * @DataCollection
      */
-    private static class DataCollection{
+    private static class DataCollection {
         private String ColumnName;
         private String ColumnValue;
         private int RowNummber;

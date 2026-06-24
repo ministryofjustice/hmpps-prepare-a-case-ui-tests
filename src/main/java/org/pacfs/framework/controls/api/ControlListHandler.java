@@ -32,7 +32,6 @@ public class ControlListHandler implements InvocationHandler {
             throw new RuntimeException("interface not assignable to Control.");
         }
         this.wrappingType = ImplementedByProcessor.getWrapperClass(interfaceType);
-
     }
 
     /**

@@ -6,7 +6,7 @@ import org.openqa.selenium.By;
 /**
  * Created by Ibi on 08/05/2026.
  */
-public class BasePage extends Base{
+public class BasePage extends Base {
 
     protected static String worldwideRandomNumber;
 
@@ -20,7 +20,7 @@ public class BasePage extends Base{
         return null;
     }
 
-    protected String getRandomString(){
+    protected String getRandomString() {
 
         int length = 7;
         boolean useLetters = true;
@@ -28,7 +28,7 @@ public class BasePage extends Base{
         return RandomStringUtils.random(length, useLetters, useNumbers);
     }
 
-    public enum ElementStatus{
+    public enum ElementStatus {
         VISIBLE,
         NOTVISIBLE,
         ENABLED,
@@ -64,21 +64,5 @@ public class BasePage extends Base{
         isElementVisible(By.id("Notification_dbl"), ElementStatus.PRESENT);
         isElementVisible(By.id("Header"), ElementStatus.PRESENT);
         isElementVisible(By.id("Profile_dbl"), ElementStatus.PRESENT);
-    }
-
-    public String GetCurrentUrlString(){
-
-        System.out.println("url is : "+LocalDriverContext.getRemoteWebDriver().getCurrentUrl());
-        return LocalDriverContext.getRemoteWebDriver().getCurrentUrl();
-    }
-
-    public void ExportCurrentSearchResultToCVS(){
-
-        isElementVisible(By.cssSelector("#root > div.sc-gWHgXt.cmQCUf > div.sc-eWvPJL.hgQjmC > div.sc-jSgupP.eplsmx > div.sc-jtHMlw.jaQVoM > div > div.sc-cKZHah.iYAzYL > div:nth-child(1) > span > svg"), ElementStatus.PRESENT);
-    }
-
-    public void BulkUploadData(){
-
-        isElementVisible(By.id("Layer_1"), ElementStatus.PRESENT);
     }
 }

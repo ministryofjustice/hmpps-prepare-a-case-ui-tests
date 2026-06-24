@@ -9,8 +9,7 @@ import org.testng.ITestResult;
 /**
  * Created by Ibi on 08/05/2026.
  */
-
-public class ReportListener implements ITestListener{
+public class ReportListener implements ITestListener {
     @Override
     public void onTestStart(ITestResult iTestResult) {
 

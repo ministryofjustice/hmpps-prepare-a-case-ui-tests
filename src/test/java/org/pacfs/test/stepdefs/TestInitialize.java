@@ -17,9 +17,7 @@ import java.io.IOException;
 /**
  * Created by Ibi on 11/05/2026.
  */
-
 public class TestInitialize extends FrameworkInitialize {
-
 
     @Before
     public void Initialize(Scenario scenario) throws IOException {

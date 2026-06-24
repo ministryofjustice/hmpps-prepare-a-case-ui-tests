@@ -251,7 +251,6 @@ public class DriverContext {
         //alert.getText().contains("");
     }
 
-
     public static void enterText(WebElement webElement, String string) {
         try {
             WebDriverWait wait = new WebDriverWait(LocalDriverContext.getRemoteWebDriver(), Duration.ofSeconds(15));
@@ -291,7 +290,7 @@ public class DriverContext {
     }
 
     // Switch back to main web page
-    public static void SwitchFrameToDefault(){
+    public static void SwitchFrameToDefault() {
 
         LocalDriverContext.getRemoteWebDriver().switchTo().defaultContent();
     }
@@ -314,62 +313,15 @@ public class DriverContext {
         LocalDriverContext.getRemoteWebDriver().switchTo().frame(value);
     }
 
-    public static void SwitchFrame(String value){
+    public static void SwitchFrame(String value) {
 
         LocalDriverContext.getRemoteWebDriver().switchTo().frame(value);
     }
 
-    public static void DoubleClick(WebElement ele){
+    public static void DoubleClick(WebElement ele) {
 
         Actions actions = new Actions(LocalDriverContext.getRemoteWebDriver());
         WebElement elementLocator = ele;
         actions.doubleClick(elementLocator).perform();
-    }
-
-    public static void WaitForElementNotGettingToBeClickable(WebElement locator) {
-        WebElement myelement = locator;
-        JavascriptExecutor jse2 = (JavascriptExecutor)LocalDriverContext.getRemoteWebDriver();
-        jse2.executeScript("arguments[0].scrollIntoView()", myelement);
-    }
-     private static String strV = "#appRoot > div.Files.sp-App-root.has-footer.sp-App-rigtPane-expanded.is-active.od-userSelect--enabled.sp-WebViewList-enable.sp-fullHeightLayouts > div.sp-App-bodyContainer > div.sp-App-body > div > div.Files-main > div.Files-mainColumn > div.Files-contentAreaFlexContainer.shy-suiteNav > div.Files-rightPaneInteractionContainer > div.Files-rightPanePushedContainer > div > div > div > div > div";
-    public static void ScrollToTheRight(WebElement locator) {
-        WebElement myelement = locator;
-        JavascriptExecutor jse2 = (JavascriptExecutor)LocalDriverContext.getRemoteWebDriver();
-       // jse2.executeScript("arguments[0].scrollLeft = arguments[0].offsetWidth", myelement);   //arguments[0].scrollLeft += 250
-        jse2.executeScript( "document.getElementsByClassName('od-ItemsScopeList-page').scrollLeft += 250", myelement);
-    }
-
-    public static void ScrollToTheLeft(int degree) throws InterruptedException {
-        JavascriptExecutor jse2 = (JavascriptExecutor)LocalDriverContext.getRemoteWebDriver();
-        Thread.sleep(2000);
-        jse2.executeScript( "document.getElementsByClassName('od-ItemsScopeList-page').scrollLeft += 300");
-        //jse2.executeScript("document.querySelector("+strV+").scrollLeft=0");
-        //jse2.executeScript("document.querySelector("+strV+").scrollLeft=300");
-
-        //jse2.executeScript("document.querySelector(\"#appRoot > div.Files.sp-App-root.has-footer.sp-App-rigtPane-expanded.is-active.od-userSelect--enabled.sp-WebViewList-enable.sp-fullHeightLayouts > div.sp-App-bodyContainer > div.sp-App-body > div > div.Files-main > div.Files-mainColumn > div.Files-contentAreaFlexContainer.shy-suiteNav > div.Files-rightPaneInteractionContainer > div.Files-rightPanePushedContainer > div > div > div > div > div\").scrollLeft=0");
-        //jse2.executeScript("document.querySelector(\"#appRoot > div.Files.sp-App-root.has-footer.sp-App-rigtPane-expanded.is-active.od-userSelect--enabled.sp-WebViewList-enable.sp-fullHeightLayouts > div.sp-App-bodyContainer > div.sp-App-body > div > div.Files-main > div.Files-mainColumn > div.Files-contentAreaFlexContainer.shy-suiteNav > div.Files-rightPaneInteractionContainer > div.Files-rightPanePushedContainer > div > div > div > div > div\").scrollLeft=300");   //arguments[0].scrollLeft += 250
-        //jse2.executeScript( "document.querySelector(\"#appRoot > div.Files.sp-App-root.has-footer.sp-App-rigtPane-expanded.is-active.od-userSelect--enabled.sp-WebViewList-enable.sp-fullHeightLayouts > div.sp-App-bodyContainer > div.sp-App-body > div > div.Files-main > div.Files-mainColumn > div.Files-contentAreaFlexContainer.shy-suiteNav > div.Files-rightPaneInteractionContainer > div.Files-rightPanePushedContainer > div > div > div > div > div\").scrollLeft="+degree+"");
-    }
-
-    public static void ScrollToTheLeft2(int degree) throws InterruptedException {
-        JavascriptExecutor jse2 = (JavascriptExecutor)LocalDriverContext.getRemoteWebDriver();
-        Thread.sleep(2000);
-        jse2.executeScript( "document.getElementsByClassName('od-ItemsScopeList-page').scrollLeft += 0");
-        Thread.sleep(2000);
-        jse2.executeScript( "document.getElementsByClassName('od-ItemsScopeList-page').scrollLeft += 2000");
-        //jse2.executeScript("document.querySelector(\"\n#appRoot > div.Files.sp-App-root.has-footer.sp-App-rigtPane-expanded.is-active.od-userSelect--enabled.sp-WebViewList-enable.sp-fullHeightLayouts > div.sp-App-bodyContainer > div.sp-App-body > div > div.Files-main > div.Files-mainColumn > div.Files-contentAreaFlexContainer.shy-suiteNav > div.Files-rightPaneInteractionContainer > div.Files-rightPanePushedContainer > div > div > div > div > div\n\").scrollLeft=0");
-        //jse2.executeScript("document.querySelector(\"\n#appRoot > div.Files.sp-App-root.has-footer.sp-App-rigtPane-expanded.is-active.od-userSelect--enabled.sp-WebViewList-enable.sp-fullHeightLayouts > div.sp-App-bodyContainer > div.sp-App-body > div > div.Files-main > div.Files-mainColumn > div.Files-contentAreaFlexContainer.shy-suiteNav > div.Files-rightPaneInteractionContainer > div.Files-rightPanePushedContainer > div > div > div > div > div\n\").scrollLeft=2000");   //arguments[0].scrollLeft += 250
-        //jse2.executeScript( "document.querySelector(\"#appRoot > div.Files.sp-App-root.has-footer.sp-App-rigtPane-expanded.is-active.od-userSelect--enabled.sp-WebViewList-enable.sp-fullHeightLayouts > div.sp-App-bodyContainer > div.sp-App-body > div > div.Files-main > div.Files-mainColumn > div.Files-contentAreaFlexContainer.shy-suiteNav > div.Files-rightPaneInteractionContainer > div.Files-rightPanePushedContainer > div > div > div > div > div\").scrollLeft="+degree+"");
-    }
-
-    public static void ScrollToTheLeft3(int degree) throws InterruptedException {
-        JavascriptExecutor jse2 = (JavascriptExecutor)LocalDriverContext.getRemoteWebDriver();
-        Thread.sleep(2000);
-        jse2.executeScript( "document.getElementsByClassName('od-ItemsScopeList-page').scrollLeft += 0");
-        Thread.sleep(2000);
-        jse2.executeScript( "document.getElementsByClassName('od-ItemsScopeList-page').scrollLeft += 3500");
-        //jse2.executeScript("document.querySelector(\"#appRoot > div.Files.sp-App-root.has-footer.sp-App-rigtPane-expanded.is-active.od-userSelect--enabled.sp-WebViewList-enable.sp-fullHeightLayouts > div.sp-App-bodyContainer > div.sp-App-body > div > div.Files-main > div.Files-mainColumn > div.Files-contentAreaFlexContainer.shy-suiteNav > div.Files-rightPaneInteractionContainer > div.Files-rightPanePushedContainer > div > div > div > div > div\").scrollLeft=0");
-        //jse2.executeScript("document.querySelector(\"#appRoot > div.Files.sp-App-root.has-footer.sp-App-rigtPane-expanded.is-active.od-userSelect--enabled.sp-WebViewList-enable.sp-fullHeightLayouts > div.sp-App-bodyContainer > div.sp-App-body > div > div.Files-main > div.Files-mainColumn > div.Files-contentAreaFlexContainer.shy-suiteNav > div.Files-rightPaneInteractionContainer > div.Files-rightPanePushedContainer > div > div > div > div > div\").scrollLeft=3500");   //arguments[0].scrollLeft += 250
-        //jse2.executeScript( "document.querySelector(\"#appRoot > div.Files.sp-App-root.has-footer.sp-App-rigtPane-expanded.is-active.od-userSelect--enabled.sp-WebViewList-enable.sp-fullHeightLayouts > div.sp-App-bodyContainer > div.sp-App-body > div > div.Files-main > div.Files-mainColumn > div.Files-contentAreaFlexContainer.shy-suiteNav > div.Files-rightPaneInteractionContainer > div.Files-rightPanePushedContainer > div > div > div > div > div\").scrollLeft="+degree+"");
     }
 }

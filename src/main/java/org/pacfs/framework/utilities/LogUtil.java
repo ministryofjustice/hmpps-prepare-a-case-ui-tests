@@ -56,7 +56,7 @@ public class LogUtil {
         }
     }
 
-    public void Write(String message){
+    public void Write(String message) {
         try{
             formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy:HH_MM_SS");
             String dateFormat = date.format(formatter);
@@ -67,5 +67,4 @@ public class LogUtil {
 
         }
     }
-
 }

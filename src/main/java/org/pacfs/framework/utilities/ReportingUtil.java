@@ -9,7 +9,7 @@ import java.util.Hashtable;
 
 public class ReportingUtil {
 
-    public static void CreateTestCycle(Connection connection){
+    public static void CreateTestCycle(Connection connection) {
 
         Hashtable table = new Hashtable();
         table.put("AUT","Project Name");

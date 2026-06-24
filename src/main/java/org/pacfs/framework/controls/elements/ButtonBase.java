@@ -7,13 +7,11 @@ import org.openqa.selenium.WebElement;
  * Created by Ibi on 08/05/2026.
  */
 
-public class ButtonBase extends ControlBase implements Button{
-
+public class ButtonBase extends ControlBase implements Button {
 
     public ButtonBase(WebElement element) {
         super(element);
     }
-
 
 
     @Override

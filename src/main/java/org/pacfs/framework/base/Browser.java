@@ -5,7 +5,7 @@ import org.openqa.selenium.WebDriver;
 /**
  * Created by Ibi on 08/05/2026..
  */
-public class Browser extends Base{
+public class Browser extends Base {
 
     private WebDriver _driver;
     public BrowserTypes Type;

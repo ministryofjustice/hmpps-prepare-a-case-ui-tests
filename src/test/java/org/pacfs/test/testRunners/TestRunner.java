@@ -13,7 +13,6 @@ import org.testng.annotations.Test;
 /**
  * Created by Ibi on 08/05/2026.
  */
-
 @CucumberOptions(features = {"src/test/java/org/pacfs/test/features"}, glue = {"org/pacfs/test/stepdefs"})
 public class TestRunner {
 
@@ -27,7 +26,7 @@ public class TestRunner {
 
 
     @Test(dataProvider = "features")
-    public void runTest(PickleWrapper pickleWrapper, FeatureWrapper featureWrapper){
+    public void runTest(PickleWrapper pickleWrapper, FeatureWrapper featureWrapper) {
 
         //todo: insert the feature name
         //ExtendReport.startFeature("");

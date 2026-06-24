@@ -10,11 +10,9 @@ import java.lang.annotation.Target;
 /**
  * Created by Ibi on 08/05/2026.
  */
-
 @Target(ElementType.TYPE)
 @Retention(RetentionPolicy.RUNTIME)
 public @interface ImplementedBy {
 
     Class<?> value() default ControlBase.class;
-
 }

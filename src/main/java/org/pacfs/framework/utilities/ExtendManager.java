@@ -8,7 +8,6 @@ import org.pacfs.framework.config.Settings;
 import org.openqa.selenium.Platform;
 
 import java.io.File;
-
 /**
  * Responsible to hold all different types of options that has been create
  */
@@ -23,7 +22,7 @@ public class ExtendManager {
     private static String macReportFileLoc = macPath + "/" + reportFileName;
     private static String winReportFileLoc = windowsPath + "\\" + reportFileName;
 
-    public static ExtentReports createInstance(){
+    public static ExtentReports createInstance() {
 
         platform = getCurrentPlatform();
         String fileName = getReportFileLocation(platform);
@@ -41,7 +40,7 @@ public class ExtendManager {
 
     //Select the extend report file location based on platform
     //todo: Checking what type of platform
-    private static String getReportFileLocation(Platform platform){
+    private static String getReportFileLocation(Platform platform) {
         String reportFileLocation = null;
         switch (platform){
             case MAC:
@@ -64,7 +63,7 @@ public class ExtendManager {
     }
 
     //Create the report path if it does not exist
-    private static void createReportPath(String path){
+    private static void createReportPath(String path) {
         File testDirectory = new File(path);
         if(!testDirectory.exists()){
             if(testDirectory.mkdir()){
@@ -81,7 +80,7 @@ public class ExtendManager {
     }
 
     //Get Current platform
-    private static Platform getCurrentPlatform(){
+    private static Platform getCurrentPlatform() {
         if(platform == null){
             String operSys = System.getProperty("os.name").toLowerCase();
             if(operSys.contains("win")){
