@@ -18,11 +18,11 @@ import java.util.HashMap;
  */
 public class FrameworkInitialize extends Base {
 
-    public static void initializeBrowser(String environmentType, String Os, BrowserTypes browserType) throws MalformedURLException {
+    public static void initializeBrowser(String environmentType, String os, BrowserTypes browserType) throws MalformedURLException {
         RemoteWebDriver driver = null;
         System.out.println("\nTests are running in : " + environmentType + "\n" +
                 "The Browser running is : " + browserType + "\n" +
-                "The Operating system is : " + Os + "\n");
+                "The Operating system is : " + os + "\n");
         if (environmentType.equalsIgnoreCase("local") || environmentType.equalsIgnoreCase("grid")) {
             switch (browserType) {
                 case Chrome: {
@@ -41,7 +41,7 @@ public class FrameworkInitialize extends Base {
                     }
 
                     LocalDriverContext.setRemoteWebDriverThreadLocal(driver);
-                    Settings.logs.Write("Starting Chrome browser");
+                    Settings.logs.write("Starting Chrome browser");
                     break;
                 }
                 case Firefox: {
@@ -59,7 +59,7 @@ public class FrameworkInitialize extends Base {
                     }
 
                     LocalDriverContext.setRemoteWebDriverThreadLocal(driver);
-                    Settings.logs.Write("Starting Firefox browser");
+                    Settings.logs.write("Starting Firefox browser");
                     break;
                 }
                 case Headless: {
@@ -83,7 +83,7 @@ public class FrameworkInitialize extends Base {
                     }
 
                     LocalDriverContext.setRemoteWebDriverThreadLocal(driver);
-                    Settings.logs.Write("Starting Chrome browser in headless mode");
+                    Settings.logs.write("Starting Chrome browser in headless mode");
                     break;
                 }
                 case IE: {
@@ -114,10 +114,12 @@ public class FrameworkInitialize extends Base {
                     }
 
                     LocalDriverContext.setRemoteWebDriverThreadLocal(driver);
-                    Settings.logs.Write("Starting IE browser");
+                    Settings.logs.write("Starting IE browser");
 
                     break;
                 }
+                default:
+                    throw new IllegalStateException("Unexpected value: " + browserType);
             }
         }
     }

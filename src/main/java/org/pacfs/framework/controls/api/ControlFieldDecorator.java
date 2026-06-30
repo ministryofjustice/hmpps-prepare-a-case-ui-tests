@@ -11,7 +11,11 @@ import org.openqa.selenium.support.pagefactory.ElementLocator;
 import org.openqa.selenium.support.pagefactory.ElementLocatorFactory;
 import org.openqa.selenium.support.pagefactory.FieldDecorator;
 
-import java.lang.reflect.*;
+import java.lang.reflect.Field;
+import java.lang.reflect.InvocationHandler;
+import java.lang.reflect.ParameterizedType;
+import java.lang.reflect.Proxy;
+import java.lang.reflect.Type;
 import java.util.List;
 
 /**
@@ -61,15 +65,15 @@ public class ControlFieldDecorator implements FieldDecorator {
 
 
     protected boolean isDecoratableList(Field field) {
-        if(!List.class.isAssignableFrom(field.getType())) {
+        if (!List.class.isAssignableFrom(field.getType())) {
             return false;
         } else {
             Type genericType = field.getGenericType();
-            if(!(genericType instanceof ParameterizedType)) {
+            if (!(genericType instanceof ParameterizedType)) {
                 return false;
             } else {
-                Type listType = ((ParameterizedType)genericType).getActualTypeArguments()[0];
-                return !WebElement.class.equals(listType)?false:field.getAnnotation(FindBy.class) != null || field.getAnnotation(FindBys.class) != null || field.getAnnotation(FindAll.class) != null;
+                Type listType = ((ParameterizedType) genericType).getActualTypeArguments()[0];
+                return !WebElement.class.equals(listType) ? false : field.getAnnotation(FindBy.class) != null || field.getAnnotation(FindBys.class) != null || field.getAnnotation(FindAll.class) != null;
             }
         }
     }

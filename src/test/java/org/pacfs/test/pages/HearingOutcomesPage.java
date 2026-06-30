@@ -582,7 +582,7 @@ public class HearingOutcomesPage extends BasePage {
 
     public void ClickInProgressTab(){
 
-        DriverContext.WaitForElementToBeClickable(InProgressTab);
+        DriverContext.waitForElementToBeClickable(InProgressTab);
     }
 
     public void validateSelectedDefendantExistsAcrossPages() {
@@ -1225,13 +1225,13 @@ public class HearingOutcomesPage extends BasePage {
 
     public void ClickResultedCasesTab(){
 
-        DriverContext.WaitForElementToBeClickable(ResultedCasesTab);
+        DriverContext.waitForElementToBeClickable(ResultedCasesTab);
     }
 
     public CourtCasesDetailsPage ClickCasesTab(){
 
-        DriverContext.WaitForElementToBeClickable(CasesTab);
-        DriverContext.WaitForPageToLoad();
-        return GetInstance(CourtCasesDetailsPage.class);
+        DriverContext.waitForElementToBeClickable(CasesTab);
+        DriverContext.waitForPageToLoad();
+        return getInstance(CourtCasesDetailsPage.class);
     }
 }

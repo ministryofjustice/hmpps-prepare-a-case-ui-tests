@@ -31,32 +31,32 @@ public class CourtCasesDetailsPage extends BasePage {
 
     public String GetNameOfCourt() {
 
-        DriverContext.WaitForPageToLoad();
+        DriverContext.waitForPageToLoad();
         return MyCourtDetailsTxt.getText();
     }
 
     public boolean CheckCasesTabSelected() {
 
-        return DriverContext.IsCasesTabSelected(IsCasesTabSel);
+        return DriverContext.isCasesTabSelected(IsCasesTabSel);
     }
 
     public HearingOutcomesPage ClickOutcomeTab() {
 
-        DriverContext.WaitForElementToBeClickable(IsOutcomeTabSel);
+        DriverContext.waitForElementToBeClickable(IsOutcomeTabSel);
 
-        return GetInstance(HearingOutcomesPage.class);
+        return getInstance(HearingOutcomesPage.class);
     }
 
     public boolean IsSignOutLinkPresent() {
 
-        return DriverContext.IsElementPresent(SignOutLnk);
+        return DriverContext.isElementPresent(SignOutLnk);
     }
 
     public boolean ValidateSessionStability() {
 
         // Check 1: Ensure error message is NOT displayed
         boolean isServiceErrorDisplayed =
-                DriverContext.IsElementPresent(serviceErrMsg);
+                DriverContext.isElementPresent(serviceErrMsg);
 
         return !isServiceErrorDisplayed;
     }
@@ -64,7 +64,7 @@ public class CourtCasesDetailsPage extends BasePage {
     public boolean ValidateSessionUnexpectedLogout() {
 
         // Check 2: Ensure user is still logged in (session active indicator)
-        boolean isSessionActive = DriverContext.IsElementPresent(IsCasesTabSel);
+        boolean isSessionActive = DriverContext.isElementPresent(IsCasesTabSel);
 
         return isSessionActive;
     }
@@ -107,7 +107,7 @@ public class CourtCasesDetailsPage extends BasePage {
         defendantNameElement.click();
 
         System.out.println("Clicked Defendant Link: " + selectedDefendantName);
-        DriverContext.WaitForPageToLoad();
-        return GetInstance(CaseSummaryPage.class);
+        DriverContext.waitForPageToLoad();
+        return getInstance(CaseSummaryPage.class);
     }
 }

@@ -1,6 +1,10 @@
 package org.pacfs.framework.utilities;
 
-import java.sql.*;
+import java.sql.CallableStatement;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.Statement;
 import java.util.Enumeration;
 import java.util.Hashtable;
 
@@ -10,51 +14,53 @@ public class DatabaseUtil {
      * Reading data from DB (Application DB)
      * Writing data into DB (very rare)
      * Running some sort of query or stored procedures
+     *
      * @JDBC driver- we use some of the classes (libraries) for connecting with DB provided by mssql-jdbc driver
      * @gitURL https://github.com/Microsoft/mssql-jdbc
      */
 
-    public static Connection Open(String connectionString) {
+    public static Connection open(String connectionString) {
 
-        try{
+        try {
             Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver").newInstance();
 
             return DriverManager.getConnection(connectionString);
-        }catch (Exception e){
+        } catch (Exception e) {
 
         }
         return null;
     }
 
-    public static void Close() {
+    public static void close() {
 
     }
 
-    public static void ExecuteQuery(String query, Connection connection) {
+    public static void executeQuery(String query, Connection connection) {
 
         Statement statement = null;
-        try{
+        try {
             statement = connection.createStatement();
             ResultSet resultSet = statement.executeQuery(query);
 
-        }catch (Exception e){
+        } catch (Exception e) {
 
         }
     }
 
-    public static void ExecuteStoredProc(String procedureName, Hashtable parameters, Connection connection) {
+    public static void executeStoredProc(String procedureName, Hashtable parameters, Connection connection) {
 
-        try{
+        try {
             int paramterLength = parameters.size();
             String paraAppender = null;
             StringBuffer bulider = new StringBuffer();
             /** Build the parameter list to be passed in the stored proc*/
-            for(int i=0; i<parameters.size(); i++){
+            for (int i = 0; i < parameters.size(); i++) {
                 bulider.append("?,");
-            }//iterate all the parameters in the hashtable
+            //iterate all the parameters in the hashtable
+            }
 
             paraAppender = bulider.toString();
-            paraAppender = paraAppender.substring(0,paraAppender.length() -1);
+            paraAppender = paraAppender.substring(0, paraAppender.length() - 1);
 
             CallableStatement stmt = connection.prepareCall("{Call "
                     + procedureName + "(" + paraAppender + ")}");
@@ -63,7 +69,7 @@ public class DatabaseUtil {
             Enumeration params = parameters.keys();
 
             /**Iterate in all the Elements till there is no keys*/
-            while (params.hasMoreElements()){
+            while (params.hasMoreElements()) {
 
                 /**Get the key from the parameters*/
                 String paramaName = (String) params.nextElement();
@@ -74,7 +80,7 @@ public class DatabaseUtil {
 
             /**Execute Query*/
             stmt.execute();
-        }catch (Exception e){
+        } catch (Exception e) {
 
         }
     }

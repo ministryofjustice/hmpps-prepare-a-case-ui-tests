@@ -22,65 +22,66 @@ public class ExcelUtil {
     static Hashtable dict = new Hashtable();
 
     /**
-     * @create a constructor- to open a excel sheet
-     * @param ExcelSheetPath
+     * @param excelSheetPath
      * @throws BiffException
      * @throws IOException
+     * @create a constructor- to open a excel sheet
      */
-    public ExcelUtil(String ExcelSheetPath, String ExcelSheetName) throws BiffException, IOException {
+    public ExcelUtil(String excelSheetPath, String excelSheetName) throws BiffException, IOException {
         //initialise
-        wrkbook = Workbook.getWorkbook(new File(ExcelSheetPath)); /**Getting the Excel sheet and passing the excel sheet path*/
+        wrkbook = Workbook.getWorkbook(new File(excelSheetPath)); /**Getting the Excel sheet and passing the excel sheet path*/
         //For Demo purpose the excel sheet path is hardcoded, but not recommended  :)
-        wrksheet = wrkbook.getSheet(ExcelSheetName);//Sheet1
+        wrksheet = wrkbook.getSheet(excelSheetName);//Sheet1
 
         //Call the Column Dictionary to store column Names
-        ColumnDictionary();
+        columnDictionary();
     }
 
     /**
+     * @return
      * @Rowcount- number of rows for a particular excel sheet
      * Return the number of rows
-     * @return
      */
-    public static int Rowcount() {
+    public static int rowcount() {
 
         return wrksheet.getRows(); /**Telling us how many rows are available in the excel sheet*/
     }
 
     /**
-     * @ReadCell-takes takes the column and row number and then get the exact cell data from the excel sheet
-     * Returns the cell value by taking row and column values as argument
      * @param column
      * @param row
      * @return
+     * @ReadCell-takes takes the column and row number and then get the exact cell data from the excel sheet
+     * Returns the cell value by taking row and column values as argument
      */
-    private static String ReadCell(int column, int row) {
+    private static String readCell(int column, int row) {
 
         return wrksheet.getCell(column, row).getContents();
     }
 
-    public static String ReadCell(String columnName, int rowNumber) {
+    public static String readCell(String columnName, int rowNumber) {
 
-        return ReadCell(GetCell(columnName), rowNumber);
+        return readCell(getCell(columnName), rowNumber);
     }
 
     /**
      * @ColumnDictionary - This is populating all the column values like the column Name into the collection
      * Create column dictionary to hold all the column
      */
-    private static void ColumnDictionary() { /** This is the dictionary where we are going to use our in-memory collection*/
+    private static void columnDictionary() { /** This is the dictionary where we are going to use our in-memory collection*/
         //iterate through all the column in the excel sheet sheet and store the value in Hashtable
         for (int col = 0; col < wrksheet.getColumns(); col++) {
-            dict.put(ReadCell(col, 0), col);/** Stored all the collection name into the collection and returns the column index*/
+            dict.put(readCell(col, 0), col);/** Stored all the collection name into the collection and returns the column index*/
         }
     }
 
     /**
      * Read Column Names
+     *
      * @param colName
      * @return
      */
-    private static int GetCell(String colName) {
+    private static int getCell(String colName) {
         try {
             int value;
             value = ((Integer) dict.get(colName)).intValue();/** Read data from dictionary by paying column name*/

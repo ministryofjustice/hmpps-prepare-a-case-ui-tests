@@ -15,19 +15,19 @@ public class ButtonBase extends ControlBase implements Button {
 
 
     @Override
-    public void PerformClick() {
+    public void performClick() {
 
         getWrappedElement().click();
     }
 
     @Override
-    public String GetButtonTest() {
+    public String getButtonTest() {
 
         return getWrappedElement().getText();
     }
 
     @Override
-    public void PerformSubmit() {
+    public void performSubmit() {
 
         getWrappedElement().submit();
     }

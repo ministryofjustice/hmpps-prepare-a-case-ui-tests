@@ -14,13 +14,13 @@ public class TextBoxBase extends ControlBase implements org.pacfs.framework.cont
 
 
     @Override
-    public void EnterText(String text) {
+    public void enterText(String text) {
 
         getWrappedElement().sendKeys(text);
     }
 
     @Override
-    public String GetTextValue() {
+    public String getTextValue() {
 
         return getWrappedElement().getText();
     }

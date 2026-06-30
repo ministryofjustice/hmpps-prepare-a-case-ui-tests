@@ -132,7 +132,7 @@ public static String expectedDefendantName;
     public void expandHearingNote() {
 
         //expandIcon.click();
-        DriverContext.WaitForElementToBeClickable(expandIcon);
+        DriverContext.waitForElementToBeClickable(expandIcon);
     }
 
     public void enterHearingNote(String noteText) {
@@ -145,7 +145,7 @@ public static String expectedDefendantName;
     public void clickSaveHearingNote() {
 
         //saveButton.click();
-        DriverContext.WaitForElementToBeClickable(saveButton);
+        DriverContext.waitForElementToBeClickable(saveButton);
     }
 
     public void clickCancelHearingNote() {
@@ -180,9 +180,9 @@ public static String expectedDefendantName;
     public void clickDeleteHearingNote() {
 
         //linkTextDelete.click();
-        DriverContext.WaitForElementToBeClickable(linkTextDelete);
+        DriverContext.waitForElementToBeClickable(linkTextDelete);
 
-        DriverContext.WaitForElementToBeClickable(bntDeleteNote);
+        DriverContext.waitForElementToBeClickable(bntDeleteNote);
     }
 
     public String getDeleteSuccessMessage() {
@@ -193,7 +193,7 @@ public static String expectedDefendantName;
 
     public void editHearingNote() {
         // Click Edit link
-        DriverContext.WaitForElementToBeClickable(linkTextEdit);
+        DriverContext.waitForElementToBeClickable(linkTextEdit);
 
         // Get current value
         //DriverContext.WaitForElementToBePresenceLocated(editTextBox);
@@ -206,6 +206,6 @@ public static String expectedDefendantName;
         editTextBox.sendKeys(updatedText);
 
         // Click Save button
-        DriverContext.WaitForElementToBeClickable(editSaveButton);
+        DriverContext.waitForElementToBeClickable(editSaveButton);
     }
 }

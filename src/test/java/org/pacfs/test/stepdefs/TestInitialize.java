@@ -30,12 +30,12 @@ public class TestInitialize extends FrameworkInitialize {
 
 
         //ToDo: Initialize Config
-        ConfigReader.PopulateSettings();
+        ConfigReader.populateSettings();
 
         //ToDo: Logging
         Settings.logs = new LogUtil();
-        Settings.logs.CreateLogFile();
-        Settings.logs.Write("Framework Initialize");
+        Settings.logs.createLogFile();
+        Settings.logs.write("Framework Initialize");
 
 
        /*  //todo: Create Test Cycle for Reporting
@@ -45,19 +45,19 @@ public class TestInitialize extends FrameworkInitialize {
 
         //ToDo: Browser Initialized
         initializeBrowser(Settings.EnvironmentType, Settings.Os,Settings.BrowserType);
-        Settings.logs.Write("Browser Initialized");
+        Settings.logs.write("Browser Initialized");
 
         //ToDo: Navigate to url
         //DriverContext.Browser.GoToUrl(Settings.AUT);
-        DriverContext.GoToUrl(Settings.AUT);
-         Settings.logs.Write("Navigated to URL " + Settings.AUT);
+        DriverContext.goToUrl(Settings.AUT);
+         Settings.logs.write("Navigated to URL " + Settings.AUT);
 
         //ToDo: Maximize url
         //DriverContext.Browser.Maximize();
-        DriverContext.Maximize();
+        DriverContext.maximize();
 
         //ToDo: Implicitly Wait
-        DriverContext.ImplicitlyWait();
+        DriverContext.implicitlyWait();
 
         try {
             ExcelUtil util = new ExcelUtil(System.getProperty("user.dir") + Settings.ExcelSheetPath, Settings.ExcelSheetName);
@@ -73,11 +73,11 @@ public class TestInitialize extends FrameworkInitialize {
         Settings.logs = new LogUtil();
 
         if (scenario.isFailed()) {
-            Settings.logs.Write(scenario.getName());
-            Settings.logs.Write("ie. scenario Not KO : --> capture !");
+            Settings.logs.write(scenario.getName());
+            Settings.logs.write("ie. scenario Not KO : --> capture !");
 
             //ToDo: Take screenshot
-            Settings.logs.Write("Take screenshot");
+            Settings.logs.write("Take screenshot");
             try {
                 //final byte[] screenshot = ((TakesScreenshot) Driver)
                 final byte[] screenshot = ((TakesScreenshot) LocalDriverContext.getRemoteWebDriver())
@@ -89,13 +89,13 @@ public class TestInitialize extends FrameworkInitialize {
 
         } else if (scenario.getStatus().equals("pass")) {
 
-            Settings.logs.Write(scenario.getName());
-            Settings.logs.Write("ie. scenario KO : --> capture !");
+            Settings.logs.write(scenario.getName());
+            Settings.logs.write("ie. scenario KO : --> capture !");
         }
 
 
         //ToDo: Closing browser
-        Settings.logs.Write("Closing browser");
+        Settings.logs.write("Closing browser");
         //if (Driver != null) {
         if (LocalDriverContext.getRemoteWebDriver() != null) {
             //Driver.close();

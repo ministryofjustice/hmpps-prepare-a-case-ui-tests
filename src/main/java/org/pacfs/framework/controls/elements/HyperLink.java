@@ -11,7 +11,7 @@ import org.pacfs.framework.controls.internals.Control;
 @ImplementedBy(org.pacfs.framework.controls.elements.HyperLinkBase.class)
 public interface HyperLink extends Control {
 
-    void ClickLink();
-    String GetUrlText();
-    boolean CheckUrlTextContains(String containsText);
+    void clickLink();
+    String getUrlText();
+    boolean checkUrlTextContains(String containsText);
 }

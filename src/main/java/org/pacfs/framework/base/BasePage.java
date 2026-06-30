@@ -10,7 +10,7 @@ public class BasePage extends Base {
 
     protected static String worldwideRandomNumber;
 
-    public <TPage extends BasePage> TPage As(Class<TPage> pageInstance) {
+    public <TPage extends BasePage> TPage as(Class<TPage> pageInstance) {
 
         try {
             return (TPage) this;
@@ -37,25 +37,27 @@ public class BasePage extends Base {
         NOTPRESENT
     }
 
-    public static ElementStatus isElementVisible(By by, ElementStatus getStatus){
-        try{
-            if(getStatus.equals(ElementStatus.ENABLED)){
-                if(LocalDriverContext.getRemoteWebDriver().findElement(by).isEnabled())
+    public static ElementStatus isElementVisible(By by, ElementStatus getStatus) {
+        try {
+            if (getStatus.equals(ElementStatus.ENABLED)) {
+                if (LocalDriverContext.getRemoteWebDriver().findElement(by).isEnabled()) {
                     return ElementStatus.ENABLED;
+                }
                 return ElementStatus.NOTENABLED;
             }
-            if(getStatus.equals(ElementStatus.VISIBLE)){
-                if(LocalDriverContext.getRemoteWebDriver().findElement(by).isDisplayed())
+            if (getStatus.equals(ElementStatus.VISIBLE)) {
+                if (LocalDriverContext.getRemoteWebDriver().findElement(by).isDisplayed()) {
                     return ElementStatus.VISIBLE;
+                }
                 return ElementStatus.NOTVISIBLE;
             }
             return ElementStatus.PRESENT;
-        }catch(org.openqa.selenium.NoSuchElementException nse){
+        } catch (org.openqa.selenium.NoSuchElementException nse) {
             return ElementStatus.NOTPRESENT;
         }
     }
 
-    public void UIMandatoryChecks(){
+    public void uIMandatoryChecks() {
 
         isElementVisible(By.id("Pequin-Hub-Click"), ElementStatus.PRESENT);
         isElementVisible(By.id("filter-and-fields"), ElementStatus.PRESENT);

@@ -14,49 +14,49 @@ public class ReportListener implements ITestListener {
     public void onTestStart(ITestResult iTestResult) {
 
         System.out.println("On Test Start");
-        Settings.logs.Write("On Test Start");
+        Settings.logs.write("On Test Start");
     }
 
     @Override
     public void onTestSuccess(ITestResult iTestResult) {
 
         System.out.println("On Test Success");
-        Settings.logs.Write("On Test Success");
+        Settings.logs.write("On Test Success");
     }
 
     @Override
     public void onTestFailure(ITestResult iTestResult) {
 
         System.out.println("On Test Failure");
-        Settings.logs.Write("On Test Failure");
+        Settings.logs.write("On Test Failure");
     }
 
     @Override
     public void onTestSkipped(ITestResult iTestResult) {
 
         System.out.println("On Test Skipped");
-        Settings.logs.Write("On Test Skipped");
+        Settings.logs.write("On Test Skipped");
     }
 
     @Override
     public void onTestFailedButWithinSuccessPercentage(ITestResult iTestResult) {
 
         System.out.println("On Test Failed But Within Success Percentage");
-        Settings.logs.Write("On Test Failed But Within Success Percentage");
+        Settings.logs.write("On Test Failed But Within Success Percentage");
     }
 
     @Override
     public void onStart(ITestContext iTestContext) {
 
         System.out.println("On Start");
-        Settings.logs.Write("On Start");
+        Settings.logs.write("On Start");
     }
 
     @Override
     public void onFinish(ITestContext iTestContext) {
 
         System.out.println("On Finish");
-        Settings.logs.Write("On Finish");
+        Settings.logs.write("On Finish");
         ExtendReport.extentReports.flush();
     }
 }

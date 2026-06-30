@@ -30,8 +30,8 @@ public class SignInPage extends BasePage {
 
     public MyCourtsPage ClickSignInButton() {
 
-        DriverContext.WaitForElementToBeClickable(SignInBnt);
-        DriverContext.WaitForPageToLoad();
-        return GetInstance(MyCourtsPage.class);
+        DriverContext.waitForElementToBeClickable(SignInBnt);
+        DriverContext.waitForPageToLoad();
+        return getInstance(MyCourtsPage.class);
     }
 }

@@ -13,7 +13,13 @@ import org.testng.annotations.Test;
 /**
  * Created by Ibi on 08/05/2026.
  */
-@CucumberOptions(features = {"src/test/java/org/pacfs/test/features"}, glue = {"org/pacfs/test/stepdefs"})
+@CucumberOptions(features = {"src/test/java/org/pacfs/test/features"}, glue = {"org/pacfs/test/stepdefs"},
+        plugin = {
+        "pretty",
+        "html:target/cucumber-reports/cucumber.html",
+        "json:target/cucumber-reports/cucumber.json",
+        "junit:target/cucumber-reports/cucumber.xml"
+})
 public class TestRunner {
 
     private TestNGCucumberRunner testNGCucumberRunner;

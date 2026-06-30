@@ -1,9 +1,17 @@
 package org.pacfs.framework.base;
 
+import org.openqa.selenium.Alert;
+import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
+import org.openqa.selenium.Keys;
+import org.openqa.selenium.NoSuchElementException;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.ExpectedCondition;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.Select;
+import org.openqa.selenium.support.ui.WebDriverWait;
 import org.pacfs.framework.config.Settings;
-import org.openqa.selenium.*;
 import org.openqa.selenium.interactions.Actions;
-import org.openqa.selenium.support.ui.*;
 
 import java.time.Duration;
 import java.util.List;
@@ -21,12 +29,12 @@ public class DriverContext {
     public static String parent;
 
 
-    public static void GoToUrl(String url) {  //try to remove
+    public static void goToUrl(String url) {  //try to remove
 
         LocalDriverContext.getRemoteWebDriver().get(url);
     }
 
-    public static void Maximize() {
+    public static void maximize() {
 
         LocalDriverContext.getRemoteWebDriver().manage().window().maximize();
     }
@@ -34,36 +42,37 @@ public class DriverContext {
     /**
      * @ImplicitlyWait
      */
-    public static void ImplicitlyWait() {
+    public static void implicitlyWait() {
 
         LocalDriverContext.getRemoteWebDriver().manage().timeouts().pageLoadTimeout(50, TimeUnit.SECONDS);
     }
 
     //todo: handling uquie element ONLY
-    public static boolean IsElementPresent(WebElement Locator) {
+    public static boolean isElementPresent(WebElement locator) {
         try {
-            return Locator.getSize() != null;   //Locator.equals(1);
+            return locator.getSize() != null;   //Locator.equals(1);
         } catch (Exception e) {
             return false;
         }
     }
 
     /**
-     * @param Locator
+     * @param locator
      * @return
      */
-    public static WebElement GetElement(WebElement Locator) {
-        if (IsElementPresent(Locator))
-            return Locator;
-        else
-            throw new NoSuchElementException("Element Not Found : " + Locator.toString());
+    public static WebElement getElement(WebElement locator) {
+        if (isElementPresent(locator)) {
+            return locator;
+        } else {
+            throw new NoSuchElementException("Element Not Found : " + locator.toString());
+        }
     }
 
     /**
      * @param locator
      */
-    public static void CheckedCheckBox(WebElement locator) {
-        element = GetElement(locator);
+    public static void checkedCheckBox(WebElement locator) {
+        element = getElement(locator);
         element.click();
     }
 
@@ -71,20 +80,21 @@ public class DriverContext {
      * @param locator
      * @return
      */
-    public static boolean IsCasesTabSelected(WebElement locator) {
-        element = GetElement(locator);
+    public static boolean isCasesTabSelected(WebElement locator) {
+        element = getElement(locator);
         String flag = element.getAttribute("aria-current");
 
-        if (flag == null)
+        if (flag == null) {
             return false;
-        else
+        } else {
             return flag.equalsIgnoreCase("true") || flag.equalsIgnoreCase("page");
+        }
     }
 
     /**
      * @WaitForPageToLoad
      */
-    public static void WaitForPageToLoad() {
+    public static void waitForPageToLoad() {
 
         //todo: replace "Driver" to "LocalDriverContext.getRemoteWebDriver()" and replace "WebDriverWait" to var
         WebDriverWait wait = new WebDriverWait(LocalDriverContext.getRemoteWebDriver(), Duration.ofSeconds(120));
@@ -96,16 +106,17 @@ public class DriverContext {
         //Get JS Ready
         boolean jsReady = jsExecutor.executeScript("return document.readyState").toString().equals("complete");
 
-        if (!jsReady)
+        if (!jsReady) {
             wait.until(jsLoad);
-        else
-            Settings.logs.Write("Page is ready !");
+        } else {
+            Settings.logs.write("Page is ready !");
+        }
     }
 
     /**
      * @param elementFindBy
      */
-    public static void WaitForElementVisible(final WebElement elementFindBy) {
+    public static void waitForElementVisible(final WebElement elementFindBy) {
 
         WebDriverWait wait = new WebDriverWait(LocalDriverContext.getRemoteWebDriver(), Duration.ofSeconds(120));
         wait.until(ExpectedConditions.visibilityOf(elementFindBy));
@@ -116,7 +127,7 @@ public class DriverContext {
      * @param elementFindBy
      * @param text
      */
-    public static void WaitForElementTextVisible(final WebElement elementFindBy, String text) {
+    public static void waitForElementTextVisible(final WebElement elementFindBy, String text) {
 
         WebDriverWait wait = new WebDriverWait(LocalDriverContext.getRemoteWebDriver(), Duration.ofSeconds(120));
         wait.until(ExpectedConditions.textToBePresentInElement(elementFindBy, text));
@@ -126,7 +137,7 @@ public class DriverContext {
      * @param element
      * @param text
      */
-    public static void WaitUntilTextDisplayed(final By element, String text) {
+    public static void waitUntilTextDisplayed(final By element, String text) {
 
         WebDriverWait wait = new WebDriverWait(LocalDriverContext.getRemoteWebDriver(), Duration.ofSeconds(120));
         wait.until(textDisplayed(element, text));
@@ -143,7 +154,7 @@ public class DriverContext {
     /**
      * @param elementFindBy
      */
-    public static void WaitElementEnabled(final By elementFindBy) {
+    public static void waitElementEnabled(final By elementFindBy) {
 
         WebDriverWait wait = new WebDriverWait(LocalDriverContext.getRemoteWebDriver(), Duration.ofSeconds(120));
         wait.until(webDriver -> webDriver.findElement(elementFindBy).isEnabled());
@@ -153,20 +164,22 @@ public class DriverContext {
      * @param table
      * @return
      */
-    public static boolean CheckSectionsExist(List<String> table) {
+    public static boolean checkSectionsExist(List<String> table) {
         String source = LocalDriverContext.getRemoteWebDriver().getPageSource();
         for (String section : table) {
-            if (!source.equals(section))
+            if (!source.equals(section)) {
                 return false;
+            }
         }
         return true;
     }
 
-    public static boolean CheckSectionsExist2(List<String> table) {
+    public static boolean checkSectionsExist2(List<String> table) {
         String source = LocalDriverContext.getRemoteWebDriver().getPageSource();
         for (String section : table) {
-            if (!source.contains(section))
+            if (!source.contains(section)) {
                 return false;
+            }
         }
         return true;
     }
@@ -174,8 +187,9 @@ public class DriverContext {
     public static boolean checkLinksAndURLs(Map<String, String> data) {
 
         for (Map.Entry<String, String> entry : data.entrySet()) {
-            if (!LocalDriverContext.getRemoteWebDriver().findElement(By.linkText(entry.getKey())).getAttribute("href").contains(entry.getValue()))
+            if (!LocalDriverContext.getRemoteWebDriver().findElement(By.linkText(entry.getKey())).getAttribute("href").contains(entry.getValue())) {
                 return false;
+            }
         }
         return true;
     }
@@ -185,48 +199,48 @@ public class DriverContext {
      *
      * @param locator
      */
-    public static void WaitForElementToBeClickable(WebElement locator) {
+    public static void waitForElementToBeClickable(WebElement locator) {
         WebDriverWait wait = new WebDriverWait(LocalDriverContext.getRemoteWebDriver(), Duration.ofSeconds(120));
         wait.until(ExpectedConditions.elementToBeClickable(locator)).click();
-        WaitForPageToLoad();
-        Settings.logs.Write("Wait for element to be clickable");
+        waitForPageToLoad();
+        Settings.logs.write("Wait for element to be clickable");
     }
 
-    public static void WaitForElementToBePresenceLocated(WebElement locator) {
+    public static void waitForElementToBePresenceLocated(WebElement locator) {
         WebDriverWait wait = new WebDriverWait(LocalDriverContext.getRemoteWebDriver(), Duration.ofSeconds(60));
         wait.until(ExpectedConditions.presenceOfElementLocated((By) locator));
-        WaitForPageToLoad();
-        Settings.logs.Write("Wait for element to be clickable");
+        waitForPageToLoad();
+        Settings.logs.write("Wait for element to be clickable");
     }
 
     /**
      * @param locator
      * @param index
      */
-    public static void SelectElement(WebElement locator, int index) {
+    public static void selectElement(WebElement locator, int index) {
         select = new Select(locator);
         select.selectByIndex(index);
-        Settings.logs.Write("select index " + index + " from dropdown");
+        Settings.logs.write("select index " + index + " from dropdown");
     }
 
     /**
      * @param locator
      * @param visibletext
      */
-    public static void SelectElement(WebElement locator, String visibletext) {
+    public static void selectElement(WebElement locator, String visibletext) {
         select = new Select(locator);
         select.selectByVisibleText(visibletext);
-        Settings.logs.Write("select " + visibletext + " from dropdown");
+        Settings.logs.write("select " + visibletext + " from dropdown");
     }
 
     public static String getSelectElementText(WebElement locator) {
         Select selectDropdown = new Select(locator);
         String selectedOption = selectDropdown.getFirstSelectedOption().getAttribute("value");
-        Settings.logs.Write("selected option " + selectedOption + " from dropdown");
+        Settings.logs.write("selected option " + selectedOption + " from dropdown");
         return selectedOption;
     }
 
-    public static void AcceptingAlert() {
+    public static void acceptingAlert() {
 
         // Switching to Alert
         Alert alert = LocalDriverContext.getRemoteWebDriver().switchTo().alert();
@@ -234,7 +248,7 @@ public class DriverContext {
         alert.accept();
     }
 
-    public static void DismissingAlert() {
+    public static void dismissingAlert() {
 
         // Switching to Alert
         Alert alert = LocalDriverContext.getRemoteWebDriver().switchTo().alert();
@@ -242,7 +256,7 @@ public class DriverContext {
         alert.dismiss();
     }
 
-    public static void SwitchingToAlert() {
+    public static void switchingToAlert() {
 
         // Switching to Alert
         Alert alert = LocalDriverContext.getRemoteWebDriver().switchTo().alert();
@@ -263,18 +277,18 @@ public class DriverContext {
         }
     }
 
-    public static void MouseMover() {
+    public static void mouseMover() {
 
         Actions keyDown = new Actions(LocalDriverContext.getRemoteWebDriver());
         keyDown.sendKeys(Keys.chord(Keys.DOWN, Keys.DOWN, Keys.ENTER)).perform();
     }
 
-    public static String GetCurrentWindow() {
+    public static String getCurrentWindow() {
 
         return parent = LocalDriverContext.getRemoteWebDriver().getWindowHandle();
     }
 
-    public static void WindowHandling() throws InterruptedException {
+    public static void windowHandling() throws InterruptedException {
 
         // It will return the parent window name as a String
         //parent = LocalDriverContext.getRemoteWebDriver().getWindowHandle();
@@ -284,27 +298,28 @@ public class DriverContext {
             if (!parent.equals(curWindow)) {
                 LocalDriverContext.getRemoteWebDriver().switchTo().window(curWindow);
                 Thread.sleep(500);
-                System.out.println("switch to powerApp url "+LocalDriverContext.getRemoteWebDriver().getCurrentUrl());
+                System.out.println("switch to powerApp url " + LocalDriverContext.getRemoteWebDriver().getCurrentUrl());
             }
         }
     }
 
     // Switch back to main web page
-    public static void SwitchFrameToDefault() {
+    public static void switchFrameToDefault() {
 
         LocalDriverContext.getRemoteWebDriver().switchTo().defaultContent();
     }
 
-    public static void SwitchFrame(int value) throws InterruptedException {
+    @SuppressWarnings("checkstyle:LocalVariableName")
+    public static void switchFrame(int value) throws InterruptedException {
 
         Thread.sleep(7000);
-        SwitchFrameToDefault();
-        int count = LocalDriverContext.getRemoteWebDriver().findElements(By.tagName("iframe")).size() ;
-        if(count == 0){
+        switchFrameToDefault();
+        int count = LocalDriverContext.getRemoteWebDriver().findElements(By.tagName("iframe")).size();
+        if (count == 0) {
             // No frames
-        }else{
+        } else {
             List<WebElement> NameOfFrame = LocalDriverContext.getRemoteWebDriver().findElements(By.tagName("iframe"));
-            for(WebElement s : NameOfFrame){
+            for (WebElement s : NameOfFrame) {
 
                 //System.out.println("List of frames is : "+s.getText());
             }
@@ -313,12 +328,12 @@ public class DriverContext {
         LocalDriverContext.getRemoteWebDriver().switchTo().frame(value);
     }
 
-    public static void SwitchFrame(String value) {
+    public static void switchFrame(String value) {
 
         LocalDriverContext.getRemoteWebDriver().switchTo().frame(value);
     }
 
-    public static void DoubleClick(WebElement ele) {
+    public static void doubleClick(WebElement ele) {
 
         Actions actions = new Actions(LocalDriverContext.getRemoteWebDriver());
         WebElement elementLocator = ele;

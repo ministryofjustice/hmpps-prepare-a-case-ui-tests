@@ -23,7 +23,7 @@ public class ExtendReport {
         return (ExtentTest) extentFeatureMap.get((int)(long)(Thread.currentThread().getId()));
     }
 
-    public static synchronized ExtentTest getScenario(){
+    public static synchronized ExtentTest getScenario() {
 
         return (ExtentTest) extentScenariosMap.get((int)(long)(Thread.currentThread().getId()));
     }

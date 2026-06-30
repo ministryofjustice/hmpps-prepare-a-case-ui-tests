@@ -12,20 +12,23 @@ public class HyperLinkBase extends ControlBase implements HyperLink {
     }
 
     @Override
-    public void ClickLink() {
+    public void clickLink() {
         getWrappedElement().click();
     }
 
     @Override
-    public String GetUrlText() {
+    public String getUrlText() {
         return getWrappedElement().getText();
     }
 
+    @SuppressWarnings("checkstyle:SimplifyBooleanReturn")
     @Override
-    public boolean CheckUrlTextContains(String containsText) {
-        if (getWrappedElement().getText().contains(containsText))
+    public boolean checkUrlTextContains(String containsText) {
+
+        if (getWrappedElement().getText().contains(containsText)) {
             return true;
-        else
+        } else {
             return false;
+        }
     }
 }
