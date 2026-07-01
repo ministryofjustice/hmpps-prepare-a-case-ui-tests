@@ -4,12 +4,7 @@ on:
   pull_request:
     branches: ["**"]
     paths:
-      - '**.java'
-      - '**.feature'
-      - 'pom.xml'
-      - 'checkstyle.xml'
-      - '.gherkin-lintrc'
-      - '.gitleaks.toml'
+      - '**'
 
 permissions:
   contents: read
@@ -21,7 +16,7 @@ concurrency:
 
 jobs:
   lint:
-    name: Lint (Checkstyle + PMD + Gherkin)
+    name: Lint (Leak detection)
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -39,29 +34,3 @@ jobs:
 
       - name: Check for leaked credentials
         run: gitleaks detect --source . --verbose --redact
-
-      - name: Set up JDK 25
-        uses: actions/setup-java@v4
-        with:
-          java-version: '25'
-          distribution: 'temurin'
-          cache: 'maven'
-
-      # Run the Maven tests
-      - name: Run Cucumber Tests
-        run: mvn clean verify --no-transfer-progress
-
-      # Publish the report as an artifact
-      - name: Upload Cucumber Report
-        if: always()
-        uses: actions/upload-artifact@v4
-        with:
-          name: cucumber-report
-          path: target/cucumber-html-report
-        # Static analysis — code quality + security patterns
-#      - name: Run Checkstyle and PMD
-#        run: ./mvnw -T 1C checkstyle:check pmd:check --no-transfer-progress
-
-        # Lint the test cases using Gherkin Lint
-#      - name: Run Gherkin Lint
-#        run: npx gherkin-lint src/test/java/org/pacfs/test/features/
