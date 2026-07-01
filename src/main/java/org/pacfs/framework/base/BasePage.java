@@ -6,11 +6,11 @@ import org.openqa.selenium.By;
 /**
  * Created by Ibi on 08/05/2026.
  */
-public class BasePage extends Base{
+public class BasePage extends Base {
 
     protected static String worldwideRandomNumber;
 
-    public <TPage extends BasePage> TPage As(Class<TPage> pageInstance) {
+    public <TPage extends BasePage> TPage as(Class<TPage> pageInstance) {
 
         try {
             return (TPage) this;
@@ -20,7 +20,7 @@ public class BasePage extends Base{
         return null;
     }
 
-    protected String getRandomString(){
+    protected String getRandomString() {
 
         int length = 7;
         boolean useLetters = true;
@@ -28,7 +28,7 @@ public class BasePage extends Base{
         return RandomStringUtils.random(length, useLetters, useNumbers);
     }
 
-    public enum ElementStatus{
+    public enum ElementStatus {
         VISIBLE,
         NOTVISIBLE,
         ENABLED,
@@ -37,25 +37,27 @@ public class BasePage extends Base{
         NOTPRESENT
     }
 
-    public static ElementStatus isElementVisible(By by, ElementStatus getStatus){
-        try{
-            if(getStatus.equals(ElementStatus.ENABLED)){
-                if(LocalDriverContext.getRemoteWebDriver().findElement(by).isEnabled())
+    public static ElementStatus isElementVisible(By by, ElementStatus getStatus) {
+        try {
+            if (getStatus.equals(ElementStatus.ENABLED)) {
+                if (LocalDriverContext.getRemoteWebDriver().findElement(by).isEnabled()) {
                     return ElementStatus.ENABLED;
+                }
                 return ElementStatus.NOTENABLED;
             }
-            if(getStatus.equals(ElementStatus.VISIBLE)){
-                if(LocalDriverContext.getRemoteWebDriver().findElement(by).isDisplayed())
+            if (getStatus.equals(ElementStatus.VISIBLE)) {
+                if (LocalDriverContext.getRemoteWebDriver().findElement(by).isDisplayed()) {
                     return ElementStatus.VISIBLE;
+                }
                 return ElementStatus.NOTVISIBLE;
             }
             return ElementStatus.PRESENT;
-        }catch(org.openqa.selenium.NoSuchElementException nse){
+        } catch (org.openqa.selenium.NoSuchElementException nse) {
             return ElementStatus.NOTPRESENT;
         }
     }
 
-    public void UIMandatoryChecks(){
+    public void uIMandatoryChecks() {
 
         isElementVisible(By.id("Pequin-Hub-Click"), ElementStatus.PRESENT);
         isElementVisible(By.id("filter-and-fields"), ElementStatus.PRESENT);
@@ -64,21 +66,5 @@ public class BasePage extends Base{
         isElementVisible(By.id("Notification_dbl"), ElementStatus.PRESENT);
         isElementVisible(By.id("Header"), ElementStatus.PRESENT);
         isElementVisible(By.id("Profile_dbl"), ElementStatus.PRESENT);
-    }
-
-    public String GetCurrentUrlString(){
-
-        System.out.println("url is : "+LocalDriverContext.getRemoteWebDriver().getCurrentUrl());
-        return LocalDriverContext.getRemoteWebDriver().getCurrentUrl();
-    }
-
-    public void ExportCurrentSearchResultToCVS(){
-
-        isElementVisible(By.cssSelector("#root > div.sc-gWHgXt.cmQCUf > div.sc-eWvPJL.hgQjmC > div.sc-jSgupP.eplsmx > div.sc-jtHMlw.jaQVoM > div > div.sc-cKZHah.iYAzYL > div:nth-child(1) > span > svg"), ElementStatus.PRESENT);
-    }
-
-    public void BulkUploadData(){
-
-        isElementVisible(By.id("Layer_1"), ElementStatus.PRESENT);
     }
 }

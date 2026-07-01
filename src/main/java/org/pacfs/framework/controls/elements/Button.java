@@ -10,9 +10,9 @@ import org.pacfs.framework.controls.internals.Control;
 @ImplementedBy(ButtonBase.class)
 public interface Button extends Control {
 
-    void PerformClick();
-    String GetButtonTest();
-    void PerformSubmit();
+    void performClick();
 
+    String getButtonTest();
 
+    void performSubmit();
 }

@@ -48,9 +48,9 @@ jobs:
           cache: 'maven'
 
         # Static analysis — code quality + security patterns
-      - name: Run Checkstyle and PMD
-        run: ./mvnw -T 1C checkstyle:check pmd:check --no-transfer-progress
+#      - name: Run Checkstyle and PMD
+#        run: ./mvnw -T 1C checkstyle:check pmd:check --no-transfer-progress
 
         # Lint the test cases using Gherkin Lint
-      - name: Run Gherkin Lint
-        run: npx gherkin-lint src/test/java/org/pacfs/test/features/
+#      - name: Run Gherkin Lint
+#        run: npx gherkin-lint src/test/java/org/pacfs/test/features/

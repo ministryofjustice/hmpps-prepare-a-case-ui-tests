@@ -16,6 +16,23 @@ Feature: Case Summary Page - Defendant details, case actions and updates
 #    And the PNC number should match the value from the cases page
     And the probation status should match the value from the cases page
 
+  Scenario: Add comments under Case Summary page
+    Given I am on the Case Summary page
+    When I add a comment with notes and observations about the case
+    Then the comment should be saved and visible to colleagues
+    And the Edit and Cancel buttons are displayed.
+    And I delete the hearing note that was just created
+    And the success message "You successfully deleted a note" should be displayed
+
+  Scenario: Edit comments under Case Summary page
+    Given I am on the Case Summary page
+    When I add a comment with notes and observations about the case
+    Then the comment should be saved and visible to colleagues
+    And the Edit and Cancel buttons are displayed.
+    When I update the hearing note by clicking the Edit button
+    And I delete the hearing note that was just created
+    And the success message "You successfully deleted a note" should be displayed
+
 #  Scenario: Upload documents to a case from Case Summary page
 #    Given I am on the Case Summary page
 #    When I upload a document to the case
@@ -26,9 +43,3 @@ Feature: Case Summary Page - Defendant details, case actions and updates
 #    When I expand the Case Progress section
 #    And I add a hearing note with case-specific information
 #    Then the hearing note should be saved successfully
-#
-#  Scenario: Add comments under Case Summary page
-#    Given I am on the Case Summary page
-#    When I add a comment with notes and observations about the case
-#    Then the comment should be saved and visible to colleagues
-#    And the comment should not be saved to NDelius

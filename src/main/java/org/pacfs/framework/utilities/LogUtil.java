@@ -35,11 +35,12 @@ public class LogUtil {
      * @Method for creating log file
      * we create a custom directory and specifying the location
      */
-    public void CreateLogFile() throws IOException {
+    public void createLogFile() throws IOException {
         try {
             File dir = new File(System.getProperty("user.dir") + Settings.LogPath);
-            if (!dir.exists())   /*if directory does not exist */
+            if (!dir.exists())   /*if directory does not exist */ {
                 dir.mkdir();    /*then create one */
+            }
 
             /**
              * Create a random log file
@@ -56,16 +57,15 @@ public class LogUtil {
         }
     }
 
-    public void Write(String message){
-        try{
+    public void write(String message) {
+        try {
             formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy:HH_MM_SS");
             String dateFormat = date.format(formatter);
-            bufferedWriter.write("[" + dateFormat +"]" + message);
+            bufferedWriter.write("[" + dateFormat + "]" + message);
             bufferedWriter.newLine();
             bufferedWriter.flush();
-        }catch (Exception e){
+        } catch (Exception e) {
 
         }
     }
-
 }

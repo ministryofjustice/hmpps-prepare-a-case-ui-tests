@@ -18,20 +18,20 @@ public class SignInPage extends BasePage {
     private WebElement SignInBnt;
 
 
-    public void EnterUsername(String user){
+    public void EnterUsername(String user) {
 
         DriverContext.enterText(UsernameTxt,user);
     }
 
-    public void EnterPassword(String pass){
+    public void EnterPassword(String pass) {
 
         DriverContext.enterText(PasswordTxt,pass);
     }
 
-    public MyCourtsPage ClickSignInButton(){
+    public MyCourtsPage ClickSignInButton() {
 
-        DriverContext.WaitForElementToBeClickable(SignInBnt);
-        DriverContext.WaitForPageToLoad();
-        return GetInstance(MyCourtsPage.class);
+        DriverContext.waitForElementToBeClickable(SignInBnt);
+        DriverContext.waitForPageToLoad();
+        return getInstance(MyCourtsPage.class);
     }
 }

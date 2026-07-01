@@ -49,11 +49,11 @@ public class MyCourtsPage extends BasePage {
                     "Link with text '" + expectedLinkText + "' was not found.");
         }
 
-        DriverContext.WaitForPageToLoad();
-        return GetInstance(CourtCasesDetailsPage.class);
+        DriverContext.waitForPageToLoad();
+        return getInstance(CourtCasesDetailsPage.class);
     }
 
-    public String GetMyCourtsText(){
+    public String GetMyCourtsText() {
 
         return MyCourtsTxt.getText();
     }
@@ -84,11 +84,11 @@ public class MyCourtsPage extends BasePage {
             System.out.println("Selecting court: " + courtName);
 
             // Click selected court
-            DriverContext.WaitForElementToBeClickable(selectedCourt);
+            DriverContext.waitForElementToBeClickable(selectedCourt);
             //selectedCourt.click();
 
             // Wait for navigation
-            DriverContext.WaitForPageToLoad();
+            DriverContext.waitForPageToLoad();
 
             // Verify user is on court cases page
             boolean isOnCourtCasesPage =
@@ -98,7 +98,7 @@ public class MyCourtsPage extends BasePage {
 
             if (!isOnCourtCasesPage) {
 
-                throw new AssertionError(
+                throw new AssertionError (
                         "Failed to navigate to Court Cases page for court: " + courtName);
             }
 
@@ -109,12 +109,12 @@ public class MyCourtsPage extends BasePage {
                     LocalDriverContext.getRemoteWebDriver()
                             .findElement(myCourtsLink);
 
-            DriverContext.WaitForElementToBeClickable(myCourts);
+            DriverContext.waitForElementToBeClickable(myCourts);
 
             //myCourts.click();
 
             // Wait for My Courts page to reload
-            DriverContext.WaitForPageToLoad();
+            DriverContext.waitForPageToLoad();
 
             System.out.println("Returned back to My Courts page");
         }
@@ -122,13 +122,13 @@ public class MyCourtsPage extends BasePage {
         System.out.println("Completed navigation through all available courts");
     }
 
-    public boolean IsMyCourtsTextPresent(){
+    public boolean IsMyCourtsTextPresent() {
 
-        return DriverContext.IsElementPresent(MyCourtsTxt);
+        return DriverContext.isElementPresent(MyCourtsTxt);
     }
 
-    public boolean IsSignOutLinkPresent(){
+    public boolean IsSignOutLinkPresent() {
 
-        return DriverContext.IsElementPresent(SignOutLnk);
+        return DriverContext.isElementPresent(SignOutLnk);
     }
 }

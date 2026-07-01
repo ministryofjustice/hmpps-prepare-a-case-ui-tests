@@ -18,12 +18,12 @@ public class ExtendManager {
     private static Platform platform;
     private static String reportFileName = "EAExtenReport.html";
     //todo: directory of the curren user
-    private static String macPath = System.getProperty("user.dir")+"/TestReport";
-    private static String windowsPath = System.getProperty("user.dir")+"\\TestReport";
+    private static String macPath = System.getProperty("user.dir") + "/TestReport";
+    private static String windowsPath = System.getProperty("user.dir") + "\\TestReport";
     private static String macReportFileLoc = macPath + "/" + reportFileName;
     private static String winReportFileLoc = windowsPath + "\\" + reportFileName;
 
-    public static ExtentReports createInstance(){
+    public static ExtentReports createInstance() {
 
         platform = getCurrentPlatform();
         String fileName = getReportFileLocation(platform);
@@ -41,52 +41,52 @@ public class ExtendManager {
 
     //Select the extend report file location based on platform
     //todo: Checking what type of platform
-    private static String getReportFileLocation(Platform platform){
+    private static String getReportFileLocation(Platform platform) {
         String reportFileLocation = null;
-        switch (platform){
+        switch (platform) {
             case MAC:
                 reportFileLocation = macReportFileLoc;
                 createReportPath(macPath);
                 System.out.println("ExtenReport Path for Mac: " + macPath + "\n");
-                Settings.logs.Write("ExtenReport Path for Mac: " + macPath + "\n");
+                Settings.logs.write("ExtenReport Path for Mac: " + macPath + "\n");
                 break;
             case WINDOWS:
                 reportFileLocation = winReportFileLoc;
                 createReportPath(windowsPath);
                 System.out.println("ExtenReport Path for WINDOWS: " + windowsPath + "\n");
-                Settings.logs.Write("ExtenReport Path for WINDOWS: " + windowsPath + "\n");
+                Settings.logs.write("ExtenReport Path for WINDOWS: " + windowsPath + "\n");
                 break;
-                default:
-                    System.out.println("ExtendReport path has not been set! There is a problem!\n");
-                    Settings.logs.Write("ExtendReport path has not been set! There is a problem!\n");
+            default:
+                System.out.println("ExtendReport path has not been set! There is a problem!\n");
+                Settings.logs.write("ExtendReport path has not been set! There is a problem!\n");
         }
         return reportFileLocation;
     }
 
     //Create the report path if it does not exist
-    private static void createReportPath(String path){
+    private static void createReportPath(String path) {
         File testDirectory = new File(path);
-        if(!testDirectory.exists()){
-            if(testDirectory.mkdir()){
+        if (!testDirectory.exists()) {
+            if (testDirectory.mkdir()) {
                 System.out.println("Directory: " + path + " is created");
-                Settings.logs.Write("Directory: " + path + " is created");
-            }else {
+                Settings.logs.write("Directory: " + path + " is created");
+            } else {
                 System.out.println("Failed to create directory: " + path);
-                Settings.logs.Write("Failed to create directory: " + path);
+                Settings.logs.write("Failed to create directory: " + path);
             }
-        }else {
+        } else {
             System.out.println("Directory already exist: " + path);
-            Settings.logs.Write("Directory already exist: " + path);
+            Settings.logs.write("Directory already exist: " + path);
         }
     }
 
     //Get Current platform
-    private static Platform getCurrentPlatform(){
-        if(platform == null){
+    private static Platform getCurrentPlatform() {
+        if (platform == null) {
             String operSys = System.getProperty("os.name").toLowerCase();
-            if(operSys.contains("win")){
+            if (operSys.contains("win")) {
                 platform = Platform.WINDOWS;
-            }else if(operSys.contains("mac")){
+            } else if (operSys.contains("mac")) {
                 platform = Platform.MAC;
             }
         }

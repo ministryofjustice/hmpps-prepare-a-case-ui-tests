@@ -1,16 +1,20 @@
 package org.pacfs.framework.controls.internals;
 
-import org.openqa.selenium.*;
-//import org.openqa.selenium.interactions.internal.Coordinates;
-import org.openqa.selenium.interactions.Coordinates;
+import org.openqa.selenium.By;
+        import org.openqa.selenium.Dimension;
+        import org.openqa.selenium.OutputType;
+        import org.openqa.selenium.Point;
+        import org.openqa.selenium.Rectangle;
+        import org.openqa.selenium.WebDriverException;
+        import org.openqa.selenium.WebElement;
+        import org.openqa.selenium.interactions.Coordinates;
 
 import java.util.List;
 
 /**
  * Created by Ibi on 08/05/2026.
  */
-
-public class ControlBase implements Control{
+public class ControlBase implements Control {
 
     private final WebElement element;
 
@@ -134,34 +138,4 @@ public class ControlBase implements Control{
 
         return element;
     }
-
-
-/*    //todo: Custom Controls
-    @Override
-    public ControlBase WaitForPage() {
-
-        DriverContext.WaitForPageToLoad();
-        return this;
-    }
-
-    @Override
-    public ControlBase WaitForVisible() {
-
-        DriverContext.WaitForElementVisible(getWrappedElement());
-        return this;
-    }
-
-    @Override
-    public ControlBase Click() {
-
-        getWrappedElement().click();
-        return this;
-    }
-
-    @Override
-    public ControlBase ScrollToElement() {
-
-        //call the javascript
-        return this;
-    }*/
 }

@@ -13,35 +13,34 @@ import java.util.Properties;
 /**
  * Reads configuration from environment variables (preferred) with fallback
  * to GlobalConfig.properties for local development.
- *
+ * <p>
  * Environment variable mapping:
- *   PAC_AUT_URL            -> AUT
- *   PAC_AUT1_URL           -> AUT1
- *   PAC_USERNAME           -> UserName
- *   PAC_PASSWORD           -> Password
- *   PAC_BROWSER_TYPE       -> BrowserType
- *   PAC_ENVIRONMENT_TYPE   -> environmentType
- *   PAC_SELENIUM_GRID      -> SeleniumGrid
- *   PAC_AUT_CONNECTION     -> AUTConnectionString
- *   PAC_REPORTING_CONNECTION -> ReportingConnectionString
- *   PAC_DRIVER_TYPE        -> DriverType
- *   PAC_LOG_PATH           -> LogPath
- *   PAC_EXCEL_PATH         -> ExcelSheetPath
- *   PAC_EXCEL_SHEET        -> ExcelSheetName
- *   PAC_AAD_URL            -> AADURL
+ * PAC_AUT_URL            -> AUT
+ * PAC_AUT1_URL           -> AUT1
+ * PAC_USERNAME           -> UserName
+ * PAC_PASSWORD           -> Password
+ * PAC_BROWSER_TYPE       -> BrowserType
+ * PAC_ENVIRONMENT_TYPE   -> environmentType
+ * PAC_SELENIUM_GRID      -> SeleniumGrid
+ * PAC_AUT_CONNECTION     -> AUTConnectionString
+ * PAC_REPORTING_CONNECTION -> ReportingConnectionString
+ * PAC_DRIVER_TYPE        -> DriverType
+ * PAC_LOG_PATH           -> LogPath
+ * PAC_EXCEL_PATH         -> ExcelSheetPath
+ * PAC_EXCEL_SHEET        -> ExcelSheetName
+ * PAC_AAD_URL            -> AADURL
  */
 public class ConfigReader {
     //Create Property Object
     Properties p = new Properties();
-    String env;
-    String os;
+
     BrowserTypes bt = null;
 
     private static final String CONFIG_FILE_PATH = "src/main/java/org/pacfs/framework/config/GlobalConfig.properties";
 
-    public static void PopulateSettings() throws IOException {
+    public static void populateSettings() throws IOException {
         ConfigReader reader = new ConfigReader();
-        reader.ReadProperty();
+        reader.readProperty();
     }
 
     /**
@@ -55,7 +54,7 @@ public class ConfigReader {
         return p.getProperty(propertyName);
     }
 
-    private void ReadProperty() throws IOException {
+    private void readProperty() throws IOException {
         // Load properties file if it exists (for local development)
         File configFile = new File(CONFIG_FILE_PATH);
         if (configFile.exists()) {
@@ -90,6 +89,7 @@ public class ConfigReader {
     }
 
     public ArrayList environmentDetails() {
+        String env = null;
         ArrayList ar = new ArrayList();
         String envType = System.getProperty("environmentType");
         if (envType == null || envType.isEmpty()) {
@@ -101,13 +101,16 @@ public class ConfigReader {
         } else if (envType.equals("BrowserStack") || envType.equals("grid")) {
             env = envType;
             String btProp = System.getProperty("BrowserType");
-            if (btProp == null) btProp = System.getenv("PAC_BROWSER_TYPE");
-            if (btProp != null) bt = BrowserTypes.valueOf(btProp);
+            if (btProp == null) {
+                btProp = System.getenv("PAC_BROWSER_TYPE");
+            }
+            if (btProp != null) {
+                bt = BrowserTypes.valueOf(btProp);
+            }
         }
         LocalDriverContext.getRemoteWebDriver();
         ar.add(env);
         ar.add(bt);
         return ar;
     }
-
 }

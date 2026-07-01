@@ -9,7 +9,7 @@ import java.util.Hashtable;
 
 public class ReportingUtil {
 
-    public static void CreateTestCycle(Connection connection){
+    public static void createTestCycle(Connection connection) {
 
         Hashtable table = new Hashtable();
         table.put("AUT","Project Name");
@@ -20,6 +20,6 @@ public class ReportingUtil {
         table.put("MachineName","Windows 10");
         table.put("TestType",1);
 
-        DatabaseUtil.ExecuteStoredProc("sp_CreateTestCycleID", table, connection);
+        DatabaseUtil.executeStoredProc("sp_CreateTestCycleID", table, connection);
     }
 }

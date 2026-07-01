@@ -6,7 +6,6 @@ import org.openqa.selenium.WebElement;
 /**
  * Created by Ibi on 08/05/2026.
  */
-
 public class TextBoxBase extends ControlBase implements org.pacfs.framework.controls.elements.TextBox {
 
     public TextBoxBase(WebElement element) {
@@ -14,15 +13,14 @@ public class TextBoxBase extends ControlBase implements org.pacfs.framework.cont
     }
 
 
-
     @Override
-    public void EnterText(String text) {
+    public void enterText(String text) {
 
         getWrappedElement().sendKeys(text);
     }
 
     @Override
-    public String GetTextValue() {
+    public String getTextValue() {
 
         return getWrappedElement().getText();
     }

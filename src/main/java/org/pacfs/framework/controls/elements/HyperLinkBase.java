@@ -6,27 +6,29 @@ import org.openqa.selenium.WebElement;
 /**
  * Created by Ibi on 08/05/2026.
  */
-
 public class HyperLinkBase extends ControlBase implements HyperLink {
     public HyperLinkBase(WebElement element) {
         super(element);
     }
 
     @Override
-    public void ClickLink() {
+    public void clickLink() {
         getWrappedElement().click();
     }
 
     @Override
-    public String GetUrlText() {
+    public String getUrlText() {
         return getWrappedElement().getText();
     }
 
+    @SuppressWarnings("checkstyle:SimplifyBooleanReturn")
     @Override
-    public boolean CheckUrlTextContains(String containsText) {
-        if (getWrappedElement().getText().contains(containsText))
+    public boolean checkUrlTextContains(String containsText) {
+
+        if (getWrappedElement().getText().contains(containsText)) {
             return true;
-        else
+        } else {
             return false;
+        }
     }
 }

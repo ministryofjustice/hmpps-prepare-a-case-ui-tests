@@ -1,6 +1,5 @@
 package org.pacfs.test.stepdefs;
 
-import io.cucumber.java.PendingException;
 import io.cucumber.java.en.And;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
@@ -18,25 +17,25 @@ public class outcomesPaginationStepdefs extends Base {
     @Given("I am logged into the application")
     public void iAmLoggedIntoTheApplication() {
 
-        CurrentPage = GetInstance(SignInPage.class);
+        CurrentPage = getInstance(SignInPage.class);
 
-        CurrentPage.As(SignInPage.class).EnterUsername(Settings.UserName);
+        CurrentPage.as(SignInPage.class).EnterUsername(Settings.UserName);
 
-        CurrentPage.As(SignInPage.class).EnterPassword(Settings.Password);
+        CurrentPage.as(SignInPage.class).EnterPassword(Settings.Password);
 
-        CurrentPage = CurrentPage.As(SignInPage.class).ClickSignInButton();
+        CurrentPage = CurrentPage.as(SignInPage.class).ClickSignInButton();
     }
 
     @And("I am on the {string} page")
     public void iAmOnThePage(String value) {
 
-        Assert.assertEquals(CurrentPage.As(MyCourtsPage.class).GetMyCourtsText(),value);
+        Assert.assertEquals(CurrentPage.as(MyCourtsPage.class).GetMyCourtsText(),value);
     }
 
     @When("I select the {string} court")
     public void iSelectTheCourt(String NameOfCourt) {
 
-        CurrentPage = CurrentPage.As(MyCourtsPage.class).clickLinkByText(NameOfCourt);
+        CurrentPage = CurrentPage.as(MyCourtsPage.class).clickLinkByText(NameOfCourt);
     }
 
     @Then("I should be taken to the selected court page")
@@ -50,7 +49,7 @@ public class outcomesPaginationStepdefs extends Base {
 
         if(selectedVal.equalsIgnoreCase("Cases")){
 
-            Assert.assertTrue(CurrentPage.As(CourtCasesDetailsPage.class).CheckCasesTabSelected());
+            Assert.assertTrue(CurrentPage.as(CourtCasesDetailsPage.class).CheckCasesTabSelected());
         }
     }
 
@@ -59,15 +58,15 @@ public class outcomesPaginationStepdefs extends Base {
 
         if(selectedVal.equalsIgnoreCase("Outcomes")){
 
-            CurrentPage = CurrentPage.As(CourtCasesDetailsPage.class).ClickOutcomeTab();
+            CurrentPage = CurrentPage.as(CourtCasesDetailsPage.class).ClickOutcomeTab();
 
         }else if(selectedVal.equalsIgnoreCase("In progress")){
 
-            CurrentPage.As(HearingOutcomesPage.class).ClickInProgressTab();
+            CurrentPage.as(HearingOutcomesPage.class).ClickInProgressTab();
 
         }else if(selectedVal.equalsIgnoreCase("Resulted cases")){
 
-            CurrentPage.As(HearingOutcomesPage.class).ClickResultedCasesTab();
+            CurrentPage.as(HearingOutcomesPage.class).ClickResultedCasesTab();
         }
 
     }
@@ -76,32 +75,32 @@ public class outcomesPaginationStepdefs extends Base {
     public void iVerifyThatDefendantNamesAcrossAllPaginationPagesInTheOutcomesTabAreUniqueAndConsistentlyOrdered() {
 
         //CurrentPage.As(HearingOutcomesPage.class).validateDuplicateDefendantNamesAcrossPages2();
-        CurrentPage.As(HearingOutcomesPage.class).validateDuplicateDefendantHrefsAcrossPages();
+        CurrentPage.as(HearingOutcomesPage.class).validateDuplicateDefendantHrefsAcrossPages();
     }
 
     @When("I select the defendant name from the case results")
     public void iSelectTheDefendantNameFromTheCaseResults() {
 
         //CurrentPage.As(HearingOutcomesPage.class).selectFirstDefendantCheckbox();
-        CurrentPage.As(HearingOutcomesPage.class).selectFirstDefendantCheckbox2();
+        CurrentPage.as(HearingOutcomesPage.class).selectFirstDefendantCheckbox2();
     }
 
     @And("I assign the case to myself using the {string} button")
     public void iAssignTheCaseToMyselfUsingTheButton(String arg0) {
 
-        CurrentPage.As(HearingOutcomesPage.class).assignSelectedCaseToMe();
+        CurrentPage.as(HearingOutcomesPage.class).assignSelectedCaseToMe();
     }
 
     @Then("I should see the success message {string}")
     public void iShouldSeeTheSuccessMessage(String mgs) {
 
-        if(mgs.equalsIgnoreCase("You are assigned to result <selectedDefendantName>. Their case has moved to the in progress tab.")){
+        if(mgs.equalsIgnoreCase("You are assigned to result <selectedDefendantName>. Their case has moved to the in progress tab.")) {
 
-            CurrentPage.As(HearingOutcomesPage.class).validateAssignToMeSuccessMessage();
+            CurrentPage.as(HearingOutcomesPage.class).validateAssignToMeSuccessMessage();
 
-        }else if(mgs.equalsIgnoreCase("You have moved <selectedDefendantName> case to resulted cases.")){
+        }else if(mgs.equalsIgnoreCase("You have moved <selectedDefendantName> case to resulted cases.")) {
 
-            CurrentPage.As(HearingOutcomesPage.class).validateMoveToResultedSuccessMessage();
+            CurrentPage.as(HearingOutcomesPage.class).validateMoveToResultedSuccessMessage();
         }
     }
 
@@ -109,26 +108,26 @@ public class outcomesPaginationStepdefs extends Base {
     public void theDefendantNameShouldNoLongerAppearInTheOutcomesCaseResultsList() {
 
         //CurrentPage.As(HearingOutcomesPage.class).validateSelectedDefendantNameNoLongerExistsAcrossPages();
-        CurrentPage.As(HearingOutcomesPage.class).validateSelectedDefendantHrefNoLongerExistsAcrossPages();
+        CurrentPage.as(HearingOutcomesPage.class).validateSelectedDefendantHrefNoLongerExistsAcrossPages();
     }
 
     @Then("I should see the defendant name in the in progress cases list")
     public void iShouldSeeTheDefendantNameInTheInProgressCasesList() {
 
         //CurrentPage.As(HearingOutcomesPage.class).validateSelectedDefendantExistsAcrossPages();
-        CurrentPage.As(HearingOutcomesPage.class).validateSelectedDefendantExistsAcrossPages2();
+        CurrentPage.as(HearingOutcomesPage.class).validateSelectedDefendantExistsAcrossPages2();
     }
 
     @When("I select the {string} action for defendant")
     public void iSelectTheActionForDefendant(String arg0) {
 
         //CurrentPage.As(HearingOutcomesPage.class).clickMoveToResultedForSelectedDefendant();
-        CurrentPage.As(HearingOutcomesPage.class).clickMoveToResultedForSelectedDefendant3();
+        CurrentPage.as(HearingOutcomesPage.class).clickMoveToResultedForSelectedDefendant3();
     }
 
     @Then("I should see the defendant name in the resulted cases list")
     public void iShouldSeeTheDefendantNameInTheResultedCasesList() {
 
-        CurrentPage.As(HearingOutcomesPage.class).validateSelectedDefendantExistsAcrossPages22();
+        CurrentPage.as(HearingOutcomesPage.class).validateSelectedDefendantExistsAcrossPages22();
     }
 }
