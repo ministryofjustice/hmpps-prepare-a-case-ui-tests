@@ -58,6 +58,21 @@ jobs:
         with:
           name: cucumber-report
           path: target/cucumber-html-report
+
+      # Send a Slack notification
+      - name: Notify Slack
+        if: always()
+        env:
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+        run: |
+                 STATUS="${{ job.status }}"
+                
+                 curl -X POST "$SLACK_WEBHOOK_URL" \
+                  -H "Content-type: application/json" \
+                  --data "{
+                   \"text\": \"PACFS Cucumber Tests: ${STATUS}\nRepository: ${{ github.repository }}\nBranch: ${{ github.ref_name }}\nWorkflow: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}\"
+                 }"
+
         # Static analysis — code quality + security patterns
 #      - name: Run Checkstyle and PMD
 #        run: ./mvnw -T 1C checkstyle:check pmd:check --no-transfer-progress
