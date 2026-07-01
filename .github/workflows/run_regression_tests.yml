@@ -53,11 +53,10 @@ jobs:
           PAC_ENVIRONMENT_TYPE: "local"
           PAC_SELENIUM_GRID: ${{ secrets.PAC_SELENIUM_GRID }}
         run: |
-          ./mvnw clean verify -Dcucumber.filter.tags="@test"
+          ./mvnw clean verify -Dcucumber.filter.tags="@test" --no-transfer-progress
 
-# Temporary turn off the if: always() condition, so we can check if the pipeline fails, and that's why the reports haven't shown results.
       - name: Upload Cucumber report
-#        if: always()
+        if: always()
         uses: actions/upload-artifact@v4
         with:
           name: cucumber-report
@@ -65,7 +64,7 @@ jobs:
           retention-days: 30
 
       - name: Upload Surefire report
-#        if: always()
+        if: always()
         uses: actions/upload-artifact@v4
         with:
           name: surefire-report
@@ -73,7 +72,7 @@ jobs:
           retention-days: 30
 
       - name: Notify Slack
-#        if: always()
+        if: always()
         env:
           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
         run: |
