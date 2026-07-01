@@ -47,6 +47,17 @@ jobs:
           distribution: 'temurin'
           cache: 'maven'
 
+      # Run the Maven tests
+      - name: Run Cucumber Tests
+        run: mvn clean verify --no-transfer-progress
+
+      # Publish the report as an artifact
+      - name: Upload Cucumber Report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: cucumber-report
+          path: target/cucumber-html-report
         # Static analysis — code quality + security patterns
 #      - name: Run Checkstyle and PMD
 #        run: ./mvnw -T 1C checkstyle:check pmd:check --no-transfer-progress
