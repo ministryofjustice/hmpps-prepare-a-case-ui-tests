@@ -84,12 +84,13 @@ PAC_BROWSER_TYPE="Headless" \
 
 This repo is designed to be triggered from another repository's GitHub Actions pipeline. Configure the following **repository secrets** in the calling repo:
 
-| Secret | Description |
-|---|---|
-| `PAC_AUT_URL` | Target environment URL |
-| `PAC_USERNAME` | Test user credentials |
-| `PAC_PASSWORD` | Test user credentials |
-| `PAC_SELENIUM_GRID` | Selenium Grid URL (if using grid) |
+| Secret | Description                             |
+|---|-----------------------------------------|
+| `PAC_AUT_URL` | Target environment URL                  |
+| `PAC_USERNAME` | Test user credentials                   |
+| `PAC_PASSWORD` | Test user credentials                   |
+| `PAC_SELENIUM_GRID` | Selenium Grid URL (if using grid)       |
+| `PAC_API_HEALTH_CHECK_URL` | Target application API health check URL |
 
 Example workflow step:
 
