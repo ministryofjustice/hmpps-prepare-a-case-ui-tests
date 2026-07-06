@@ -3,7 +3,7 @@ name: Regression Tests
 on:
   # Run at 8:30am UTC time, Monday to Friday
   schedule:
-    - cron: '30 8 * * 1-5'
+    - cron: '0 13 * * 1-5'
       # GitHub added support for timezones in May 2026, but tooling is throwing errors.
     # timezone: "Europe/London"
 
@@ -79,7 +79,7 @@ jobs:
           PAC_ENVIRONMENT_TYPE: "local"
           PAC_SELENIUM_GRID: ${{ secrets.PAC_SELENIUM_GRID }}
         run: |
-          ./mvnw clean verify -Dcucumber.filter.tags="@test"
+          ./mvnw clean verify -Dcucumber.filter.tags="@Regression"
 
       - name: Upload Cucumber report
         if: always()
