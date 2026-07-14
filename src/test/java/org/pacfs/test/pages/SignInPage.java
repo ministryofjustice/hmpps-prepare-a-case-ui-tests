@@ -20,6 +20,7 @@ public class SignInPage extends BasePage {
 
     public void EnterUsername(String user) {
 
+        DriverContext.waitForPageToLoad();
         DriverContext.enterText(UsernameTxt,user);
     }
 
