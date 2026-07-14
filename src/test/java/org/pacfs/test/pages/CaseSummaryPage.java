@@ -50,6 +50,7 @@ public class CaseSummaryPage extends BasePage {
 
     public String GetCaseSummary(){
 
+        DriverContext.waitForPageToLoad();
         return CaseSummaryTitle.getText();
     }
 
@@ -155,19 +156,19 @@ public static String expectedDefendantName;
 
     public String getSavedHearingNoteText() {
 
-        //DriverContext.WaitForElementToBePresenceLocated(savedText);
+        DriverContext.waitForPageToLoad();
         return savedText.getText();
     }
 
     public boolean isEditLinkDisplayed() {
 
-        //DriverContext.WaitForElementToBePresenceLocated(linkTextEdit);
+        DriverContext.waitForPageToLoad();
         return linkTextEdit.isDisplayed();
     }
 
     public boolean isDeleteLinkDisplayed() {
 
-        //DriverContext.WaitForElementToBePresenceLocated(linkTextDelete);
+        DriverContext.waitForPageToLoad();
         return linkTextDelete.isDisplayed();
     }
 
@@ -187,7 +188,7 @@ public static String expectedDefendantName;
 
     public String getDeleteSuccessMessage() {
 
-        //DriverContext.WaitForElementToBePresenceLocated(hearingNoteSuccessMessage);
+        DriverContext.waitForPageToLoad();
         return hearingNoteSuccessMessage.getText();
     }
 

@@ -37,6 +37,7 @@ public class CourtCasesDetailsPage extends BasePage {
 
     public boolean CheckCasesTabSelected() {
 
+        DriverContext.waitForPageToLoad();
         return DriverContext.isCasesTabSelected(IsCasesTabSel);
     }
 
@@ -71,6 +72,7 @@ public class CourtCasesDetailsPage extends BasePage {
 
     public String GetHearingOutcomeStillToBeAdded() {
 
+        DriverContext.waitForPageToLoad();
         return HearingOutcomeStillToBeAdded.getText();
     }
 

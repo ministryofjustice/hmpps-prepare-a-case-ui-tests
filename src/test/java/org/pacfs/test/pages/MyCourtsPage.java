@@ -55,6 +55,8 @@ public class MyCourtsPage extends BasePage {
 
     public String GetMyCourtsText() {
 
+        DriverContext.waitForPageToLoad();
+        DriverContext.waitForElementVisible(MyCourtsTxt);
         return MyCourtsTxt.getText();
     }
 
