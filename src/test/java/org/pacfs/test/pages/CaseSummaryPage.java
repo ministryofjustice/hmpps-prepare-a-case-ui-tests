@@ -1,12 +1,18 @@
 package org.pacfs.test.pages;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.How;
 import org.pacfs.framework.base.BasePage;
 import org.pacfs.framework.base.DriverContext;
 import org.pacfs.framework.base.LocalDriverContext;
+
+import java.awt.*;
+import java.awt.datatransfer.StringSelection;
+import java.awt.event.KeyEvent;
+import java.io.File;
 
 public class CaseSummaryPage extends BasePage {
 
@@ -45,6 +51,36 @@ public class CaseSummaryPage extends BasePage {
 
     @FindBy(how = How.XPATH, using = "//main/child::div[position()=1]/child::div[position()=2]/child::p")
     private WebElement hearingNoteSuccessMessage;
+
+    @FindBy(how = How.XPATH, using = "//form[@action='summary/files']/descendant::button")
+    private WebElement chooseFileButton;
+
+    @FindBy(how = How.XPATH, using = "//form[@action='summary/files']/child::fieldset/following-sibling::div/child::input")
+    private WebElement uploadFileButton;
+
+    @FindBy(how = How.XPATH, using = "//input[@type='file']")
+    private WebElement fileInput;
+
+    @FindBy(how = How.XPATH, using = "//ul[contains(@class,'moj-sub-navigation__list')]//a[contains(text(),'Probation record')]")
+    private WebElement probationRecord;
+
+    @FindBy(how = How.XPATH, using = "//ul[contains(@class,'moj-sub-navigation__list')]//a[contains(text(),'Risk register')]")
+    private WebElement riskRegister;
+
+    @FindBy(how = How.XPATH, using = "//main[contains(@id,'main-content')]//h2[contains(text(),'Case summary')]")
+    private WebElement CasesSummary;
+
+    @FindBy(how = How.LINK_TEXT, using = "Back")
+    private WebElement backArrow;
+
+    @FindBy(how = How.XPATH, using = "//span[contains(text(),\"Oxford and Southern Oxfordshire Magistrates' Court\")]")
+    private WebElement activeCourtOxfordAndSouthern;
+
+    @FindBy(how = How.LINK_TEXT, using = "Probation Digital Services")
+    private WebElement probationDigitalServicesLink;
+
+    @FindBy(how = How.TAG_NAME, using = "h1")
+    private WebElement defendantNameHeading;
 
 
 
@@ -208,5 +244,134 @@ public static String expectedDefendantName;
 
         // Click Save button
         DriverContext.waitForElementToBeClickable(editSaveButton);
+    }
+
+    public void uploadFile(String fileName) throws AWTException, InterruptedException {
+
+
+        String filePath = new File(
+                System.getProperty("user.dir")
+                        + "/src/main/resources/files/"
+                        + fileName
+        ).getAbsolutePath();
+
+
+        chooseFileButton.click();
+
+        // Upload file directly
+        StringSelection selection = new StringSelection(filePath);
+        Toolkit.getDefaultToolkit()
+                .getSystemClipboard()
+                .setContents(selection, null);
+
+        Robot robot = new Robot();
+
+        robot.delay(1000);
+
+        // macOS file dialog: Go to location shortcut
+        robot.keyPress(KeyEvent.VK_META);
+        robot.keyPress(KeyEvent.VK_SHIFT);
+        robot.keyPress(KeyEvent.VK_G);
+
+        robot.keyRelease(KeyEvent.VK_G);
+        robot.keyRelease(KeyEvent.VK_SHIFT);
+        robot.keyRelease(KeyEvent.VK_META);
+
+        Thread.sleep(1000);
+
+
+        // Paste path
+        robot.keyPress(KeyEvent.VK_META);
+        robot.keyPress(KeyEvent.VK_V);
+
+        robot.keyRelease(KeyEvent.VK_V);
+        robot.keyRelease(KeyEvent.VK_META);
+
+        robot.delay(1000);
+
+        // Press Enter to select file
+        robot.keyPress(KeyEvent.VK_ENTER);
+        robot.keyRelease(KeyEvent.VK_ENTER);
+
+        Thread.sleep(2000);
+
+
+
+        // Click upload button
+        DriverContext.waitForElementToBeClickable(uploadFileButton);
+
+        uploadFileButton.click();
+
+    }
+
+    public boolean isUploadedFileDisplayed(String fileName) {
+
+        try {
+            WebElement uploadedFile = LocalDriverContext.getRemoteWebDriver()
+                    .findElement(By.linkText(fileName));
+
+            DriverContext.waitForElementVisible(uploadedFile);
+
+            return uploadedFile.isDisplayed();
+
+        } catch (NoSuchElementException e) {
+            return false;
+        }
+    }
+
+    public ProbationRecordPage ClickProbationRecord(){
+
+        probationRecord.click();
+        DriverContext.waitForPageToLoad();
+        return getInstance(ProbationRecordPage.class);
+    }
+
+    public RiskRegisterPage ClickRiskRegister(){
+
+        riskRegister.click();
+        return getInstance(RiskRegisterPage.class);
+    }
+
+    public Boolean IsCaseSummaryPresent(){
+
+        return CasesSummary.isDisplayed();
+    }
+
+    public String getBrowserPageTitle() {
+
+        DriverContext.waitForPageToLoad();
+
+        return LocalDriverContext.getRemoteWebDriver().getTitle().trim();
+    }
+
+    public CourtCasesDetailsPage ClickBackArrow(){
+
+        backArrow.click();
+        DriverContext.waitForPageToLoad();
+        return getInstance(CourtCasesDetailsPage.class);
+    }
+
+    public boolean ConfirmActiveCourtOxfordAndSouthern(){
+
+        return DriverContext.isElementPresent(activeCourtOxfordAndSouthern);
+    }
+
+    public boolean isServiceCaptionDisplayed(String expectedCaption) {
+
+        DriverContext.waitForElementVisible(probationDigitalServicesLink);
+
+        return probationDigitalServicesLink.isDisplayed()
+                && probationDigitalServicesLink.getText()
+                .trim()
+                .equals(expectedCaption);
+    }
+
+    public boolean isDefendantNameDisplayedAsH1() {
+
+        DriverContext.waitForElementVisible(defendantNameHeading);
+
+        return defendantNameHeading.isDisplayed()
+                && defendantNameHeading.getTagName().equalsIgnoreCase("h1")
+                && !defendantNameHeading.getText().trim().isEmpty();
     }
 }

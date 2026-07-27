@@ -2,6 +2,13 @@ package org.pacfs.framework.base;
 
 import org.apache.commons.lang3.RandomStringUtils;
 import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.How;
+
+import java.util.Arrays;
+import java.util.List;
 
 /**
  * Created by Ibi on 08/05/2026.
@@ -9,6 +16,11 @@ import org.openqa.selenium.By;
 public class BasePage extends Base {
 
     protected static String worldwideRandomNumber;
+    @FindBy(how = How.LINK_TEXT, using = "Probation Digital Services")
+    private WebElement probationDigitalServicesLink;
+
+    @FindBy(how = How.XPATH, using = "//div[contains(@class,'govuk-clearfix')]//strong[contains(text(),'DEV')]")
+    private WebElement environmentLabel;
 
     public <TPage extends BasePage> TPage as(Class<TPage> pageInstance) {
 
@@ -66,5 +78,155 @@ public class BasePage extends Base {
         isElementVisible(By.id("Notification_dbl"), ElementStatus.PRESENT);
         isElementVisible(By.id("Header"), ElementStatus.PRESENT);
         isElementVisible(By.id("Profile_dbl"), ElementStatus.PRESENT);
+    }
+
+    public boolean isEnvironmentLabelDisplayedInHeader() {
+
+        DriverContext.waitForPageToLoad();
+
+        WebElement header =
+                LocalDriverContext.getRemoteWebDriver()
+                        .findElement(By.xpath(
+                                "//div[contains(@class,'govuk-clearfix')]"
+                        ));
+
+        WebElement devLabel =
+                header.findElement(By.xpath(
+                        ".//strong[contains(text(),'DEV')]"
+                ));
+
+        return header.isDisplayed()
+                && devLabel.isDisplayed()
+                && devLabel.getText()
+                .trim()
+                .equals("DEV");
+    }
+
+    public boolean isEnvironmentLabelVisuallyDistinct() {
+
+        DriverContext.waitForPageToLoad();
+
+        JavascriptExecutor js =
+                (JavascriptExecutor) LocalDriverContext.getRemoteWebDriver();
+
+        String serviceClass = probationDigitalServicesLink
+                .getAttribute("class");
+
+        String environmentClass = environmentLabel
+                .getAttribute("class");
+
+        String serviceBackground = (String) js.executeScript(
+                "return window.getComputedStyle(arguments[0]).backgroundColor;",
+                probationDigitalServicesLink
+        );
+
+        String environmentBackground = (String) js.executeScript(
+                "return window.getComputedStyle(arguments[0]).backgroundColor;",
+                environmentLabel
+        );
+
+        String serviceBorder = (String) js.executeScript(
+                "return window.getComputedStyle(arguments[0]).border;",
+                probationDigitalServicesLink
+        );
+
+        String environmentBorder = (String) js.executeScript(
+                "return window.getComputedStyle(arguments[0]).border;",
+                environmentLabel
+        );
+
+        return probationDigitalServicesLink.isDisplayed()
+                && environmentLabel.isDisplayed()
+                && (
+                !serviceClass.equals(environmentClass)
+                        || !serviceBackground.equals(environmentBackground)
+                        || !serviceBorder.equals(environmentBorder)
+        );
+    }
+
+    /**
+     * Footer
+     */
+    public boolean isMoJStandardFooterDisplayed() {
+
+        DriverContext.waitForPageToLoad();
+
+        WebElement footer = LocalDriverContext.getRemoteWebDriver()
+                .findElement(By.tagName("footer"));
+
+        WebElement accessibilityLink = footer.findElement(
+                By.linkText("Accessibility"));
+
+        WebElement cookiesPolicyLink = footer.findElement(
+                By.linkText("Cookies policy"));
+
+        WebElement privacyPolicyLink = footer.findElement(
+                By.linkText("Privacy policy"));
+
+        return footer.isDisplayed()
+                && accessibilityLink.isDisplayed()
+                && cookiesPolicyLink.isDisplayed()
+                && privacyPolicyLink.isDisplayed();
+    }
+
+    public boolean isFooterLayoutConsistent() {
+
+        DriverContext.waitForPageToLoad();
+
+        WebElement footer = LocalDriverContext.getRemoteWebDriver()
+                .findElement(By.tagName("footer"));
+
+        List<WebElement> footerLinks =
+                footer.findElements(By.tagName("a"));
+
+        List<String> expectedLinks = Arrays.asList(
+                "Accessibility",
+                "Cookies policy",
+                "Privacy policy"
+        );
+
+        for (String expected : expectedLinks) {
+
+            boolean found = footerLinks.stream()
+                    .anyMatch(link ->
+                            link.isDisplayed()
+                                    && link.getText().trim().equals(expected));
+
+            if (!found) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    public boolean isLinkVisible(String linkText) {
+
+        DriverContext.waitForPageToLoad();
+
+        List<WebElement> links =
+                LocalDriverContext.getRemoteWebDriver()
+                        .findElements(By.linkText(linkText));
+
+        return links.stream()
+                .anyMatch(WebElement::isDisplayed);
+    }
+
+    public boolean isCorrespondingFooterPageDisplayed() {
+
+        DriverContext.waitForPageToLoad();
+
+        String heading = LocalDriverContext.getRemoteWebDriver()
+                .findElement(By.tagName("h1"))
+                .getText()
+                .trim();
+
+        List<String> expectedHeadings = Arrays.asList(
+                "Cookies policy for Probation Digital Services",
+                "Accessibility",
+                "Privacy policy for Probation Digital Services"
+        );
+
+        return expectedHeadings.contains(heading);
     }
 }

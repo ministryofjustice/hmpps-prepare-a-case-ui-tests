@@ -10,13 +10,11 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import org.pacfs.framework.base.BasePage;
 import org.pacfs.framework.base.DriverContext;
 import org.pacfs.framework.base.LocalDriverContext;
+import org.pacfs.framework.controls.internals.Control;
 import org.testng.Assert;
 
 import java.time.Duration;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 public class HearingOutcomesPage extends BasePage {
 
@@ -26,8 +24,28 @@ public class HearingOutcomesPage extends BasePage {
     @FindBy(how = How.XPATH, using = "//a[contains(text(),'Resulted cases')]")
     private WebElement ResultedCasesTab;
 
-    @FindBy(how = How.XPATH, using = "//header[@class='moj-header']/following-sibling::div[position()=2]/child::div/child::div[position()=1]/descendant::a[position()=1]")
+    //@FindBy(how = How.XPATH, using = "//header[@class='moj-header']/following-sibling::div[position()=2]/child::div/child::div[position()=1]/descendant::a[position()=1]")
+    @FindBy(how = How.XPATH, using = "//div[contains(@class,'moj-primary')]//a[contains(text(),'Cases')]")
     private WebElement CasesTab;
+
+    @FindBy(how = How.TAG_NAME, using = "h1")
+    private WebElement pageHeading;
+
+    @FindBy(how = How.TAG_NAME, using = "h2")
+    //private List<WebElement> h2Headings;
+    private List<Control> h2Headings;
+
+    @FindBy(how = How.XPATH, using = "//h2[normalize-space()='Cases to result']")
+    private WebElement casesToResultHeading;
+
+    @FindBy(how = How.XPATH, using = "//header[@class='probation-common-header govuk-!-display-none-print ']/following-sibling::div[position()=2]/child::div/child::div[position()=2]/descendant::span")
+    private WebElement MyCourtDetailsTxt;
+
+    @FindBy(how = How.XPATH, using = "//main[@id='main-content']/child::div/child::span")
+    private WebElement pageCaption;
+
+    @FindBy(how = How.XPATH, using = "//span[contains(text(),\"Oxford and Southern Oxfordshire Magistrates' Court\")]")
+    private WebElement activeCourtOxfordAndSouthern;
 
 
     public void validateDuplicateDefendantNamesAcrossPages2() {
@@ -305,16 +323,16 @@ public class HearingOutcomesPage extends BasePage {
 
         WebDriverWait wait = new WebDriverWait(LocalDriverContext.getRemoteWebDriver(), Duration.ofSeconds(10));
 
-        // ==============================
-        // CLICK ACTIONS BUTTON
-        // ==============================
-
-        WebElement actionsButton = wait.until(ExpectedConditions.elementToBeClickable(
-                By.xpath("//*[text()='Actions']")));
-
-        actionsButton.click();
-
-        System.out.println("Clicked Actions button");
+//        // ==============================
+//        // CLICK ACTIONS BUTTON
+//        // ==============================
+//
+//        WebElement actionsButton = wait.until(ExpectedConditions.elementToBeClickable(
+//                By.xpath("//*[text()='Actions']")));
+//
+//        actionsButton.click();
+//
+//        System.out.println("Clicked Actions button");
 
         // ==============================
         // HOVER OVER 'ASSIGN TO ME'
@@ -791,7 +809,8 @@ public class HearingOutcomesPage extends BasePage {
             // ==============================
 
             List<WebElement> nextButtons = LocalDriverContext.getRemoteWebDriver().findElements(
-                    By.xpath("//nav[contains(@class,'moj-pagination')]//a[contains(text(),'Next')]"));
+                    //By.xpath("//nav[contains(@class,'moj-pagination')]//a[contains(text(),'Next')]"));
+                    By.xpath("//nav[contains(@class,'govuk-pagination')]//a[@rel='next']"));
 
             if (nextButtons.isEmpty()) {
 
@@ -1083,7 +1102,8 @@ public class HearingOutcomesPage extends BasePage {
         // RESET PAGINATION TO PAGE 1
         // ==============================
         List<WebElement> pageOneLinks = LocalDriverContext.getRemoteWebDriver().findElements(
-                By.xpath("//table[@id='hearing-outcome-in-progress']/following-sibling::nav/descendant::li[position()=2]/child::a")
+                //By.xpath("//table[@id='hearing-outcome-in-progress']/following-sibling::nav/descendant::li[position()=2]/child::a")
+                By.xpath("//nav[contains(@class,'govuk-pagination')]//a[@aria-label='Page 1']")
         );
 
         if (!pageOneLinks.isEmpty() && pageOneLinks.get(0).isDisplayed()) {
@@ -1156,7 +1176,9 @@ public class HearingOutcomesPage extends BasePage {
             // ==============================
 
             List<WebElement> nextButtons = LocalDriverContext.getRemoteWebDriver().findElements(
-                    By.xpath("//nav[contains(@class,'moj-pagination')]//a[contains(text(),'Next')]"));
+                    //By.xpath("//nav[contains(@class,'moj-pagination')]//a[contains(text(),'Next')]"));
+                    By.xpath("//nav[contains(@class,'govuk-pagination')]//a[@rel='next']"));
+
 
             if (nextButtons.isEmpty()) {
                 System.out.println("No Next button found.");
@@ -1233,5 +1255,80 @@ public class HearingOutcomesPage extends BasePage {
         DriverContext.waitForElementToBeClickable(CasesTab);
         DriverContext.waitForPageToLoad();
         return getInstance(CourtCasesDetailsPage.class);
+    }
+
+    public String verifyOutcomesHeading() {
+
+        DriverContext.waitForElementVisible(pageHeading);
+
+        return pageHeading.getText().trim();
+    }
+
+    public boolean isContextHeadingDisplayedAsH2() {
+
+        DriverContext.waitForPageToLoad();
+
+        List<WebElement> h2Headings = LocalDriverContext.getRemoteWebDriver()
+                .findElements(By.tagName("h2"));
+
+        List<String> expectedHeadings = Arrays.asList(
+                "Cookies on Prepare a case for sentence",
+                "Cases to result",
+                "Filter the case list"
+        );
+
+        for (String expectedHeading : expectedHeadings) {
+
+            boolean found = h2Headings.stream()
+                    .anyMatch(heading ->
+                            heading.isDisplayed()
+                                    && heading.getText().trim().contains(expectedHeading)
+                    );
+
+            if (!found) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    public boolean isCasesToResultHeadingDisplayedAsH2() {
+
+        DriverContext.waitForElementVisible(casesToResultHeading);
+
+        return casesToResultHeading.isDisplayed();
+    }
+
+    public int getHeadingCount(String tagName) {
+
+        return LocalDriverContext.getRemoteWebDriver()
+                .findElements(By.tagName(tagName))
+                .size();
+    }
+
+    public String getBrowserPageTitle() {
+
+        DriverContext.waitForPageToLoad();
+
+        return LocalDriverContext.getRemoteWebDriver().getTitle().trim();
+    }
+
+    public String GetNameOfCourt() {
+
+        DriverContext.waitForPageToLoad();
+        return MyCourtDetailsTxt.getText();
+    }
+
+    public String verifyPageCaption() {
+
+        DriverContext.waitForElementVisible(pageCaption);
+
+        return pageCaption.getText().trim();
+    }
+
+    public boolean ConfirmActiveCourtOxfordAndSouthern(){
+
+        return DriverContext.isElementPresent(activeCourtOxfordAndSouthern);
     }
 }
