@@ -6,7 +6,10 @@ import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.How;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 
+import java.time.Duration;
 import java.util.Arrays;
 import java.util.List;
 
@@ -229,4 +232,29 @@ public class BasePage extends Base {
 
         return expectedHeadings.contains(heading);
     }
+
+    public boolean isUserGuideLinkDisplayedOutsideFooter() {
+
+        DriverContext.waitForPageToLoad();
+
+        WebElement userGuideLink = LocalDriverContext.getRemoteWebDriver().findElement(
+                By.linkText("View user guide"));
+
+        new WebDriverWait(LocalDriverContext.getRemoteWebDriver(), Duration.ofSeconds(10))
+                .until(ExpectedConditions.elementToBeClickable(userGuideLink));
+
+        boolean displayed = userGuideLink.isDisplayed();
+        boolean enabled = userGuideLink.isEnabled();
+
+        // Check the link is not inside the footer
+        List<WebElement> footerLinks = LocalDriverContext.getRemoteWebDriver().findElement(By.tagName("footer"))
+                .findElements(By.linkText("View user guide"));
+
+        boolean outsideFooter = footerLinks.isEmpty();
+
+        return displayed
+                && enabled
+                && outsideFooter;
+    }
+
 }

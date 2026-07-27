@@ -1,3 +1,4 @@
+@Regression
 Feature: Session stability and navigation reliability
 
   @SessionTimeout
