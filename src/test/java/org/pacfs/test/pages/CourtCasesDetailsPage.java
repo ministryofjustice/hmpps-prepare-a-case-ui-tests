@@ -7,26 +7,66 @@ import org.openqa.selenium.support.How;
 import org.pacfs.framework.base.BasePage;
 import org.pacfs.framework.base.DriverContext;
 import org.pacfs.framework.base.LocalDriverContext;
+import org.pacfs.framework.controls.internals.Control;
+
+import java.util.Arrays;
+import java.util.List;
+import java.util.Map;
 
 public class CourtCasesDetailsPage extends BasePage {
 
-    @FindBy(how = How.XPATH, using = "//header[@class='moj-header']/following-sibling::div[position()=2]/child::div/child::div[position()=2]/descendant::span")
+    //@FindBy(how = How.XPATH, using = "//header[@class='moj-header']/following-sibling::div[position()=2]/child::div/child::div[position()=2]/descendant::span")
+    @FindBy(how = How.XPATH, using = "//header[@class='probation-common-header govuk-!-display-none-print ']/following-sibling::div[position()=2]/child::div/child::div[position()=2]/descendant::span")
     private WebElement MyCourtDetailsTxt;
 
-    @FindBy(how = How.XPATH, using = "//header[@class='moj-header']/following-sibling::div[position()=2]/child::div/child::div[position()=1]/descendant::a[position()=1]")
+    @FindBy(how = How.LINK_TEXT, using = "My courts")
+    private WebElement MyCourtDetailsLinkTxt;
+
+    @FindBy(how = How.XPATH, using = "//header[@class='probation-common-header govuk-!-display-none-print ']/following-sibling::div[position()=2]/child::div/child::div[position()=1]/descendant::a[position()=1]")
+    //@FindBy(how = How.XPATH, using = "//main[@id='main-content']/child::div[position()=1]/child::h1")
     private WebElement IsCasesTabSel;
 
-    @FindBy(how = How.XPATH, using = "//header[@class='moj-header']/following-sibling::div[position()=2]/child::div/child::div[position()=1]/descendant::a[position()=2]")
+    @FindBy(how = How.XPATH, using = "//header[@class='probation-common-header govuk-!-display-none-print ']/following-sibling::div[position()=2]/child::div/child::div[position()=1]/descendant::a[position()=2]")
     private WebElement IsOutcomeTabSel;
 
-    @FindBy(how = How.XPATH, using = "//header[@class='moj-header']/child::div/child::div[position()=2]/child::nav/child::ul/child::li[position()=3]/child::a")
-    private WebElement SignOutLnk;
+    @FindBy(how = How.XPATH, using = "//span[@data-qa='probation-common-header-user-name']")
+    //@FindBy(how = How.XPATH, using = "//header[@class='moj-header']/child::div/child::div[position()=2]/child::nav/child::ul/child::li[position()=3]/child::a")
+    private WebElement AccountSignInLnk;
 
     @FindBy(how = How.XPATH, using = "//*[contains(text(),'There is a problem with this service')]")
     private WebElement serviceErrMsg;
 
-    @FindBy(how = How.XPATH, using = "//*[contains(text(),'Hearing outcome still to be added')]")
+    @FindBy(how = How.XPATH, using = "//a[contains(text(),'Hearing outcome still to be added')]")
     private WebElement HearingOutcomeStillToBeAdded;
+
+    @FindBy(how = How.TAG_NAME, using = "h1")
+    private WebElement pageHeading;
+
+    @FindBy(how = How.XPATH, using = "//main[@id='main-content']/child::div/child::span")
+    private WebElement pageCaption;
+
+    @FindBy(how = How.TAG_NAME, using = "h2")
+    //private List<WebElement> h2Headings;
+    private List<Control> h2Headings;
+
+    @FindBy(how = How.TAG_NAME, using = "h1")
+    //private List<WebElement> h1Headings;
+    private List<Control> h1Headings;
+
+    @FindBy(how = How.LINK_TEXT, using = "Probation Digital Services")
+    private WebElement probationDigitalServicesLink;
+
+    @FindBy(how = How.XPATH, using = "//div[contains(@class,'govuk-clearfix')]//strong[contains(text(),'DEV')]")
+    private WebElement environmentLabel;
+
+    @FindBy(how = How.XPATH, using = "//span[contains(text(),\"Oxford and Southern Oxfordshire Magistrates' Court\")]")
+    private WebElement activeCourtOxfordAndSouthern;
+
+    @FindBy(how = How.XPATH, using = "//span[contains(text(),\"Guildford Magistrates' Court\")]")
+    private WebElement activeCourtGuildford;
+
+    @FindBy(how = How.XPATH, using = "//div[contains(@class,'govuk-width-container')]//span[contains(text(),'Prepare a case for sentence')]")
+    private WebElement prepareCaseForSentence;
 
 
     public String GetNameOfCourt() {
@@ -50,7 +90,7 @@ public class CourtCasesDetailsPage extends BasePage {
 
     public boolean IsSignOutLinkPresent() {
 
-        return DriverContext.isElementPresent(SignOutLnk);
+        return DriverContext.isElementPresent(AccountSignInLnk);
     }
 
     public boolean ValidateSessionStability() {
@@ -112,4 +152,164 @@ public class CourtCasesDetailsPage extends BasePage {
         DriverContext.waitForPageToLoad();
         return getInstance(CaseSummaryPage.class);
     }
+
+    public String verifyCasesHeading() {
+
+        DriverContext.waitForElementVisible(pageHeading);
+
+        return pageHeading.getText().trim();
+    }
+
+    public String verifyPageCaption() {
+
+        DriverContext.waitForElementVisible(pageCaption);
+
+        return pageCaption.getText().trim();
+    }
+
+    public boolean isContextHeadingDisplayedAsH2() {
+
+        DriverContext.waitForPageToLoad();
+
+        List<WebElement> h2Headings = LocalDriverContext.getRemoteWebDriver()
+                .findElements(By.tagName("h2"));
+
+        List<String> expectedHeadings = Arrays.asList(
+                "Cookies on Prepare a case for sentence",
+                "Search",
+                "Filter the case list",
+                "(Today)"
+        );
+
+        for (String expected : expectedHeadings) {
+
+            boolean found = false;
+
+            for (WebElement heading : h2Headings) {
+
+                if (heading.isDisplayed()
+                        && heading.getText().trim().contains(expected)) {
+
+                    found = true;
+                    break;
+                }
+            }
+
+            if (!found) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    public int getHeadingCount(String tagName) {
+
+        return LocalDriverContext.getRemoteWebDriver()
+                .findElements(By.tagName(tagName))
+                .size();
+    }
+
+    public boolean verifyHeadingHierarchy(List<Map<String, String>> headingHierarchy) {
+
+        DriverContext.waitForPageToLoad();
+
+        for (Map<String, String> heading : headingHierarchy) {
+
+            String headingText = heading.get("Heading").trim();
+            String headingLevel = heading.get("Level").trim().toLowerCase();
+
+            String xpath = "//" + headingLevel +
+                    "[contains(normalize-space(),'" + headingText + "')]";
+
+            List<WebElement> elements =
+                    LocalDriverContext.getRemoteWebDriver()
+                            .findElements(By.xpath(xpath));
+
+            boolean headingFound = elements.stream()
+                    .anyMatch(WebElement::isDisplayed);
+
+            System.out.println(
+                    "Checking " + headingLevel +
+                            " : " + headingText +
+                            " Found: " + headingFound
+            );
+
+            if (!headingFound) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    public boolean isEnvironmentLabelDisplayedNextToService(String environment, String serviceName) {
+
+        DriverContext.waitForPageToLoad();
+
+        String serviceText = probationDigitalServicesLink.getText().trim();
+        String environmentText = environmentLabel.getText().trim();
+
+        return probationDigitalServicesLink.isDisplayed()
+                && environmentLabel.isDisplayed()
+                && serviceText.contains(serviceName)
+                && environmentText.contains(environment);
+    }
+
+    public MyCourtsPage ClickMyCourts(){
+
+        MyCourtDetailsLinkTxt.click();
+
+        return getInstance(MyCourtsPage.class);
+    }
+
+    public boolean ConfirmActiveCourtOxfordAndSouthern(){
+
+        return DriverContext.isElementPresent(activeCourtOxfordAndSouthern);
+    }
+
+    public boolean ConfirmActiveCourtGuildfordMagistrates(){
+
+        return DriverContext.isElementPresent(activeCourtGuildford);
+    }
+
+    public boolean isProbationDigitalServiceDisplayed(String serviceName) {
+
+        DriverContext.waitForPageToLoad();
+
+        String serviceText = probationDigitalServicesLink.getText().trim();
+
+        return probationDigitalServicesLink.isDisplayed()
+                && serviceText.contains(serviceName);
+    }
+
+    public String getBrowserPageTitle() {
+
+        DriverContext.waitForPageToLoad();
+
+        return LocalDriverContext.getRemoteWebDriver()
+                .getTitle()
+                .trim();
+    }
+
+    public boolean isServiceCaptionDisplayed(String expectedCaption) {
+
+        DriverContext.waitForElementVisible(probationDigitalServicesLink);
+
+        return probationDigitalServicesLink.isDisplayed()
+                && probationDigitalServicesLink.getText()
+                .trim()
+                .equals(expectedCaption);
+    }
+
+    public boolean isPrepareCaseForSentenceDisplayed(String serviceName) {
+
+        DriverContext.waitForPageToLoad();
+
+        String serviceText = prepareCaseForSentence.getText().trim();
+
+        return prepareCaseForSentence.isDisplayed()
+                && serviceText.contains(serviceName);
+    }
+
 }

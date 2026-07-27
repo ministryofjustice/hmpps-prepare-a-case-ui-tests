@@ -16,6 +16,7 @@ Feature: Case Summary Page - Defendant details, case actions and updates
 #    And the PNC number should match the value from the cases page
     And the probation status should match the value from the cases page
 
+  @Regression
   Scenario: Add comments under Case Summary page
     Given I am on the Case Summary page
     When I add a comment with notes and observations about the case
@@ -24,6 +25,7 @@ Feature: Case Summary Page - Defendant details, case actions and updates
     And I delete the hearing note that was just created
     And the success message "You successfully deleted a note" should be displayed
 
+  @Regression
   Scenario: Edit comments under Case Summary page
     Given I am on the Case Summary page
     When I add a comment with notes and observations about the case
@@ -33,11 +35,26 @@ Feature: Case Summary Page - Defendant details, case actions and updates
     And I delete the hearing note that was just created
     And the success message "You successfully deleted a note" should be displayed
 
-#  Scenario: Upload documents to a case from Case Summary page
-#    Given I am on the Case Summary page
-#    When I upload a document to the case
-#    Then the document should be successfully attached to the case
-#
+  Scenario Outline: Upload documents to a case from Case Summary page
+    Given I am on the Case Summary page
+    When I upload the file "<fileName>"
+    Then the uploaded file "<fileName>" should be displayed
+
+
+    Examples:
+      | fileName       |
+      | sample.pdf     |
+      | sample.png     |
+      | sample.xml     |
+      | sample.odt     |
+      | sample.zip     |
+      | sample.xls     |
+      | sample.xlsx    |
+      | sample.docx    |
+      | sample.ppt     |
+      | sample.pptx    |
+      | sample.rtf     |
+
 #  Scenario: Add hearing note under Case Progress
 #    Given I am on the Case Summary page
 #    When I expand the Case Progress section

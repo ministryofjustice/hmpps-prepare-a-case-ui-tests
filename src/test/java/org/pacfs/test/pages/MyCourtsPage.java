@@ -1,6 +1,7 @@
 package org.pacfs.test.pages;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -18,6 +19,34 @@ public class MyCourtsPage extends BasePage {
 
     @FindBy(how = How.XPATH, using = "//header[@class='moj-header']/child::div/child::div[position()=2]/child::nav/child::ul/child::li[position()=3]/child::a")
     private WebElement SignOutLnk;
+
+    @FindBy(how = How.XPATH, using = "//span[@data-qa='probation-common-header-user-name']")
+    //@FindBy(how = How.XPATH, using = "//header[@class='moj-header']/child::div/child::div[position()=2]/child::nav/child::ul/child::li[position()=3]/child::a")
+    private WebElement AccountSignInLnk;
+
+    @FindBy(how = How.XPATH, using = "//main[@id='main-content']/child::div/child::span")
+    private WebElement pageCaption;
+
+    @FindBy(xpath = "//main[@id='main-content']/descendant::span")
+    private WebElement PageTitle;
+
+    @FindBy(xpath = "//h1[contains(text(),'My courts')]")
+    private WebElement myCourtsHeading;
+
+    @FindBy(xpath = "//a[contains(text(),'Edit my courts')]")
+    private WebElement editMyCourts;
+
+    @FindBy(xpath = "//p[contains(text(),'Select a court to view the case list.')]")
+    private WebElement courtInstruction;
+
+    @FindBy(how = How.TAG_NAME, using = "h1")
+    private WebElement pageHeading;
+
+    @FindBy(how = How.LINK_TEXT, using = "Probation Digital Services")
+    private WebElement probationDigitalServicesLink;
+
+    @FindBy(how = How.XPATH, using = "//div[contains(@class,'govuk-clearfix')]//strong[contains(text(),'DEV')]")
+    private WebElement environmentLabel;
 
 
     public CourtCasesDetailsPage clickLinkByText(String expectedLinkText) {
@@ -131,6 +160,193 @@ public class MyCourtsPage extends BasePage {
 
     public boolean IsSignOutLinkPresent() {
 
-        return DriverContext.isElementPresent(SignOutLnk);
+        return DriverContext.isElementPresent(AccountSignInLnk);
+    }
+
+    public String verifyPageCaption() {
+
+        DriverContext.waitForElementVisible(pageCaption);
+
+        return pageCaption.getText().trim();
+    }
+
+    public int getHeadingCount(String tagName) {
+
+        return LocalDriverContext.getRemoteWebDriver()
+                .findElements(By.tagName(tagName))
+                .size();
+    }
+
+    public String getBrowserPageTitle() {
+
+        DriverContext.waitForPageToLoad();
+
+        return LocalDriverContext.getRemoteWebDriver().getTitle().trim();
+    }
+
+    public boolean verifyHeadingHierarchy() {
+
+        return PageTitle.getTagName().equalsIgnoreCase("span")
+                && myCourtsHeading.getTagName().equalsIgnoreCase("h1")
+                && editMyCourts.getTagName().equalsIgnoreCase("a")
+                && courtInstruction.getTagName().equalsIgnoreCase("p")
+                && isElementBefore(PageTitle, myCourtsHeading)
+                && isElementBefore(myCourtsHeading, editMyCourts)
+                && isElementBefore(editMyCourts, courtInstruction);
+    }
+
+    private boolean isElementBefore(WebElement first, WebElement second) {
+
+        JavascriptExecutor js =
+                (JavascriptExecutor) LocalDriverContext.getRemoteWebDriver();
+
+        Long result = (Long) js.executeScript(
+                "return arguments[0].compareDocumentPosition(arguments[1]);",
+                first,
+                second
+        );
+
+        return (result & 4L) != 0;
+    }
+
+    public String verifyOutcomesHeading() {
+
+        DriverContext.waitForElementVisible(pageHeading);
+
+        return pageHeading.getText().trim();
+    }
+
+    public boolean isEnvironmentLabelDisplayedNextToService(String environment, String serviceName) {
+
+        DriverContext.waitForPageToLoad();
+
+        String serviceText = probationDigitalServicesLink.getText().trim();
+        String environmentText = environmentLabel.getText().trim();
+
+        return probationDigitalServicesLink.isDisplayed()
+                && environmentLabel.isDisplayed()
+                && serviceText.contains(serviceName)
+                && environmentText.contains(environment);
+    }
+
+    public boolean isEnvironmentLabelVisuallyDistinct() {
+
+        DriverContext.waitForPageToLoad();
+
+        JavascriptExecutor js =
+                (JavascriptExecutor) LocalDriverContext.getRemoteWebDriver();
+
+        String serviceClass = probationDigitalServicesLink
+                .getAttribute("class");
+
+        String environmentClass = environmentLabel
+                .getAttribute("class");
+
+        String serviceBackground = (String) js.executeScript(
+                "return window.getComputedStyle(arguments[0]).backgroundColor;",
+                probationDigitalServicesLink
+        );
+
+        String environmentBackground = (String) js.executeScript(
+                "return window.getComputedStyle(arguments[0]).backgroundColor;",
+                environmentLabel
+        );
+
+        String serviceBorder = (String) js.executeScript(
+                "return window.getComputedStyle(arguments[0]).border;",
+                probationDigitalServicesLink
+        );
+
+        String environmentBorder = (String) js.executeScript(
+                "return window.getComputedStyle(arguments[0]).border;",
+                environmentLabel
+        );
+
+        return probationDigitalServicesLink.isDisplayed()
+                && environmentLabel.isDisplayed()
+                && (
+                !serviceClass.equals(environmentClass)
+                        || !serviceBackground.equals(environmentBackground)
+                        || !serviceBorder.equals(environmentBorder)
+        );
+    }
+
+    public boolean isEnvironmentLabelDisplayedInHeader() {
+
+        DriverContext.waitForPageToLoad();
+
+        WebElement header =
+                LocalDriverContext.getRemoteWebDriver()
+                        .findElement(By.xpath(
+                                "//div[contains(@class,'govuk-clearfix')]"
+                        ));
+
+        WebElement devLabel =
+                header.findElement(By.xpath(
+                        ".//strong[contains(text(),'DEV')]"
+                ));
+
+        return header.isDisplayed()
+                && devLabel.isDisplayed()
+                && devLabel.getText()
+                .trim()
+                .equals("DEV");
+    }
+
+    public HomePage ClickProbationDigitalServicesLink(){
+
+        probationDigitalServicesLink.click();
+
+        return getInstance(HomePage.class);
+    }
+
+    public boolean isUserNameDisplayedInHeader() {
+
+        DriverContext.waitForPageToLoad();
+
+        WebElement header = LocalDriverContext.getRemoteWebDriver()
+                .findElement(By.xpath("//div[contains(@class,'govuk-clearfix')]"));
+
+        WebElement userName = header.findElement(
+                By.xpath(".//span[contains(@data-qa,'probation-common-header-user-name')]")
+        );
+
+        return header.isDisplayed()
+                && userName.isDisplayed()
+                && !userName.getText().trim().isEmpty();
+    }
+
+    public CookiesPolicyPage clickCookiesPolicyLink() {
+
+        DriverContext.waitForPageToLoad();
+
+        WebElement cookiesLink =
+                LocalDriverContext.getRemoteWebDriver()
+                        .findElement(By.linkText("Cookies policy"));
+
+        cookiesLink.click();
+
+        DriverContext.waitForPageToLoad();
+
+        return getInstance(CookiesPolicyPage.class);
+    }
+
+    public void selectFooterLink(String footerLink) {
+
+        DriverContext.waitForPageToLoad();
+
+        WebElement link = LocalDriverContext.getRemoteWebDriver()
+                .findElement(By.linkText(footerLink));
+
+        DriverContext.waitForElementVisible(link);
+
+        link.click();
+    }
+
+    public void refreshPage() {
+
+        LocalDriverContext.getRemoteWebDriver().navigate().refresh();
+
+        DriverContext.waitForPageToLoad();
     }
 }

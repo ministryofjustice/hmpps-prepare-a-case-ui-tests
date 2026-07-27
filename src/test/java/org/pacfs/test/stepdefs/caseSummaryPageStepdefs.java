@@ -1,5 +1,6 @@
 package org.pacfs.test.stepdefs;
 
+import io.cucumber.java.PendingException;
 import io.cucumber.java.en.And;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
@@ -7,7 +8,10 @@ import io.cucumber.java.en.When;
 import org.pacfs.framework.base.Base;
 import org.pacfs.test.pages.CaseSummaryPage;
 import org.pacfs.test.pages.CourtCasesDetailsPage;
+import org.pacfs.test.pages.MyCourtsPage;
 import org.testng.Assert;
+
+import java.awt.*;
 
 public class caseSummaryPageStepdefs extends Base {
 
@@ -45,6 +49,7 @@ public class caseSummaryPageStepdefs extends Base {
     @Given("I am on the Case Summary page")
     public void iAmOnTheCaseSummaryPage() {
 
+        CurrentPage = CurrentPage.as(MyCourtsPage.class).clickLinkByText("Oxford and Southern Oxfordshire Magistrates' Court");
         CurrentPage = CurrentPage.as(CourtCasesDetailsPage.class).selectFirstDefendantName();
         Assert.assertEquals(CurrentPage.as(CaseSummaryPage.class).GetCaseSummary(),"Case summary");
     }
@@ -85,4 +90,18 @@ public class caseSummaryPageStepdefs extends Base {
 
         CurrentPage.as(CaseSummaryPage.class).editHearingNote();
     }
+
+    @When("I upload the file {string}")
+    public void iUploadTheFile(String fileName) throws AWTException, InterruptedException {
+
+        CurrentPage.as(CaseSummaryPage.class).uploadFile(fileName);
+    }
+
+    @Then("the uploaded file {string} should be displayed")
+    public void uploadedFileShouldBeDisplayed(String fileName) {
+
+        CurrentPage.as(CaseSummaryPage.class).isUploadedFileDisplayed(fileName);
+    }
+
+
 }

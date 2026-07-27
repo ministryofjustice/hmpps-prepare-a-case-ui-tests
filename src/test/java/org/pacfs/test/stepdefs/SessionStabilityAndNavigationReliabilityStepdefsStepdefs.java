@@ -1,5 +1,6 @@
 package org.pacfs.test.stepdefs;
 
+import io.cucumber.java.PendingException;
 import io.cucumber.java.en.And;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
@@ -147,4 +148,5 @@ public class SessionStabilityAndNavigationReliabilityStepdefsStepdefs extends Ba
 
         Assert.assertTrue(CurrentPage.as(MyCourtsPage.class).IsSignOutLinkPresent());
     }
+
 }
