@@ -4,14 +4,18 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.How;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 import org.pacfs.framework.base.BasePage;
 import org.pacfs.framework.base.DriverContext;
 import org.pacfs.framework.base.LocalDriverContext;
 import org.pacfs.framework.controls.internals.Control;
 
+import java.time.Duration;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 public class CourtCasesDetailsPage extends BasePage {
 
@@ -312,4 +316,103 @@ public class CourtCasesDetailsPage extends BasePage {
                 && serviceText.contains(serviceName);
     }
 
+    public boolean isUserGuideLinkDisplayedOutsideFooter() {
+
+        DriverContext.waitForPageToLoad();
+
+        WebElement userGuideLink = LocalDriverContext.getRemoteWebDriver().findElement(
+                By.linkText("View user guide"));
+
+        new WebDriverWait(LocalDriverContext.getRemoteWebDriver(), Duration.ofSeconds(10))
+                .until(ExpectedConditions.elementToBeClickable(userGuideLink));
+
+        boolean displayed = userGuideLink.isDisplayed();
+        boolean enabled = userGuideLink.isEnabled();
+
+        // Check the link is not inside the footer
+        List<WebElement> footerLinks = LocalDriverContext.getRemoteWebDriver().findElement(By.tagName("footer"))
+                .findElements(By.linkText("View user guide"));
+
+        boolean outsideFooter = footerLinks.isEmpty();
+
+        return displayed
+                && enabled
+                && outsideFooter;
+    }
+
+    private String originalWindowHandle;
+
+    public UserGuideSharepointPacfsPage selectUserGuideLink() {
+
+        DriverContext.waitForPageToLoad();
+
+        originalWindowHandle = LocalDriverContext.getRemoteWebDriver().getWindowHandle();
+
+        WebElement userGuideLink = LocalDriverContext.getRemoteWebDriver().findElement(
+                By.linkText("View user guide"));
+
+        DriverContext.waitForElementVisible(userGuideLink);
+
+        userGuideLink.click();
+        return getInstance(UserGuideSharepointPacfsPage.class);
+    }
+
+    public boolean isUserGuideOpenedInNewTab() {
+
+        DriverContext.waitForPageToLoad();
+
+        Set<String> windowHandles = LocalDriverContext.getRemoteWebDriver().getWindowHandles();
+
+        if (windowHandles.size() != 2) {
+            return false;
+        }
+
+        for (String handle : windowHandles) {
+
+            if (!handle.equals(originalWindowHandle)) {
+
+                LocalDriverContext.getRemoteWebDriver().switchTo().window(handle);
+
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    public boolean isOriginalPACFSPageStillOpen() {
+
+        LocalDriverContext.getRemoteWebDriver().switchTo().window(originalWindowHandle);
+
+        DriverContext.waitForPageToLoad();
+
+        return LocalDriverContext.getRemoteWebDriver().getTitle().contains("Prepare a case for sentence");
+    }
+
+    public boolean isUserGuideRedirectedToApprovedLocation() {
+
+        DriverContext.waitForPageToLoad();
+
+        String currentUrl = LocalDriverContext.getRemoteWebDriver().getCurrentUrl();
+
+        WebElement heading = LocalDriverContext.getRemoteWebDriver().findElement(By.tagName("h2"));
+
+        return currentUrl.contains("https://justiceuk.sharepoint.com/sites/HMPPS_Group_CSA/")
+                && heading.isDisplayed()
+                && heading.getText().trim().equals("Get the most out of Prepare a case for sentence in and out of court");
+    }
+
+    public boolean isUserGuideContentDisplayed(String expectedUrl) {
+
+        DriverContext.waitForPageToLoad();
+
+        String currentUrl = LocalDriverContext.getRemoteWebDriver().getCurrentUrl();
+
+        WebElement heading = LocalDriverContext.getRemoteWebDriver().findElement(By.tagName("h2"));
+
+        return currentUrl.contains(expectedUrl)
+                && heading.isDisplayed()
+                && heading.getText().trim()
+                .equals("Get the most out of Prepare a case for sentence in and out of court");
+    }
 }
