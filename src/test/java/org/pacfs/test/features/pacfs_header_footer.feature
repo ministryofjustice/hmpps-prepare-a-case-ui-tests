@@ -25,31 +25,32 @@ Feature: PACFS Header and Footer Compliance
 #    When I navigate to different pages within PACFS
 #    Then the header should remain visible
 #    And the header should not change unexpectedly
-  Scenario: 4 Navigate to PACFS Home page using the Probation Digital Services header
+
+  Scenario: 3 Navigate to PACFS Home page using the Probation Digital Services header
     Given I am on any PACFS page
     When I click the "Probation Digital Services" link in the header
     Then I should be redirected to the PACFS Home page
 
   @Regression
-  Scenario: 5- Display logged in user details
+  Scenario: 4- Display logged in user details
     Given I am logged into PACFS
     When the page loads
     Then my user name should be displayed in the header
 
   @Regression
-  Scenario: 6- Cookies link opens the new Cookies page
+  Scenario: 5- Cookies link opens the new Cookies page
     Given I am on any PACFS page
     When I click the Cookies link in the footer
     Then the latest Cookies policy page should be displayed
 
   @Regression
-  Scenario: 7- Verify the What's New link is no longer displayed
+  Scenario: 6- Verify the What's New link is no longer displayed
     Given I am on any PACFS page
     When the footer is displayed
     Then the "What's New" link should not be visible
 
   @Regression
-  Scenario Outline: 8- Verify footer links
+  Scenario Outline: 7- Verify footer links
     Given I am on any PACFS page
     When I select "<Footer Link>" from My Courts
     Then the corresponding page should be displayed
@@ -75,7 +76,7 @@ Feature: PACFS Header and Footer Compliance
 #    And no unexpected errors should be displayed
 
   @Regression
-  Scenario: 11- Verify header and footer after refreshing the page
+  Scenario: 8- Verify header and footer after refreshing the page
     Given I am on any PACFS page
     When I refresh the page
     Then the header should still be displayed

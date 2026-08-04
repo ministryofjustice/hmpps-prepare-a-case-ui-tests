@@ -32,7 +32,7 @@ Feature: My Courts switcher
 #    And I should be able to select another court
 #    And the selected court should become my active court
 
-  Scenario: 5- Switch court from the Case Summary page
+  Scenario: 4- Switch court from the Case Summary page
     Given I am on the Cases page
     Given I am on the Case Summary page
     Then the My Courts component should be displayed in the new location

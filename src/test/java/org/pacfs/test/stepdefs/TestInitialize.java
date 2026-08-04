@@ -11,7 +11,13 @@ import org.pacfs.framework.base.LocalDriverContext;
 import org.pacfs.framework.config.ConfigReader;
 import org.pacfs.framework.config.Settings;
 import org.pacfs.framework.utilities.LogUtil;
+import ru.yandex.qatools.ashot.AShot;
+import ru.yandex.qatools.ashot.Screenshot;
+import ru.yandex.qatools.ashot.shooting.ShootingStrategies;
 
+import javax.imageio.ImageIO;
+import java.awt.image.RenderedImage;
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 
 /**
@@ -57,28 +63,81 @@ public class TestInitialize extends FrameworkInitialize {
     @After
     public void TearDownTest(Scenario scenario) {
 
-        // Logging
         Settings.logs.write(scenario.getName());
-        Settings.logs.write(String.format("Status is: %s", scenario.getName()));
 
         if (scenario.isFailed()) {
-            Settings.logs.write("ie. scenario Not KO : --> capture !");
-            Settings.logs.write("Take screenshot");
+
+            Settings.logs.write("Scenario failed - taking full page screenshot");
+
             try {
-                final byte[] screenshot = LocalDriverContext.getRemoteWebDriver().getScreenshotAs(OutputType.BYTES);
-                scenario.attach(screenshot, "image/png", "failure-screenshot");
+
+                Screenshot screenshot = new AShot()
+                        .shootingStrategy(
+                                ShootingStrategies.viewportPasting(1000)
+                        )
+                        .takeScreenshot(LocalDriverContext.getRemoteWebDriver());
+
+
+                ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+
+                ImageIO.write(
+                        screenshot.getImage(),
+                        "png",
+                        outputStream
+                );
+
+
+                scenario.attach(
+                        outputStream.toByteArray(),
+                        "image/png",
+                        "Full Page Failure Screenshot"
+                );
+
+
+                Settings.logs.write("Full page screenshot attached");
+
+
             } catch (Exception e) {
-                Settings.logs.write("Unable to take screenshot");
+
+                Settings.logs.write("Unable to take full page screenshot");
                 e.printStackTrace();
+
             }
         }
 
 
-        // Close browser
         Settings.logs.write("Closing browser");
+
         if (LocalDriverContext.getRemoteWebDriver() != null) {
-            LocalDriverContext.getRemoteWebDriver().close();
             LocalDriverContext.getRemoteWebDriver().quit();
         }
-    }//ahmed.awesu@beisdevtest.onmicrosoft.com
+    }
+
+//    @After
+//    public void TearDownTest(Scenario scenario) {
+//
+//        // Logging
+//        Settings.logs.write(scenario.getName());
+//        Settings.logs.write(String.format("Status is: %s", scenario.getName()));
+//
+//        if (scenario.isFailed()) {
+//            Settings.logs.write("ie. scenario Not KO : --> capture !");
+//            Settings.logs.write("Take screenshot");
+//            try {
+//                final byte[] screenshot = LocalDriverContext.getRemoteWebDriver().getScreenshotAs(OutputType.BYTES);
+//                scenario.attach(screenshot, "image/png", "failure-screenshot");
+//            } catch (Exception e) {
+//                Settings.logs.write("Unable to take screenshot");
+//                e.printStackTrace();
+//            }
+//        }
+//
+//
+//        // Close browser
+//        Settings.logs.write("Closing browser");
+//        if (LocalDriverContext.getRemoteWebDriver() != null) {
+//            LocalDriverContext.getRemoteWebDriver().close();
+//            LocalDriverContext.getRemoteWebDriver().quit();
+//        }
+//    }
 }
