@@ -61,7 +61,7 @@ Feature: PACFS page heading and title structure
 #    Then the page should display the correct H1 heading
 #    And the browser title should contain the correct page heading and service name
 
-  Scenario: 9- Verify PACFS pages follow correct heading hierarchy
+  Scenario: 7- Verify PACFS pages follow correct heading hierarchy
     Given I am on the My courts page
     When the My courts page is rendered
     Then the service name should be displayed as a caption

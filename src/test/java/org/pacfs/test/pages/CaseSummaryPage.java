@@ -5,6 +5,8 @@ import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.How;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 import org.pacfs.framework.base.BasePage;
 import org.pacfs.framework.base.DriverContext;
 import org.pacfs.framework.base.LocalDriverContext;
@@ -13,6 +15,8 @@ import java.awt.*;
 import java.awt.datatransfer.StringSelection;
 import java.awt.event.KeyEvent;
 import java.io.File;
+import java.time.Duration;
+import java.util.List;
 
 public class CaseSummaryPage extends BasePage {
 
@@ -373,5 +377,65 @@ public static String expectedDefendantName;
         return defendantNameHeading.isDisplayed()
                 && defendantNameHeading.getTagName().equalsIgnoreCase("h1")
                 && !defendantNameHeading.getText().trim().isEmpty();
+    }
+
+    public void clickViewWithoutAssigningIfDisplayed() {
+
+        WebDriverWait wait = new WebDriverWait(
+                LocalDriverContext.getRemoteWebDriver(),
+                Duration.ofSeconds(5)
+        );
+
+
+        List<WebElement> viewWithoutAssigning =
+                LocalDriverContext.getRemoteWebDriver().findElements(
+                        By.linkText("View without assigning")
+                );
+
+
+        if (!viewWithoutAssigning.isEmpty()
+                && viewWithoutAssigning.get(0).isDisplayed()) {
+
+            System.out.println("'View without assigning' popup displayed. Clicking...");
+
+            WebElement link = viewWithoutAssigning.get(0);
+
+            wait.until(ExpectedConditions.elementToBeClickable(link));
+
+            link.click();
+
+            System.out.println("'View without assigning' clicked successfully.");
+
+            DriverContext.waitForPageToLoad();
+
+        } else {
+
+            System.out.println("'View without assigning' popup not displayed. Continuing...");
+        }
+    }
+
+    public HearingOutcomesPage clickBackArrow() {
+
+        WebDriverWait wait = new WebDriverWait(
+                LocalDriverContext.getRemoteWebDriver(),
+                Duration.ofSeconds(10)
+        );
+
+
+        WebElement backLink =
+                wait.until(ExpectedConditions.elementToBeClickable(
+                        By.linkText("Back")
+                ));
+
+
+        System.out.println("Clicking Back arrow");
+
+        backLink.click();
+
+
+        DriverContext.waitForPageToLoad();
+
+        System.out.println("Returned to previous page successfully");
+        return getInstance(HearingOutcomesPage.class);
     }
 }

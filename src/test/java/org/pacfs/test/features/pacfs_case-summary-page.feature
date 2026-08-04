@@ -9,7 +9,7 @@ Feature: Case Summary Page - Defendant details, case actions and updates
     And I navigate to "Hearing outcome still to be added" tab
 
   @Regression
-  Scenario: View and validate defendant details on Case Summary page
+  Scenario: 1- View and validate defendant details on Case Summary page
     When I select a defendant from the case list
     Then I should be navigated to the Case Summary page
     And the defendant name should match the value from the cases page
@@ -17,7 +17,7 @@ Feature: Case Summary Page - Defendant details, case actions and updates
     And the probation status should match the value from the cases page
 
   @Regression
-  Scenario: Add comments under Case Summary page
+  Scenario: 2- Add comments under Case Summary page
     Given I am on the Case Summary page
     When I add a comment with notes and observations about the case
     Then the comment should be saved and visible to colleagues
@@ -26,7 +26,7 @@ Feature: Case Summary Page - Defendant details, case actions and updates
     And the success message "You successfully deleted a note" should be displayed
 
   @Regression
-  Scenario: Edit comments under Case Summary page
+  Scenario: 3- Edit comments under Case Summary page
     Given I am on the Case Summary page
     When I add a comment with notes and observations about the case
     Then the comment should be saved and visible to colleagues
@@ -35,7 +35,7 @@ Feature: Case Summary Page - Defendant details, case actions and updates
     And I delete the hearing note that was just created
     And the success message "You successfully deleted a note" should be displayed
 
-  Scenario Outline: Upload documents to a case from Case Summary page
+  Scenario Outline: 4- Upload documents to a case from Case Summary page
     Given I am on the Case Summary page
     When I upload the file "<fileName>"
     Then the uploaded file "<fileName>" should be displayed

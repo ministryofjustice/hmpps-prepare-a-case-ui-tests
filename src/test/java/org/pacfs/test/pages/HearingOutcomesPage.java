@@ -1,6 +1,7 @@
 package org.pacfs.test.pages;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.FindBy;
@@ -10,10 +11,13 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import org.pacfs.framework.base.BasePage;
 import org.pacfs.framework.base.DriverContext;
 import org.pacfs.framework.base.LocalDriverContext;
+import org.pacfs.framework.config.Settings;
 import org.pacfs.framework.controls.internals.Control;
 import org.testng.Assert;
 
 import java.time.Duration;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
 
 public class HearingOutcomesPage extends BasePage {
@@ -46,6 +50,30 @@ public class HearingOutcomesPage extends BasePage {
 
     @FindBy(how = How.XPATH, using = "//span[contains(text(),\"Oxford and Southern Oxfordshire Magistrates' Court\")]")
     private WebElement activeCourtOxfordAndSouthern;
+
+    @FindBy(how = How.XPATH, using = "//h2[contains(text(),'Cases to result')]")
+    private WebElement casesToResultHeader;
+
+    @FindBy(how = How.XPATH, using = "//table/thead/descendant::th[position()=2]")
+    private WebElement resultsTable;
+
+    @FindBy(id = "button-hearing-outcome-sort")
+    private WebElement hearingDateColumnHeading;
+
+    @FindBy(id = "button-hearing-outcome-sort")
+    private WebElement hearingDateSortButton;
+
+    @FindBy(id = "button-hearing-outcome-defendant-sort")
+    private WebElement defendantSortButton;
+
+    @FindBy(id = "button-hearing-outcome-defendant-sort")
+    private WebElement hearingDefendantLastNameColumnHeading;
+
+    @FindBy(id = "button-hearing-outcome-probation-status-sort")
+    private WebElement probationStatusSortButton;
+
+    @FindBy(id = "button-hearing-outcome-probation-status-sort")
+    private WebElement hearingProbationStatusColumnHeading;
 
 
     public void validateDuplicateDefendantNamesAcrossPages2() {
@@ -1330,5 +1358,630 @@ public class HearingOutcomesPage extends BasePage {
     public boolean ConfirmActiveCourtOxfordAndSouthern(){
 
         return DriverContext.isElementPresent(activeCourtOxfordAndSouthern);
+    }
+
+    public boolean isCasesToResultHeaderDisplayed() {
+
+        try {
+
+            WebDriverWait wait = new WebDriverWait(
+                    LocalDriverContext.getRemoteWebDriver(),
+                    Duration.ofSeconds(10)
+            );
+
+//            WebElement header = wait.until(
+//                    ExpectedConditions.visibilityOfElementLocated((By) casesToResultHeader)
+//            );
+
+            return casesToResultHeader.isDisplayed();
+
+        } catch (TimeoutException e) {
+
+            return false;
+        }
+    }
+
+
+
+    public boolean isResultsTableDisplayed() {
+
+        try {
+
+            WebDriverWait wait = new WebDriverWait(
+                    LocalDriverContext.getRemoteWebDriver(),
+                    Duration.ofSeconds(10)
+            );
+
+//            WebElement table = wait.until(
+//                    ExpectedConditions.visibilityOfElementLocated((By) resultsTable)
+//            );
+
+            return casesToResultHeader.isDisplayed();
+
+        } catch (TimeoutException e) {
+
+            return false;
+        }
+    }
+
+    public void validateCasesAreSortedByOldestHearingDate() {
+
+        List<LocalDate> actualDates = new ArrayList<>();
+
+        DateTimeFormatter formatter =
+                DateTimeFormatter.ofPattern("d MMM yyyy", Locale.UK);
+
+        int currentPage = 1;
+
+        while (true) {
+
+            System.out.println("========== PAGE " + currentPage + " ==========");
+
+            List<WebElement> hearingDates =
+                    LocalDriverContext.getRemoteWebDriver().findElements(
+                            By.xpath("//tr[@class='govuk-table__row']/child::td[position()=6]"));
+
+            for (WebElement dateCell : hearingDates) {
+
+                String hearingDate = dateCell.getText().trim();
+
+                System.out.println(hearingDate);
+
+                if (!hearingDate.isEmpty()) {
+
+                    actualDates.add(
+                            LocalDate.parse(hearingDate, formatter)
+                    );
+                }
+            }
+
+            // Find Next button
+
+            List<WebElement> nextButtons =
+                    LocalDriverContext.getRemoteWebDriver().findElements(
+                            //By.xpath("//nav[contains(@class,'moj-pagination')]//span[contains(text(),'Next')]"));
+                            By.xpath("//nav[contains(@class,'moj-pagination')]//a[@rel='next']"));
+
+
+            if (nextButtons.isEmpty()) {
+
+                System.out.println("No more pages.");
+
+                break;
+            }
+
+            WebElement nextButton = nextButtons.get(0);
+
+            if (!nextButton.isDisplayed() || !nextButton.isEnabled()) {
+
+                break;
+            }
+
+            nextButton.click();
+
+            WebDriverWait wait = new WebDriverWait(
+                    LocalDriverContext.getRemoteWebDriver(),
+                    Duration.ofSeconds(10));
+
+            wait.until(ExpectedConditions.presenceOfAllElementsLocatedBy(
+                    By.xpath("//tr[@class='govuk-table__row']/child::td[position()=6]")));
+
+            currentPage++;
+        }
+
+
+        // Create expected sorted list
+
+        List<LocalDate> expectedDates = new ArrayList<>(actualDates);
+
+        Collections.sort(expectedDates);
+
+
+        Assert.assertEquals(
+                expectedDates,
+                actualDates,
+                "Cases are NOT sorted by Hearing Date (Oldest -> Newest)");
+    }
+
+    public String getHearingDateColumnHeading() {
+
+        DriverContext.waitForElementVisible(hearingDateColumnHeading);
+
+        return hearingDateColumnHeading.getText().trim();
+    }
+
+    public List<LocalDate> getAllHearingDates() {
+
+        List<LocalDate> actualDates = new ArrayList<>();
+
+        DateTimeFormatter formatter =
+                DateTimeFormatter.ofPattern("d MMM yyyy", Locale.UK);
+
+        int currentPage = 1;
+
+        while (true) {
+
+            System.out.println("========== PAGE " + currentPage + " ==========");
+
+            DriverContext.waitForPageToLoad();
+
+            List<WebElement> hearingDates =
+                    LocalDriverContext.getRemoteWebDriver().findElements(
+                            By.xpath("//tr[@class='govuk-table__row']/child::td[position()=6]"));
+
+            for (WebElement dateCell : hearingDates) {
+
+                String hearingDate = dateCell.getText().trim();
+
+                if (!hearingDate.isEmpty()) {
+
+                    LocalDate parsedDate =
+                            LocalDate.parse(hearingDate, formatter);
+
+                    actualDates.add(parsedDate);
+
+                    System.out.println(parsedDate);
+                }
+            }
+
+            List<WebElement> nextButtons =
+                    LocalDriverContext.getRemoteWebDriver().findElements(
+                            By.xpath("//nav[contains(@class,'moj-pagination')]//a[@rel='next']"));
+
+            if (nextButtons.isEmpty()) {
+                break;
+            }
+
+            WebElement nextButton = nextButtons.get(0);
+
+            WebDriverWait wait = new WebDriverWait(
+                    LocalDriverContext.getRemoteWebDriver(),
+                    Duration.ofSeconds(10));
+
+            wait.until(ExpectedConditions.elementToBeClickable(nextButton));
+
+            nextButton.click();
+
+            wait.until(ExpectedConditions.presenceOfAllElementsLocatedBy(
+                    By.xpath("//tr[@class='govuk-table__row']/child::td[position()=6]")));
+
+            currentPage++;
+        }
+
+        return actualDates;
+    }
+
+    public void clickHearingDateSortingArrow() {
+
+        DriverContext.waitForElementToBeClickable(hearingDateSortButton);
+
+        //hearingDateSortButton.click();
+
+        Settings.logs.write("Clicked Hearing Date sorting arrow.");
+    }
+
+    public List<LocalDate> getAllHearingDates2() {
+
+        List<LocalDate> actualDates = new ArrayList<>();
+
+        DateTimeFormatter formatter =
+                DateTimeFormatter.ofPattern("d MMM yyyy", Locale.UK);
+
+        int currentPage = 1;
+
+        while (true) {
+
+            System.out.println("========== PAGE " + currentPage + " ==========");
+
+            List<WebElement> hearingDates =
+                    LocalDriverContext.getRemoteWebDriver().findElements(
+                            By.xpath("//tr[@class='govuk-table__row']/child::td[position()=6]"));
+
+            for (WebElement dateCell : hearingDates) {
+
+                String hearingDate = dateCell.getText().trim();
+
+                if (!hearingDate.isEmpty()) {
+
+                    LocalDate parsedDate =
+                            LocalDate.parse(hearingDate, formatter);
+
+                    actualDates.add(parsedDate);
+
+                    System.out.println(parsedDate);
+                }
+            }
+
+            List<WebElement> nextButtons =
+                    LocalDriverContext.getRemoteWebDriver().findElements(
+                            By.xpath("//nav[contains(@class,'moj-pagination')]//a[@rel='next']"));
+
+            if (nextButtons.isEmpty()) {
+
+                break;
+            }
+
+            WebElement nextButton = nextButtons.get(0);
+
+            WebDriverWait wait = new WebDriverWait(
+                    LocalDriverContext.getRemoteWebDriver(),
+                    Duration.ofSeconds(10));
+
+            wait.until(ExpectedConditions.elementToBeClickable(nextButton));
+
+            nextButton.click();
+
+            wait.until(ExpectedConditions.presenceOfAllElementsLocatedBy(
+                    By.xpath("//tr[@class='govuk-table__row']/child::td[position()=6]")));
+
+            currentPage++;
+        }
+
+        return actualDates;
+    }
+
+    public void clickDefendantSortingArrow() {
+
+        WebDriverWait wait = new WebDriverWait(
+                LocalDriverContext.getRemoteWebDriver(),
+                Duration.ofSeconds(10));
+
+        // Capture the first row before sorting
+        WebElement firstRow = LocalDriverContext.getRemoteWebDriver().findElement(
+                By.xpath("//table//tbody/tr[1]"));
+
+        wait.until(ExpectedConditions.elementToBeClickable(defendantSortButton));
+
+        defendantSortButton.click();
+
+        // Wait for the old table row to become stale (table refresh)
+        wait.until(ExpectedConditions.stalenessOf(firstRow));
+
+        // Wait until the new table is loaded
+        wait.until(ExpectedConditions.presenceOfAllElementsLocatedBy(
+                By.xpath("//table//tbody/tr")));
+    }
+
+    public List<String> getAllDefendantLastNames() {
+
+        List<String> actualLastNames = new ArrayList<>();
+
+        int currentPage = 1;
+
+        while (true) {
+
+            System.out.println("========== PAGE " + currentPage + " ==========");
+
+            List<WebElement> defendantRows =
+                    LocalDriverContext.getRemoteWebDriver().findElements(
+                            By.xpath("//tr[@class='govuk-table__row']/child::td[position()=2]/child::a"));
+
+            for (WebElement row : defendantRows) {
+
+                String fullName = row.getText().trim();
+
+                System.out.println(fullName);
+
+                if (!fullName.isEmpty()) {
+
+                    actualLastNames.add(extractLastName(fullName));
+                    //System.out.println("*** Here lastname: "+ extractLastName(fullName));
+                }
+            }
+
+            // Find Next button
+            List<WebElement> nextButtons =
+                    LocalDriverContext.getRemoteWebDriver().findElements(
+                            By.xpath("//nav[contains(@class,'moj-pagination')]//a[@rel='next']"));
+
+            if (nextButtons.isEmpty()) {
+
+                System.out.println("No more pages.");
+
+                break;
+            }
+
+            WebElement nextButton = nextButtons.get(0);
+
+            WebDriverWait wait = new WebDriverWait(
+                    LocalDriverContext.getRemoteWebDriver(),
+                    Duration.ofSeconds(10));
+
+            wait.until(ExpectedConditions.elementToBeClickable(nextButton));
+
+            nextButton.click();
+
+            wait.until(ExpectedConditions.presenceOfAllElementsLocatedBy(
+                    By.xpath("//tr[@class='govuk-table__row']/child::td[position()=2]/child::a")));
+
+            currentPage++;
+        }
+
+        return actualLastNames;
+    }
+
+    private String extractLastName(String fullName) {
+
+        String[] names = fullName.trim().split("\\s+");
+
+        return names[names.length - 1];
+    }
+
+    public String getDefendantLastNameColumnHeading() {
+
+        DriverContext.waitForElementVisible(hearingDefendantLastNameColumnHeading);
+
+        return hearingDefendantLastNameColumnHeading.getText().trim();
+    }
+
+    public void clickProbationStatusSortingArrow() {
+
+        WebDriverWait wait = new WebDriverWait(
+                LocalDriverContext.getRemoteWebDriver(),
+                Duration.ofSeconds(10));
+
+        wait.until(ExpectedConditions.elementToBeClickable(probationStatusSortButton));
+
+        probationStatusSortButton.click();
+
+        // Wait for the table to refresh
+        wait.until(ExpectedConditions.presenceOfAllElementsLocatedBy(
+                By.xpath("//tr[@class='govuk-table__row']")));
+    }
+
+    public List<String> getAllProbationStatuses() {
+
+        List<String> probationStatuses = new ArrayList<>();
+
+        int currentPage = 1;
+
+        while (true) {
+
+            System.out.println("========== PAGE " + currentPage + " ==========");
+
+            List<WebElement> rows =
+                    LocalDriverContext.getRemoteWebDriver().findElements(
+                            By.xpath("//tr[@class='govuk-table__row']/child::td[position()=4]"));
+
+            for (WebElement row : rows) {
+
+                String status = row.getText().trim();
+
+                System.out.println(status);
+
+                if (!status.isEmpty()) {
+                    probationStatuses.add(status);
+                }
+            }
+
+            List<WebElement> nextButtons =
+                    LocalDriverContext.getRemoteWebDriver().findElements(
+                            By.xpath("//nav[contains(@class,'moj-pagination')]//a[@rel='next']"));
+
+            if (nextButtons.isEmpty()) {
+                break;
+            }
+
+            WebElement nextButton = nextButtons.get(0);
+
+            WebDriverWait wait = new WebDriverWait(
+                    LocalDriverContext.getRemoteWebDriver(),
+                    Duration.ofSeconds(10));
+
+            wait.until(ExpectedConditions.elementToBeClickable(nextButton));
+
+            nextButton.click();
+
+            wait.until(ExpectedConditions.presenceOfAllElementsLocatedBy(
+                    By.xpath("//tr[@class='govuk-table__row']/child::td[position()=4]")));
+
+            currentPage++;
+        }
+
+        return probationStatuses;
+    }
+
+    public String getProbationStatusColumnHeading() {
+
+        DriverContext.waitForElementVisible(hearingProbationStatusColumnHeading);
+
+        return hearingProbationStatusColumnHeading.getText().trim();
+    }
+
+    public void clickPreviousPage() {
+
+        WebDriverWait wait = new WebDriverWait(
+                LocalDriverContext.getRemoteWebDriver(),
+                Duration.ofSeconds(10)
+        );
+
+
+        // Locate Previous button
+        WebElement previousButton =
+                wait.until(ExpectedConditions.elementToBeClickable(
+                        By.xpath("//a[@rel='prev']")
+                ));
+
+
+        System.out.println("Clicking Previous page button");
+
+
+        // Capture current page first row to confirm page refresh
+        WebElement firstRowBeforeClick =
+                LocalDriverContext.getRemoteWebDriver().findElement(
+                        By.xpath("//tr[@class='govuk-table__row'][1]")
+                );
+
+
+        previousButton.click();
+
+
+        // Wait until previous page loads
+        wait.until(ExpectedConditions.stalenessOf(firstRowBeforeClick));
+
+
+        wait.until(ExpectedConditions.presenceOfAllElementsLocatedBy(
+                By.xpath("//tr[@class='govuk-table__row']")
+        ));
+
+
+        System.out.println("Previous page loaded successfully");
+    }
+
+    public void clickNextPage() {
+
+        WebDriverWait wait = new WebDriverWait(
+                LocalDriverContext.getRemoteWebDriver(),
+                Duration.ofSeconds(10)
+        );
+
+
+        // Locate Next button
+        WebElement nextButton =
+                wait.until(ExpectedConditions.elementToBeClickable(
+                        By.xpath("//a[@rel='next']")
+                ));
+
+
+        System.out.println("Clicking Next page button");
+
+
+        // Capture current page first row before navigation
+        WebElement firstRowBeforeClick =
+                LocalDriverContext.getRemoteWebDriver().findElement(
+                        By.xpath("//tr[@class='govuk-table__row'][1]")
+                );
+
+
+        nextButton.click();
+
+
+        // Wait until previous page content becomes stale
+        wait.until(ExpectedConditions.stalenessOf(firstRowBeforeClick));
+
+
+        // Wait for new page table rows to load
+        wait.until(ExpectedConditions.presenceOfAllElementsLocatedBy(
+                By.xpath("//tr[@class='govuk-table__row']")
+        ));
+
+
+        System.out.println("Next page loaded successfully");
+    }
+
+    //public static String selectedDefendantName;
+
+
+    public CaseSummaryPage selectFirstCaseFromResults() {
+
+
+        WebDriverWait wait = new WebDriverWait(
+                LocalDriverContext.getRemoteWebDriver(),
+                Duration.ofSeconds(10)
+        );
+
+
+        // ==============================
+        // LOCATE FIRST DEFENDANT LINK
+        // ==============================
+
+        WebElement defendantNameElement =
+                wait.until(ExpectedConditions.elementToBeClickable(
+                        By.xpath("//table/tbody/tr[1]/td[position()=2]/a")
+                ));
+
+
+        // ==============================
+        // CAPTURE DEFENDANT NAME
+        // ==============================
+
+        selectedDefendantName =
+                defendantNameElement.getText().trim();
+
+
+        System.out.println(
+                "Selected Defendant Name: " + selectedDefendantName
+        );
+
+
+        // ==============================
+        // CLICK DEFENDANT LINK
+        // ==============================
+
+        defendantNameElement.click();
+
+
+        System.out.println(
+                "Opened case for Defendant: " + selectedDefendantName
+        );
+
+
+        // ==============================
+        // WAIT FOR CASE SUMMARY PAGE
+        // ==============================
+
+        DriverContext.waitForPageToLoad();
+
+
+        return getInstance(CaseSummaryPage.class);
+    }
+
+    public void clickViewWithoutAssigningIfDisplayed() {
+
+        WebDriverWait wait = new WebDriverWait(
+                LocalDriverContext.getRemoteWebDriver(),
+                Duration.ofSeconds(5)
+        );
+
+
+        List<WebElement> viewWithoutAssigning =
+                LocalDriverContext.getRemoteWebDriver().findElements(
+                        By.linkText("View without assigning")
+                );
+
+
+        if (!viewWithoutAssigning.isEmpty()
+                && viewWithoutAssigning.get(0).isDisplayed()) {
+
+            System.out.println("'View without assigning' popup displayed. Clicking...");
+
+            WebElement link = viewWithoutAssigning.get(0);
+
+            wait.until(ExpectedConditions.elementToBeClickable(link));
+
+            link.click();
+
+            System.out.println("'View without assigning' clicked successfully.");
+
+            DriverContext.waitForPageToLoad();
+
+        } else {
+
+            System.out.println("'View without assigning' popup not displayed. Continuing...");
+        }
+    }
+
+    public void clickBackArrow() {
+
+        WebDriverWait wait = new WebDriverWait(
+                LocalDriverContext.getRemoteWebDriver(),
+                Duration.ofSeconds(10)
+        );
+
+
+        WebElement backLink =
+                wait.until(ExpectedConditions.elementToBeClickable(
+                        By.linkText("Back")
+                ));
+
+
+        System.out.println("Clicking Back arrow");
+
+        backLink.click();
+
+
+        DriverContext.waitForPageToLoad();
+
+        System.out.println("Returned to previous page successfully");
     }
 }

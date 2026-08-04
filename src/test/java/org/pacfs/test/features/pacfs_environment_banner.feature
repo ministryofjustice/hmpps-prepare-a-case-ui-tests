@@ -25,14 +25,14 @@ Feature: Display environment label in PACFS header
 #    Then the "DEV or PRE-PRODUCTION" environment label should not be displayed in the header
 #    And the service name "Probation Digital Services" should remain displayed
 
-  Scenario: 4- Maintain environment label across PACFS pages
+  Scenario: 2- Maintain environment label across PACFS pages
     Given I am using the PACFS "DEV" environment
     And the environment label is displayed in the header
     When I navigate between PACFS pages
     Then the same environment label should remain displayed in the header
     And the label should remain next to "Probation Digital Services"
 
-  Scenario: 5- Environment label remains visible when navigating through the service
+  Scenario: 3- Environment label remains visible when navigating through the service
     Given I am using the PACFS "DEV" environment
     When I navigate to different areas of the PACFS service
     Then the environment label should remain visible

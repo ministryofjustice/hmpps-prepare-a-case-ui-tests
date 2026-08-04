@@ -10,12 +10,12 @@ Feature: Validate Outcomes page pagination, sorting and data consistency
     And the "Cases" tab should be selected by default
 
    @Outcomes @test
-  Scenario: Outcomes page does not display duplicate cases
+  Scenario: 1- Outcomes page does not display duplicate cases
     Given I navigate to the "Outcomes" tab
     Then I verify that defendant names across all pagination pages in the Outcomes tab are unique and consistently ordered
 
    @Outcomes
-  Scenario: Assign a defendant case and move it to resulted cases
+  Scenario: 2- Assign a defendant case and move it to resulted cases
     Given I navigate to the "Outcomes" tab
     When I select the defendant name from the case results
     And I assign the case to myself using the "Actions" button
