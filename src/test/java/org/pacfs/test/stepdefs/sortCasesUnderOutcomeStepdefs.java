@@ -7,6 +7,7 @@ import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 import org.pacfs.framework.base.Base;
+import org.pacfs.framework.base.DriverContext;
 import org.pacfs.framework.config.Settings;
 import org.pacfs.test.pages.*;
 import org.testng.Assert;
@@ -33,9 +34,15 @@ public class sortCasesUnderOutcomeStepdefs extends Base {
     @And("I navigate to the Cases to Result page under the Outcomes flow")
     public void iNavigateToTheCasesToResultPageUnderTheOutcomesFlow() {
 
+        DriverContext.waitForPageToLoad();
+
         CurrentPage = CurrentPage.as(MyCourtsPage.class).clickLinkByText("Oxford and Southern Oxfordshire Magistrates' Court");
 
+        DriverContext.waitForPageToLoad();
+
         CurrentPage = CurrentPage.as(CourtCasesDetailsPage.class).ClickOutcomeTab();
+
+        DriverContext.waitForPageToLoad();
     }
 
     @And("the Cases to Result table has loaded successfully")
@@ -215,6 +222,7 @@ public class sortCasesUnderOutcomeStepdefs extends Base {
     @Given("cases are currently sorted by Defendant last name from A to Z")
     public void casesAreCurrentlySortedByDefendantLastNameFromAToZ() {
 
+        DriverContext.waitForPageToLoad();
         theCasesToResultPageHasLoaded();
         iClickTheSortingArrowOnTheDefendantColumn();
         theCasesShouldBeSortedAlphabeticallyFromAToZUsingTheDefendantLastName();

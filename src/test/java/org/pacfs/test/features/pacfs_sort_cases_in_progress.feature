@@ -77,7 +77,7 @@ Feature: Sort Cases in the In Progress Outcomes Table
     Then the cases should be sorted in the following order
       | Probation Status |
       | Current |
-      | Previously known |
+      | Pre-sentence record |
       | No record |
 #    And the Probation Status sorting arrow should point down
     And the Hearing Date sorting should be reset
@@ -87,8 +87,9 @@ Feature: Sort Cases in the In Progress Outcomes Table
     Given the Probation Status column is sorted ascending
     When the Case Admin clicks the Probation Status sorting arrow again
     Then the cases should be sorted in the following order
+    | Probation Status |  
       | No record |
-      | Previously known |
+      | Pre-sentence record |
       | Current |
 #    And the Probation Status sorting arrow should point up
 

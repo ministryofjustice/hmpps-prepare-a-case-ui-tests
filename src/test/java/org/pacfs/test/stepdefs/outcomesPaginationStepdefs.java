@@ -6,6 +6,7 @@ import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 import org.pacfs.framework.base.Base;
+import org.pacfs.framework.base.DriverContext;
 import org.pacfs.framework.config.Settings;
 import org.pacfs.test.pages.CourtCasesDetailsPage;
 import org.pacfs.test.pages.HearingOutcomesPage;
@@ -25,17 +26,21 @@ public class outcomesPaginationStepdefs extends Base {
         CurrentPage.as(SignInPage.class).EnterPassword(Settings.Password);
 
         CurrentPage = CurrentPage.as(SignInPage.class).ClickSignInButton();
+
+        DriverContext.waitForPageToLoad();
     }
 
     @And("I am on the {string} page")
     public void iAmOnThePage(String value) {
 
+        DriverContext.waitForPageToLoad();
         Assert.assertEquals(CurrentPage.as(MyCourtsPage.class).GetMyCourtsText(),value);
     }
 
     @When("I select the {string} court")
     public void iSelectTheCourt(String NameOfCourt) {
 
+        DriverContext.waitForPageToLoad();
         CurrentPage = CurrentPage.as(MyCourtsPage.class).clickLinkByText(NameOfCourt);
     }
 
@@ -48,6 +53,8 @@ public class outcomesPaginationStepdefs extends Base {
     @And("the {string} tab should be selected by default")
     public void theTabShouldBeSelectedByDefault(String selectedVal) {
 
+        DriverContext.waitForPageToLoad();
+
         if(selectedVal.equalsIgnoreCase("Cases")){
 
             Assert.assertTrue(CurrentPage.as(CourtCasesDetailsPage.class).CheckCasesTabSelected());
@@ -56,6 +63,8 @@ public class outcomesPaginationStepdefs extends Base {
 
     @Given("I navigate to the {string} tab")
     public void iNavigateToTheTab(String selectedVal) {
+
+        DriverContext.waitForPageToLoad();
 
         if(selectedVal.equalsIgnoreCase("Outcomes")){
 
@@ -75,6 +84,7 @@ public class outcomesPaginationStepdefs extends Base {
     @Then("I verify that defendant names across all pagination pages in the Outcomes tab are unique and consistently ordered")
     public void iVerifyThatDefendantNamesAcrossAllPaginationPagesInTheOutcomesTabAreUniqueAndConsistentlyOrdered() {
 
+        DriverContext.waitForPageToLoad();
         //CurrentPage.As(HearingOutcomesPage.class).validateDuplicateDefendantNamesAcrossPages2();
         CurrentPage.as(HearingOutcomesPage.class).validateDuplicateDefendantHrefsAcrossPages();
     }
@@ -84,17 +94,20 @@ public class outcomesPaginationStepdefs extends Base {
 
         //CurrentPage.As(HearingOutcomesPage.class).selectFirstDefendantCheckbox();
         CurrentPage.as(HearingOutcomesPage.class).selectFirstDefendantCheckbox2();
+        DriverContext.waitForPageToLoad();
     }
 
     @And("I assign the case to myself using the {string} button")
     public void iAssignTheCaseToMyselfUsingTheButton(String arg0) {
 
+        DriverContext.waitForPageToLoad();
         CurrentPage.as(HearingOutcomesPage.class).assignSelectedCaseToMe();
     }
 
     @Then("I should see the success message {string}")
     public void iShouldSeeTheSuccessMessage(String mgs) {
 
+        DriverContext.waitForPageToLoad();
         if(mgs.equalsIgnoreCase("You are assigned to result <selectedDefendantName>. Their case has moved to the in progress tab.")) {
 
             CurrentPage.as(HearingOutcomesPage.class).validateAssignToMeSuccessMessage();
@@ -108,6 +121,7 @@ public class outcomesPaginationStepdefs extends Base {
     @And("the defendant name should no longer appear in the Outcomes case results list")
     public void theDefendantNameShouldNoLongerAppearInTheOutcomesCaseResultsList() {
 
+        DriverContext.waitForPageToLoad();
         //CurrentPage.As(HearingOutcomesPage.class).validateSelectedDefendantNameNoLongerExistsAcrossPages();
         CurrentPage.as(HearingOutcomesPage.class).validateSelectedDefendantHrefNoLongerExistsAcrossPages();
     }
@@ -115,6 +129,7 @@ public class outcomesPaginationStepdefs extends Base {
     @Then("I should see the defendant name in the in progress cases list")
     public void iShouldSeeTheDefendantNameInTheInProgressCasesList() {
 
+        DriverContext.waitForPageToLoad();
         //CurrentPage.As(HearingOutcomesPage.class).validateSelectedDefendantExistsAcrossPages();
         CurrentPage.as(HearingOutcomesPage.class).validateSelectedDefendantExistsAcrossPages2();
     }
@@ -122,6 +137,7 @@ public class outcomesPaginationStepdefs extends Base {
     @When("I select the {string} action for defendant")
     public void iSelectTheActionForDefendant(String arg0) {
 
+        DriverContext.waitForPageToLoad();
         //CurrentPage.As(HearingOutcomesPage.class).clickMoveToResultedForSelectedDefendant();
         CurrentPage.as(HearingOutcomesPage.class).clickMoveToResultedForSelectedDefendant3();
     }
@@ -129,6 +145,7 @@ public class outcomesPaginationStepdefs extends Base {
     @Then("I should see the defendant name in the resulted cases list")
     public void iShouldSeeTheDefendantNameInTheResultedCasesList() {
 
+        DriverContext.waitForPageToLoad();
         CurrentPage.as(HearingOutcomesPage.class).validateSelectedDefendantExistsAcrossPages22();
     }
 }
