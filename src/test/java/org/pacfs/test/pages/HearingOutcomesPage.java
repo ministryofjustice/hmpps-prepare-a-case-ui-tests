@@ -75,6 +75,14 @@ public class HearingOutcomesPage extends BasePage {
     @FindBy(id = "button-hearing-outcome-probation-status-sort")
     private WebElement hearingProbationStatusColumnHeading;
 
+    @FindBy(xpath = "//table/tbody/tr[1]/td[position()=1]/a")
+    private WebElement defendantLink;
+
+
+
+
+
+
 
     public void validateDuplicateDefendantNamesAcrossPages2() {
 
@@ -138,6 +146,7 @@ public class HearingOutcomesPage extends BasePage {
 
             nextButton.click();
 
+            DriverContext.waitForPageToLoad();
             // Wait for next page to load
             WebDriverWait wait = new WebDriverWait(
                     LocalDriverContext.getRemoteWebDriver(),
@@ -244,6 +253,7 @@ public class HearingOutcomesPage extends BasePage {
 
             nextButton.click();
 
+            DriverContext.waitForPageToLoad();
             WebDriverWait wait = new WebDriverWait(
                     LocalDriverContext.getRemoteWebDriver(),
                     Duration.ofSeconds(10));
@@ -314,6 +324,7 @@ public class HearingOutcomesPage extends BasePage {
 
             checkbox.click();
 
+            DriverContext.waitForPageToLoad();
             System.out.println("Checkbox selected for: " + selectedDefendantName);
         }
     }
@@ -342,6 +353,7 @@ public class HearingOutcomesPage extends BasePage {
 
             checkbox.click();
 
+            DriverContext.waitForPageToLoad();
             System.out.println("Checkbox selected for href: " + selectedDefendantHref);
         }
     }
@@ -383,6 +395,7 @@ public class HearingOutcomesPage extends BasePage {
 
         assignToMeButton.click();
 
+        DriverContext.waitForPageToLoad();
         System.out.println("Clicked Assign to me");
     }
 
@@ -482,6 +495,7 @@ public class HearingOutcomesPage extends BasePage {
 
             nextButton.click();
 
+            DriverContext.waitForPageToLoad();
             // Wait for next page to load
             WebDriverWait wait = new WebDriverWait(
                     LocalDriverContext.getRemoteWebDriver(),
@@ -582,6 +596,7 @@ public class HearingOutcomesPage extends BasePage {
 
             nextButton.click();
 
+            DriverContext.waitForPageToLoad();
             WebDriverWait wait = new WebDriverWait(
                     LocalDriverContext.getRemoteWebDriver(),
                     Duration.ofSeconds(10));
@@ -629,6 +644,8 @@ public class HearingOutcomesPage extends BasePage {
     public void ClickInProgressTab(){
 
         DriverContext.waitForElementToBeClickable(InProgressTab);
+
+        DriverContext.waitForPageToLoad();
     }
 
     public void validateSelectedDefendantExistsAcrossPages() {
@@ -681,6 +698,7 @@ public class HearingOutcomesPage extends BasePage {
             System.out.println("Clicking Next button...");
             nextButton.click();
 
+            DriverContext.waitForPageToLoad();
             WebDriverWait wait = new WebDriverWait(
                     LocalDriverContext.getRemoteWebDriver(),
                     Duration.ofSeconds(10));
@@ -768,6 +786,7 @@ public class HearingOutcomesPage extends BasePage {
             System.out.println("Clicking Next button...");
             nextButton.click();
 
+            DriverContext.waitForPageToLoad();
             WebDriverWait wait = new WebDriverWait(
                     LocalDriverContext.getRemoteWebDriver(),
                     Duration.ofSeconds(10));
@@ -857,6 +876,7 @@ public class HearingOutcomesPage extends BasePage {
             System.out.println("Clicking Next button...");
             nextButton.click();
 
+            DriverContext.waitForPageToLoad();
             WebDriverWait wait = new WebDriverWait(
                     LocalDriverContext.getRemoteWebDriver(),
                     Duration.ofSeconds(10));
@@ -947,6 +967,7 @@ public class HearingOutcomesPage extends BasePage {
 
                     moveToResultedButton.click();
 
+                    DriverContext.waitForPageToLoad();
                     System.out.println("Clicked 'Move to resulted' button");
 
                     defendantFound = true;
@@ -995,6 +1016,7 @@ public class HearingOutcomesPage extends BasePage {
 
             nextButton.click();
 
+            DriverContext.waitForPageToLoad();
             wait.until(ExpectedConditions.presenceOfAllElementsLocatedBy(
                     By.xpath("//tbody[@class='govuk-table__body']/child::tr")));
 
@@ -1061,6 +1083,7 @@ public class HearingOutcomesPage extends BasePage {
 
                     moveToResultedButton.click();
 
+                    DriverContext.waitForPageToLoad();
                     System.out.println("Clicked 'Move to resulted' button");
 
                     defendantFound = true;
@@ -1105,6 +1128,7 @@ public class HearingOutcomesPage extends BasePage {
 
             nextButton.click();
 
+            DriverContext.waitForPageToLoad();
             wait.until(ExpectedConditions.presenceOfAllElementsLocatedBy(
                     By.xpath("//tbody[@class='govuk-table__body']/child::tr")));
 
@@ -1223,6 +1247,7 @@ public class HearingOutcomesPage extends BasePage {
             System.out.println("Clicking Next button...");
             nextButton.click();
 
+            DriverContext.waitForPageToLoad();
             wait.until(ExpectedConditions.presenceOfAllElementsLocatedBy(
                     By.xpath("//tbody[@class='govuk-table__body']/child::tr")));
 
@@ -1276,6 +1301,7 @@ public class HearingOutcomesPage extends BasePage {
     public void ClickResultedCasesTab(){
 
         DriverContext.waitForElementToBeClickable(ResultedCasesTab);
+        DriverContext.waitForPageToLoad();
     }
 
     public CourtCasesDetailsPage ClickCasesTab(){
@@ -1287,6 +1313,7 @@ public class HearingOutcomesPage extends BasePage {
 
     public String verifyOutcomesHeading() {
 
+        DriverContext.waitForPageToLoad();
         DriverContext.waitForElementVisible(pageHeading);
 
         return pageHeading.getText().trim();
@@ -1323,6 +1350,7 @@ public class HearingOutcomesPage extends BasePage {
 
     public boolean isCasesToResultHeadingDisplayedAsH2() {
 
+        DriverContext.waitForPageToLoad();
         DriverContext.waitForElementVisible(casesToResultHeading);
 
         return casesToResultHeading.isDisplayed();
@@ -1330,6 +1358,7 @@ public class HearingOutcomesPage extends BasePage {
 
     public int getHeadingCount(String tagName) {
 
+        DriverContext.waitForPageToLoad();
         return LocalDriverContext.getRemoteWebDriver()
                 .findElements(By.tagName(tagName))
                 .size();
@@ -1350,6 +1379,7 @@ public class HearingOutcomesPage extends BasePage {
 
     public String verifyPageCaption() {
 
+        DriverContext.waitForPageToLoad();
         DriverContext.waitForElementVisible(pageCaption);
 
         return pageCaption.getText().trim();
@@ -1372,7 +1402,7 @@ public class HearingOutcomesPage extends BasePage {
 //            WebElement header = wait.until(
 //                    ExpectedConditions.visibilityOfElementLocated((By) casesToResultHeader)
 //            );
-
+            DriverContext.waitForPageToLoad();
             return casesToResultHeader.isDisplayed();
 
         } catch (TimeoutException e) {
@@ -1459,6 +1489,7 @@ public class HearingOutcomesPage extends BasePage {
 
             nextButton.click();
 
+            DriverContext.waitForPageToLoad();
             WebDriverWait wait = new WebDriverWait(
                     LocalDriverContext.getRemoteWebDriver(),
                     Duration.ofSeconds(10));
@@ -1483,8 +1514,89 @@ public class HearingOutcomesPage extends BasePage {
                 "Cases are NOT sorted by Hearing Date (Oldest -> Newest)");
     }
 
+    public void validateInProgressAreSortedByOldestHearingDate() {
+
+        List<LocalDate> actualDates = new ArrayList<>();
+
+        DateTimeFormatter formatter =
+                DateTimeFormatter.ofPattern("d MMM yyyy", Locale.UK);
+
+        int currentPage = 1;
+
+        while (true) {
+
+            System.out.println("========== PAGE " + currentPage + " ==========");
+
+            List<WebElement> hearingDates =
+                    LocalDriverContext.getRemoteWebDriver().findElements(
+                            By.xpath("//tr[@class='govuk-table__row']/child::td[position()=5]"));
+
+            for (WebElement dateCell : hearingDates) {
+
+                String hearingDate = dateCell.getText().trim();
+
+                System.out.println(hearingDate);
+
+                if (!hearingDate.isEmpty()) {
+
+                    actualDates.add(
+                            LocalDate.parse(hearingDate, formatter)
+                    );
+                }
+            }
+
+            // Find Next button
+
+            List<WebElement> nextButtons =
+                    LocalDriverContext.getRemoteWebDriver().findElements(
+                            //By.xpath("//nav[contains(@class,'moj-pagination')]//span[contains(text(),'Next')]"));
+                            By.xpath("//nav[contains(@class,'moj-pagination')]//a[@rel='next']"));
+
+
+            if (nextButtons.isEmpty()) {
+
+                System.out.println("No more pages.");
+
+                break;
+            }
+
+            WebElement nextButton = nextButtons.get(0);
+
+            if (!nextButton.isDisplayed() || !nextButton.isEnabled()) {
+
+                break;
+            }
+
+            nextButton.click();
+
+            DriverContext.waitForPageToLoad();
+            WebDriverWait wait = new WebDriverWait(
+                    LocalDriverContext.getRemoteWebDriver(),
+                    Duration.ofSeconds(10));
+
+            wait.until(ExpectedConditions.presenceOfAllElementsLocatedBy(
+                    By.xpath("//tr[@class='govuk-table__row']/child::td[position()=5]")));
+
+            currentPage++;
+        }
+
+
+        // Create expected sorted list
+
+        List<LocalDate> expectedDates = new ArrayList<>(actualDates);
+
+        Collections.sort(expectedDates);
+
+
+        Assert.assertEquals(
+                expectedDates,
+                actualDates,
+                "In Progress are NOT sorted by Hearing Date (Oldest -> Newest)");
+    }
+
     public String getHearingDateColumnHeading() {
 
+        DriverContext.waitForPageToLoad();
         DriverContext.waitForElementVisible(hearingDateColumnHeading);
 
         return hearingDateColumnHeading.getText().trim();
@@ -1542,6 +1654,7 @@ public class HearingOutcomesPage extends BasePage {
 
             nextButton.click();
 
+            DriverContext.waitForPageToLoad();
             wait.until(ExpectedConditions.presenceOfAllElementsLocatedBy(
                     By.xpath("//tr[@class='govuk-table__row']/child::td[position()=6]")));
 
@@ -1555,6 +1668,7 @@ public class HearingOutcomesPage extends BasePage {
 
         DriverContext.waitForElementToBeClickable(hearingDateSortButton);
 
+        DriverContext.waitForPageToLoad();
         //hearingDateSortButton.click();
 
         Settings.logs.write("Clicked Hearing Date sorting arrow.");
@@ -1577,6 +1691,7 @@ public class HearingOutcomesPage extends BasePage {
                     LocalDriverContext.getRemoteWebDriver().findElements(
                             By.xpath("//tr[@class='govuk-table__row']/child::td[position()=6]"));
 
+            DriverContext.waitForPageToLoad();
             for (WebElement dateCell : hearingDates) {
 
                 String hearingDate = dateCell.getText().trim();
@@ -1611,6 +1726,7 @@ public class HearingOutcomesPage extends BasePage {
 
             nextButton.click();
 
+            DriverContext.waitForPageToLoad();
             wait.until(ExpectedConditions.presenceOfAllElementsLocatedBy(
                     By.xpath("//tr[@class='govuk-table__row']/child::td[position()=6]")));
 
@@ -1634,6 +1750,7 @@ public class HearingOutcomesPage extends BasePage {
 
         defendantSortButton.click();
 
+        DriverContext.waitForPageToLoad();
         // Wait for the old table row to become stale (table refresh)
         wait.until(ExpectedConditions.stalenessOf(firstRow));
 
@@ -1691,8 +1808,68 @@ public class HearingOutcomesPage extends BasePage {
 
             nextButton.click();
 
+            DriverContext.waitForPageToLoad();
             wait.until(ExpectedConditions.presenceOfAllElementsLocatedBy(
                     By.xpath("//tr[@class='govuk-table__row']/child::td[position()=2]/child::a")));
+
+            currentPage++;
+        }
+
+        return actualLastNames;
+    }
+
+    public List<String> getAllInProgressDefendantLastNames() {
+
+        List<String> actualLastNames = new ArrayList<>();
+
+        int currentPage = 1;
+
+        while (true) {
+
+            System.out.println("========== PAGE " + currentPage + " ==========");
+
+            List<WebElement> defendantRows =
+                    LocalDriverContext.getRemoteWebDriver().findElements(
+                            By.xpath("//tr[@class='govuk-table__row']/child::td[position()=1]/child::a"));
+
+            for (WebElement row : defendantRows) {
+
+                String fullName = row.getText().trim();
+
+                System.out.println(fullName);
+
+                if (!fullName.isEmpty()) {
+
+                    actualLastNames.add(extractLastName(fullName));
+                    //System.out.println("*** Here lastname: "+ extractLastName(fullName));
+                }
+            }
+
+            // Find Next button
+            List<WebElement> nextButtons =
+                    LocalDriverContext.getRemoteWebDriver().findElements(
+                            By.xpath("//nav[contains(@class,'moj-pagination')]//a[@rel='next']"));
+
+            if (nextButtons.isEmpty()) {
+
+                System.out.println("No more pages.");
+
+                break;
+            }
+
+            WebElement nextButton = nextButtons.get(0);
+
+            WebDriverWait wait = new WebDriverWait(
+                    LocalDriverContext.getRemoteWebDriver(),
+                    Duration.ofSeconds(10));
+
+            wait.until(ExpectedConditions.elementToBeClickable(nextButton));
+
+            nextButton.click();
+
+            DriverContext.waitForPageToLoad();
+            wait.until(ExpectedConditions.presenceOfAllElementsLocatedBy(
+                    By.xpath("//tr[@class='govuk-table__row']/child::td[position()=1]/child::a")));
 
             currentPage++;
         }
@@ -1709,6 +1886,7 @@ public class HearingOutcomesPage extends BasePage {
 
     public String getDefendantLastNameColumnHeading() {
 
+        DriverContext.waitForPageToLoad();
         DriverContext.waitForElementVisible(hearingDefendantLastNameColumnHeading);
 
         return hearingDefendantLastNameColumnHeading.getText().trim();
@@ -1724,6 +1902,7 @@ public class HearingOutcomesPage extends BasePage {
 
         probationStatusSortButton.click();
 
+        DriverContext.waitForPageToLoad();
         // Wait for the table to refresh
         wait.until(ExpectedConditions.presenceOfAllElementsLocatedBy(
                 By.xpath("//tr[@class='govuk-table__row']")));
@@ -1772,6 +1951,7 @@ public class HearingOutcomesPage extends BasePage {
 
             nextButton.click();
 
+            DriverContext.waitForPageToLoad();
             wait.until(ExpectedConditions.presenceOfAllElementsLocatedBy(
                     By.xpath("//tr[@class='govuk-table__row']/child::td[position()=4]")));
 
@@ -1781,8 +1961,63 @@ public class HearingOutcomesPage extends BasePage {
         return probationStatuses;
     }
 
+    public List<String> getAllInProgressProbationStatuses() {
+
+        List<String> probationStatuses = new ArrayList<>();
+
+        int currentPage = 1;
+
+        while (true) {
+
+            System.out.println("========== PAGE " + currentPage + " ==========");
+
+            List<WebElement> rows =
+                    LocalDriverContext.getRemoteWebDriver().findElements(
+                            By.xpath("//tr[@class='govuk-table__row']/child::td[position()=3]"));
+
+            for (WebElement row : rows) {
+
+                String status = row.getText().trim();
+
+                System.out.println(status);
+
+                if (!status.isEmpty()) {
+                    probationStatuses.add(status);
+                }
+            }
+
+            List<WebElement> nextButtons =
+                    LocalDriverContext.getRemoteWebDriver().findElements(
+                            By.xpath("//nav[contains(@class,'moj-pagination')]//a[@rel='next']"));
+
+            if (nextButtons.isEmpty()) {
+                break;
+            }
+
+            WebElement nextButton = nextButtons.get(0);
+
+            WebDriverWait wait = new WebDriverWait(
+                    LocalDriverContext.getRemoteWebDriver(),
+                    Duration.ofSeconds(10));
+
+            wait.until(ExpectedConditions.elementToBeClickable(nextButton));
+
+            nextButton.click();
+
+            DriverContext.waitForPageToLoad();
+            wait.until(ExpectedConditions.presenceOfAllElementsLocatedBy(
+                    By.xpath("//tr[@class='govuk-table__row']/child::td[position()=3]")));
+
+            currentPage++;
+        }
+
+        return probationStatuses;
+    }
+
+
     public String getProbationStatusColumnHeading() {
 
+        DriverContext.waitForPageToLoad();
         DriverContext.waitForElementVisible(hearingProbationStatusColumnHeading);
 
         return hearingProbationStatusColumnHeading.getText().trim();
@@ -1815,6 +2050,7 @@ public class HearingOutcomesPage extends BasePage {
 
         previousButton.click();
 
+        DriverContext.waitForPageToLoad();
 
         // Wait until previous page loads
         wait.until(ExpectedConditions.stalenessOf(firstRowBeforeClick));
@@ -1855,6 +2091,7 @@ public class HearingOutcomesPage extends BasePage {
 
         nextButton.click();
 
+        DriverContext.waitForPageToLoad();
 
         // Wait until previous page content becomes stale
         wait.until(ExpectedConditions.stalenessOf(firstRowBeforeClick));
@@ -1910,6 +2147,7 @@ public class HearingOutcomesPage extends BasePage {
 
         defendantNameElement.click();
 
+        DriverContext.waitForPageToLoad();
 
         System.out.println(
                 "Opened case for Defendant: " + selectedDefendantName
@@ -1983,5 +2221,70 @@ public class HearingOutcomesPage extends BasePage {
         DriverContext.waitForPageToLoad();
 
         System.out.println("Returned to previous page successfully");
+    }
+
+    public boolean isTextDisplayed() {
+
+        DriverContext.waitForPageToLoad();
+        DriverContext.waitForElementVisible(defendantLink);
+
+        return defendantLink.isDisplayed()
+                && !defendantLink.getText().trim().isEmpty();
+    }
+
+    public boolean isDefendantSortingReset() {
+
+        DriverContext.waitForPageToLoad();
+        DriverContext.waitForElementVisible(defendantSortButton);
+
+        return defendantSortButton.isDisplayed()
+                && defendantSortButton.getTagName().equalsIgnoreCase("button")
+                && "none".equalsIgnoreCase(
+                defendantSortButton.getAttribute("data-sort")
+        );
+    }
+
+    public boolean isProbationStatusSortingActive() {
+
+        DriverContext.waitForPageToLoad();
+        DriverContext.waitForElementVisible(probationStatusSortButton);
+
+        String sortState = probationStatusSortButton.getAttribute("data-sort");
+
+        return probationStatusSortButton.isDisplayed()
+                && probationStatusSortButton.getTagName().equalsIgnoreCase("button")
+                && ("ascending".equalsIgnoreCase(sortState)
+                || "descending".equalsIgnoreCase(sortState));
+    }
+
+    public void verifyHearingDateSortingIsReset() {
+        String actualSortState = hearingDateSortButton.getAttribute("data-sort");
+
+        Assert.assertEquals(
+                actualSortState,
+                "none",
+                "Expected Hearing Date sorting to be reset, but found: " + actualSortState
+        );
+    }
+
+    public void verifyProbationStatusSortingIsReset() {
+        DriverContext.waitForPageToLoad();
+        String actualSortState = probationStatusSortButton.getAttribute("data-sort");
+
+        Assert.assertEquals(
+                actualSortState,
+                "none",
+                "Expected Probation Status sorting to be reset, but found: " + actualSortState
+        );
+    }
+
+    public void verifyDefendantSortingIsActive() {
+
+        String actualSortState = defendantSortButton.getAttribute("data-sort");
+
+        Assert.assertTrue(
+                actualSortState.equals("ascending") || actualSortState.equals("descending"),
+                "Expected Defendant sorting to be active, but found: " + actualSortState
+        );
     }
 }

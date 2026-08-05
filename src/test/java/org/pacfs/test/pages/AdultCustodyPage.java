@@ -47,6 +47,7 @@ public class AdultCustodyPage extends BasePage {
     public RiskRegisterPage ClickRiskRegister(){
 
         riskRegisterLink.click();
+        DriverContext.waitForPageToLoad();
         return getInstance(RiskRegisterPage.class);
     }
 }

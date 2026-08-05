@@ -333,6 +333,7 @@ public static String expectedDefendantName;
     public RiskRegisterPage ClickRiskRegister(){
 
         riskRegister.click();
+        DriverContext.waitForPageToLoad();
         return getInstance(RiskRegisterPage.class);
     }
 

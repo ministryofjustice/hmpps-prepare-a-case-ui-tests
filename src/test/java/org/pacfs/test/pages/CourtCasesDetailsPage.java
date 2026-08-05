@@ -89,6 +89,7 @@ public class CourtCasesDetailsPage extends BasePage {
 
         DriverContext.waitForElementToBeClickable(IsOutcomeTabSel);
 
+        DriverContext.waitForPageToLoad();
         return getInstance(HearingOutcomesPage.class);
     }
 
@@ -264,6 +265,7 @@ public class CourtCasesDetailsPage extends BasePage {
 
         MyCourtDetailsLinkTxt.click();
 
+        DriverContext.waitForPageToLoad();
         return getInstance(MyCourtsPage.class);
     }
 
@@ -354,6 +356,7 @@ public class CourtCasesDetailsPage extends BasePage {
         DriverContext.waitForElementVisible(userGuideLink);
 
         userGuideLink.click();
+        DriverContext.waitForPageToLoad();
         return getInstance(UserGuideSharepointPacfsPage.class);
     }
 

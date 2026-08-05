@@ -1,48 +1,49 @@
-#Feature: Sort Cases in the Resulted Cases Outcomes Table
-#
-#  As a Case Admin
-#  I want to sort cases in the Resulted Cases table
-#  So that I can quickly identify cases of interest and perform my duties efficiently.
-#
-#
-#  Background:
-#    Given the Case Admin is logged into the application
-#    And the Case Admin navigates to the Outcomes flow
-#    And the Resulted Cases tab is displayed
-#    And the Resulted Cases table contains multiple cases
-#
-#
-#  # -------------------------------------------------------------
-#  # Default Sorting Behaviour
-#  # -------------------------------------------------------------
-#
-#  Scenario: Verify default Resulted Cases ordering is by oldest hearing date
-#    Given the Resulted Cases page has loaded
-#    When the table is displayed
-#    Then cases should be ordered by Hearing Date from oldest to newest
+Feature: Sort Cases in the Resulted Cases Outcomes Table
+
+  As a Case Admin
+  I want to sort cases in the Resulted Cases table
+  So that I can quickly identify cases of interest and perform my duties efficiently.
+
+
+  Background:
+    Given the Case Admin is logged into the application
+    And the Case Admin has navigated to the Outcomes flow
+    And the Resulted Cases tab is displayed
+    And the Resulted Cases table contains multiple cases
+
+
+  # -------------------------------------------------------------
+  # Default Sorting Behaviour
+  # -------------------------------------------------------------
+
+  Scenario: Verify default Resulted Cases ordering is by oldest hearing date
+    Given the Resulted Cases page has loaded
+    When the Resulted Cases tab is displayed
+    Then the cases should be sorted by Hearing Date from oldest to newest
 #    And the default Hearing Date sorting indicator should be displayed
-#
-#
-#  # -------------------------------------------------------------
-#  # Defendant Sorting
-#  # -------------------------------------------------------------
-#
-#  Scenario: Sort Defendant Last Name from A to Z
-#    Given the Resulted Cases page has loaded
-#    When the Case Admin clicks the Defendant sorting arrow
-#    Then cases should be sorted alphabetically by Defendant Last Name from A to Z
+
+
+  # -------------------------------------------------------------
+  # Defendant Sorting
+  # -------------------------------------------------------------
+
+  Scenario: Sort Defendant Last Name from A to Z
+    Given the Resulted Cases page has loaded
+    When the Case Admin clicks the Defendant sorting arrow
+    Then the cases should be sorted alphabetically by Defendant Last Name from A to Z
 #    And the Defendant sorting arrow should point down
-#    And the Hearing Date sorting should be reset
-#
-#
-#  Scenario: Sort Defendant Last Name from Z to A
-#    Given the Defendant column is sorted from A to Z
+    And the Hearing Date sorting should be reset
+
+
+  Scenario: Sort Defendant Last Name from Z to A
+    Given the Defendant column is sorted from A to Z
 #    And the Defendant sorting arrow is pointing down
-#    When the Case Admin clicks the Defendant sorting arrow again
-#    Then cases should be sorted alphabetically by Defendant Last Name from Z to A
+    When the Case Admin clicks the Defendant sorting arrow again
+    Then cases should be sorted alphabetically by Defendant Last Name from Z to A
+     Then the cases should be sorted alphabetically from Z to A using the defendant last name
 #    And the Defendant sorting arrow should point up
-#
-#
+
+
 #  Scenario: Switching from Defendant sorting to Probation Status resets Defendant sorting
 #    Given the Defendant column is sorted
 #    When the Case Admin selects Probation Status sorting
