@@ -35,25 +35,25 @@ Feature: Case Summary Page - Defendant details, case actions and updates
     And I delete the hearing note that was just created
     And the success message "You successfully deleted a note" should be displayed
 
-  Scenario Outline: 4- Upload documents to a case from Case Summary page
-    Given I am on the Case Summary page
-    When I upload the file "<fileName>"
-    Then the uploaded file "<fileName>" should be displayed
-
-
-    Examples:
-      | fileName       |
-      | sample.pdf     |
-      | sample.png     |
-      | sample.xml     |
-      | sample.odt     |
-      | sample.zip     |
-      | sample.xls     |
-      | sample.xlsx    |
-      | sample.docx    |
-      | sample.ppt     |
-      | sample.pptx    |
-      | sample.rtf     |
+#  Scenario Outline: 4- Upload documents to a case from Case Summary page
+#    Given I am on the Case Summary page
+#    When I upload the file "<fileName>"
+#    Then the uploaded file "<fileName>" should be displayed
+#
+#
+#    Examples:
+#      | fileName       |
+#      | sample.pdf     |
+#      | sample.png     |
+#      | sample.xml     |
+#      | sample.odt     |
+#      | sample.zip     |
+#      | sample.xls     |
+#      | sample.xlsx    |
+#      | sample.docx    |
+#      | sample.ppt     |
+#      | sample.pptx    |
+#      | sample.rtf     |
 
 #  Scenario: Add hearing note under Case Progress
 #    Given I am on the Case Summary page

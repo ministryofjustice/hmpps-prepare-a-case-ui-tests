@@ -1,3 +1,4 @@
+@Regression
 Feature: Sort Cases in Cases to Result table under Outcomes flow
 
   As a Case Admin
@@ -85,8 +86,8 @@ Feature: Sort Cases in Cases to Result table under Outcomes flow
     When I navigate back to the previous page
 #    When I navigate to the next page of results
     Then the Defendant sorting order should remain A to Z
+    When I navigate back to the previous page
     When I navigate to the next page of results
-#    When I navigate back to the previous page
     Then the Defendant sorting order should remain A to Z
 
 
@@ -107,7 +108,7 @@ Feature: Sort Cases in Cases to Result table under Outcomes flow
     Then the Defendant sorting should remain A-Z
 
 
-  @Positive @AssignmentPersistence
+#  @Positive @AssignmentPersistence
 #  Scenario: 10- Verify sorting is retained when assigning a case using checkbox action
 #    Given I have sorted the cases by Probation Status
 #    When I select a case using the checkbox

@@ -49,7 +49,7 @@ public class caseSummaryPageStepdefs extends Base {
     @Given("I am on the Case Summary page")
     public void iAmOnTheCaseSummaryPage() {
 
-        CurrentPage = CurrentPage.as(MyCourtsPage.class).clickLinkByText("Oxford and Southern Oxfordshire Magistrates' Court");
+        //CurrentPage = CurrentPage.as(MyCourtsPage.class).clickLinkByText("Oxford and Southern Oxfordshire Magistrates' Court");
         CurrentPage = CurrentPage.as(CourtCasesDetailsPage.class).selectFirstDefendantName();
         Assert.assertEquals(CurrentPage.as(CaseSummaryPage.class).GetCaseSummary(),"Case summary");
     }
