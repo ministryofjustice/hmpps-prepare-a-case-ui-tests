@@ -6,6 +6,7 @@ import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 import org.pacfs.framework.base.Base;
+import org.pacfs.framework.base.DriverContext;
 import org.pacfs.test.pages.CaseSummaryPage;
 import org.pacfs.test.pages.CourtCasesDetailsPage;
 import org.pacfs.test.pages.MyCourtsPage;
@@ -18,6 +19,7 @@ public class caseSummaryPageStepdefs extends Base {
     @Given("^I navigate to \"([^\"]*)\" tab$")
     public void caseSummaryPageStepdefs(String value) {
 
+        DriverContext.waitForPageToLoad();
         Assert.assertEquals(CurrentPage.as(CourtCasesDetailsPage.class).GetHearingOutcomeStillToBeAdded(),value);
     }
 
@@ -25,31 +27,45 @@ public class caseSummaryPageStepdefs extends Base {
     @When("I select a defendant from the case list")
     public void iSelectADefendantFromTheCaseList() {
 
+        DriverContext.waitForPageToLoad();
         CurrentPage = CurrentPage.as(CourtCasesDetailsPage.class).selectFirstDefendantName();
     }
 
     @Then("I should be navigated to the Case Summary page")
     public void iShouldBeNavigatedToTheCaseSummaryPage() {
 
+        DriverContext.waitForPageToLoad();
         Assert.assertEquals(CurrentPage.as(CaseSummaryPage.class).GetCaseSummary(),"Case summary");
     }
 
     @And("the defendant name should match the value from the cases page")
     public void theDefendantNameShouldMatchTheValueFromTheCasesPage() {
 
+        DriverContext.waitForPageToLoad();
         CurrentPage.as(CaseSummaryPage.class).ValidateDefendantNameMatches();
     }
 
     @And("the probation status should match the value from the cases page")
     public void theProbationStatusShouldMatchTheValueFromTheCasesPage() {
 
+        DriverContext.waitForPageToLoad();
         CurrentPage.as(CaseSummaryPage.class).ValidateProbationStatusMatches2();
     }
 
     @Given("I am on the Case Summary page")
     public void iAmOnTheCaseSummaryPage() {
 
+        DriverContext.waitForPageToLoad();
         //CurrentPage = CurrentPage.as(MyCourtsPage.class).clickLinkByText("Oxford and Southern Oxfordshire Magistrates' Court");
+        CurrentPage = CurrentPage.as(CourtCasesDetailsPage.class).selectFirstDefendantName();
+        Assert.assertEquals(CurrentPage.as(CaseSummaryPage.class).GetCaseSummary(),"Case summary");
+    }
+
+    @When("I am on Case Summary page")
+    public void iAmOnCaseSummaryPage() {
+
+        DriverContext.waitForPageToLoad();
+        CurrentPage = CurrentPage.as(MyCourtsPage.class).clickLinkByText("Oxford and Southern Oxfordshire Magistrates' Court");
         CurrentPage = CurrentPage.as(CourtCasesDetailsPage.class).selectFirstDefendantName();
         Assert.assertEquals(CurrentPage.as(CaseSummaryPage.class).GetCaseSummary(),"Case summary");
     }
@@ -57,18 +73,21 @@ public class caseSummaryPageStepdefs extends Base {
     @When("I add a comment with notes and observations about the case")
     public void iAddACommentWithNotesAndObservationsAboutTheCase() {
 
+        DriverContext.waitForPageToLoad();
         CurrentPage.as(CaseSummaryPage.class).addHearingNote("Suggested Assertion Example");
     }
 
     @Then("the comment should be saved and visible to colleagues")
     public void theCommentShouldBeSavedAndVisibleToColleagues() {
 
+        DriverContext.waitForPageToLoad();
         Assert.assertEquals(CurrentPage.as(CaseSummaryPage.class).getSavedHearingNoteText(),"Suggested Assertion Example");
     }
 
     @And("the Edit and Cancel buttons are displayed.")
     public void theEditAndCancelButtonsAreDisplayed() {
 
+        DriverContext.waitForPageToLoad();
         Assert.assertTrue(CurrentPage.as(CaseSummaryPage.class).isEditLinkDisplayed());
         Assert.assertTrue(CurrentPage.as(CaseSummaryPage.class).isDeleteLinkDisplayed());
     }
@@ -76,12 +95,14 @@ public class caseSummaryPageStepdefs extends Base {
     @And("I delete the hearing note that was just created")
     public void iDeleteTheHearingNoteThatWasJustCreated() {
 
+        DriverContext.waitForPageToLoad();
         CurrentPage.as(CaseSummaryPage.class).clickDeleteHearingNote();
     }
 
     @And("the success message {string} should be displayed")
     public void theSuccessMessageShouldBeDisplayed(String successfullyMsg) {
 
+        DriverContext.waitForPageToLoad();
         Assert.assertEquals(CurrentPage.as(CaseSummaryPage.class).getDeleteSuccessMessage(), successfullyMsg);
     }
 
@@ -102,6 +123,4 @@ public class caseSummaryPageStepdefs extends Base {
 
         CurrentPage.as(CaseSummaryPage.class).isUploadedFileDisplayed(fileName);
     }
-
-
 }

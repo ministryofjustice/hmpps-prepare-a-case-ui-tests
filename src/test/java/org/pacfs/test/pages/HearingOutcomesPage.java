@@ -767,7 +767,8 @@ public class HearingOutcomesPage extends BasePage {
             // ==============================
 
             List<WebElement> nextButtons = LocalDriverContext.getRemoteWebDriver().findElements(
-                    By.xpath("//nav[contains(@class,'moj-pagination')]//a[contains(text(),'Next')]"));
+                    By.xpath("//nav[contains(@class,'govuk-pagination')]//a[@rel='next']"));
+                    //By.xpath("//nav[contains(@class,'moj-pagination')]//a[contains(text(),'Next')]"));
 
             if (nextButtons.isEmpty()) {
 

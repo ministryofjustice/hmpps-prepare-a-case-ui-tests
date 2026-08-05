@@ -57,7 +57,7 @@ Feature: Sort Cases in Cases to Result table under Outcomes flow
     Then the cases should be sorted in the following order:
       | Probation Status |
       | Current          |
-      | Previously known |
+      | Pre-sentence record |
       | No record        |
 #    And the Probation Status sorting indicator should point up
     And the column heading should display "Probation Status"
@@ -68,13 +68,13 @@ Feature: Sort Cases in Cases to Result table under Outcomes flow
     Given cases are currently sorted by Probation Status in the following order:
       | Probation Status |
       | Current          |
-      | Previously known |
+      | Pre-sentence record |
       | No record        |
     When I click the sorting arrow on the Probation Status column
     Then the cases should be sorted in the following reverse order:
       | Probation Status |
       | No record        |
-      | Previously known |
+      | Pre-sentence record |
       | Current          |
 #    And the Probation Status sorting indicator should point down
     And the column heading should display "Probation Status"

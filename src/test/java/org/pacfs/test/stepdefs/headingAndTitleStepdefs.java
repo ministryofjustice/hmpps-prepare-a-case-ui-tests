@@ -7,6 +7,7 @@ import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 import org.pacfs.framework.base.Base;
 import org.pacfs.framework.base.BasePage;
+import org.pacfs.framework.base.DriverContext;
 import org.pacfs.framework.config.Settings;
 import org.pacfs.test.pages.*;
 import org.testng.Assert;
@@ -24,24 +25,31 @@ public class headingAndTitleStepdefs extends Base {
 
         CurrentPage = CurrentPage.as(SignInPage.class).ClickSignInButton();
 
+        DriverContext.waitForPageToLoad();
+
         CurrentPage = CurrentPage.as(MyCourtsPage.class).clickLinkByText("Oxford and Southern Oxfordshire Magistrates' Court");
+
+        DriverContext.waitForPageToLoad();
     }
 
     @When("the page content is rendered")
     public void thePageContentIsRendered() {
 
+        DriverContext.waitForPageToLoad();
         Assert.assertTrue(CurrentPage.as(CourtCasesDetailsPage.class).CheckCasesTabSelected());
     }
 
     @Then("the service name {string} should be displayed as a caption")
     public void theServiceNameShouldBeDisplayedAsACaption(String service) {
 
+        DriverContext.waitForPageToLoad();
         Assert.assertTrue(CurrentPage.as(CourtCasesDetailsPage.class).isPrepareCaseForSentenceDisplayed(service));
     }
 
     @Then("the page title should be {string}")
     public void thePageTitleShouldBe(String expectedTitle) {
 
+        DriverContext.waitForPageToLoad();
         Assert.assertEquals(CurrentPage.as(CourtCasesDetailsPage.class)
                         .getBrowserPageTitle(),
                 expectedTitle);
@@ -50,18 +58,21 @@ public class headingAndTitleStepdefs extends Base {
     @When("I navigate between Case List tabs")
     public void iNavigateBetweenCaseListTabs() {
 
+        DriverContext.waitForPageToLoad();
         Assert.assertTrue(CurrentPage.as(CourtCasesDetailsPage.class).CheckCasesTabSelected());
     }
 
     @Then("the service name {string} should remain displayed as the caption")
     public void theServiceNameShouldRemainDisplayedAsTheCaption(String expectedCaption) {
 
+        DriverContext.waitForPageToLoad();
         Assert.assertTrue(CurrentPage.as(CourtCasesDetailsPage.class).isServiceCaptionDisplayed(expectedCaption));
     }
 
     @And("the page heading {string} should remain displayed as the H{int}")
     public void thePageHeadingShouldRemainDisplayedAsTheH(String value, int arg1) {
 
+        DriverContext.waitForPageToLoad();
         Assert.assertEquals(CurrentPage.as(CourtCasesDetailsPage.class).verifyCasesHeading(),value);
     }
 
@@ -76,7 +87,11 @@ public class headingAndTitleStepdefs extends Base {
 
         CurrentPage = CurrentPage.as(SignInPage.class).ClickSignInButton();
 
+        DriverContext.waitForPageToLoad();
+
         CurrentPage = CurrentPage.as(MyCourtsPage.class).clickLinkByText("Oxford and Southern Oxfordshire Magistrates' Court");
+
+        DriverContext.waitForPageToLoad();
 
         CurrentPage = CurrentPage.as(CourtCasesDetailsPage.class).selectFirstDefendantName();
     }
@@ -84,12 +99,14 @@ public class headingAndTitleStepdefs extends Base {
     @Then("the service name {string} should be displayed as the caption")
     public void theServiceNameShouldBeDisplayedAsTheCaption(String expectedCaption) {
 
+        DriverContext.waitForPageToLoad();
         Assert.assertTrue(CurrentPage.as(CaseSummaryPage.class).isServiceCaptionDisplayed(expectedCaption));
     }
 
     @And("the defendant name should be displayed as the H{int}")
     public void theDefendantNameShouldBeDisplayedAsTheH(int arg0) {
 
+        DriverContext.waitForPageToLoad();
         Assert.assertTrue(
                 CurrentPage.as(CaseSummaryPage.class)
                         .isDefendantNameDisplayedAsH1()
@@ -107,28 +124,39 @@ public class headingAndTitleStepdefs extends Base {
 
         CurrentPage = CurrentPage.as(SignInPage.class).ClickSignInButton();
 
+        DriverContext.waitForPageToLoad();
+
         CurrentPage = CurrentPage.as(MyCourtsPage.class).clickLinkByText("Oxford and Southern Oxfordshire Magistrates' Court");
+
+        DriverContext.waitForPageToLoad();
 
         CurrentPage = CurrentPage.as(CourtCasesDetailsPage.class).selectFirstDefendantName();
 
+        DriverContext.waitForPageToLoad();
+
         CurrentPage = CurrentPage.as(CaseSummaryPage.class).ClickProbationRecord();
+
+        DriverContext.waitForPageToLoad();
     }
 
     @When("the Probation Record page content is rendered")
     public void theProbationRecordPageContentIsRendered() {
 
+        DriverContext.waitForPageToLoad();
         Assert.assertTrue(CurrentPage.as(ProbationRecordPage.class).isEnvironmentLabelDisplayedInHeader());
     }
 
     @Then("the service name {string} should be displayed as the caption in Probation Record page")
     public void theServiceNameShouldBeDisplayedAsTheCaptionInProbationRecordPage(String expectedCaption) {
 
+        DriverContext.waitForPageToLoad();
         Assert.assertTrue(CurrentPage.as(ProbationRecordPage.class).isServiceCaptionDisplayed(expectedCaption));
     }
 
     @And("the defendant name should be displayed as the H{int} in Probation Record page")
     public void theDefendantNameShouldBeDisplayedAsTheHInProbationRecordPage(int arg0) {
 
+        DriverContext.waitForPageToLoad();
         Assert.assertTrue(
                 CurrentPage.as(ProbationRecordPage.class)
                         .isDefendantNameDisplayedAsH1()
@@ -138,6 +166,7 @@ public class headingAndTitleStepdefs extends Base {
     @Then("the browser Probation Record page title should be {string}")
     public void theBrowserProbationRecordPageTitleShouldBe(String expectedTitle) {
 
+        DriverContext.waitForPageToLoad();
         Assert.assertTrue(
                 CurrentPage.as(ProbationRecordPage.class)
                         .getBrowserPageTitle()
@@ -156,22 +185,32 @@ public class headingAndTitleStepdefs extends Base {
 
         CurrentPage = CurrentPage.as(SignInPage.class).ClickSignInButton();
 
+        DriverContext.waitForPageToLoad();
+
         CurrentPage = CurrentPage.as(MyCourtsPage.class).clickLinkByText("Oxford and Southern Oxfordshire Magistrates' Court");
+
+        DriverContext.waitForPageToLoad();
 
         CurrentPage = CurrentPage.as(CourtCasesDetailsPage.class).selectFirstDefendantName();
 
+        DriverContext.waitForPageToLoad();
+
         CurrentPage = CurrentPage.as(CaseSummaryPage.class).ClickRiskRegister();
+
+        DriverContext.waitForPageToLoad();
     }
 
     @Then("the service name {string} should be displayed as the caption in Risk Register page")
     public void theServiceNameShouldBeDisplayedAsTheCaptionInRiskRegisterPage(String expectedCaption) {
 
+        DriverContext.waitForPageToLoad();
         Assert.assertTrue(CurrentPage.as(RiskRegisterPage.class).isServiceCaptionDisplayed(expectedCaption));
     }
 
     @And("the defendant name should be displayed as the H{int} in Risk Register page")
     public void theDefendantNameShouldBeDisplayedAsTheHInRiskRegisterPage(int arg0) {
 
+        DriverContext.waitForPageToLoad();
         Assert.assertTrue(
                 CurrentPage.as(RiskRegisterPage.class)
                         .isDefendantNameDisplayedAsH1()
@@ -181,6 +220,7 @@ public class headingAndTitleStepdefs extends Base {
     @Then("the browser PRisk Register page title should be {string}")
     public void theBrowserPRiskRegisterPageTitleShouldBe(String expectedTitle) {
 
+        DriverContext.waitForPageToLoad();
         Assert.assertTrue(
                 CurrentPage.as(RiskRegisterPage.class)
                         .getBrowserPageTitle()
@@ -191,6 +231,7 @@ public class headingAndTitleStepdefs extends Base {
     @Then("the service name should be displayed as a caption")
     public void theServiceNameShouldBeDisplayedAsACaption() {
 
+        DriverContext.waitForPageToLoad();
         Assert.assertTrue(
                 CurrentPage.as(BasePage.class)
                         .isEnvironmentLabelDisplayedInHeader()
@@ -200,6 +241,7 @@ public class headingAndTitleStepdefs extends Base {
     @And("only one H{int} heading should exist on the page")
     public void onlyOneHHeadingShouldExistOnThePage(int arg0) {
 
+        DriverContext.waitForPageToLoad();
         Assert.assertTrue(
                 CurrentPage.as(BasePage.class)
                         .isEnvironmentLabelVisuallyDistinct()
@@ -216,11 +258,14 @@ public class headingAndTitleStepdefs extends Base {
         CurrentPage.as(SignInPage.class).EnterPassword(Settings.Password);
 
         CurrentPage = CurrentPage.as(SignInPage.class).ClickSignInButton();
+
+        DriverContext.waitForPageToLoad();
     }
 
     @When("the Risk Register page content is rendered")
     public void theRiskRegisterPageContentIsRendered() {
 
+        DriverContext.waitForPageToLoad();
         Assert.assertTrue(CurrentPage.as(RiskRegisterPage.class).isEnvironmentLabelDisplayedInHeader());
     }
 }
