@@ -60,7 +60,7 @@ Feature: Sort Cases in Cases to Result table under Outcomes flow
       | Pre-sentence record |
       | No record        |
 #    And the Probation Status sorting indicator should point up
-    And the column heading should display "Probation Status"
+    And the column heading should display "Probation status"
 
 
   @Positive @ProbationStatusSorting
