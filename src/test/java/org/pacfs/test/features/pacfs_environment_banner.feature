@@ -11,7 +11,7 @@ Feature: Display environment label in PACFS header
     Then the environment label "DEV" should be displayed next to "Probation Digital Services" in the header
     And the environment label should be visually distinct from the service name
 
-    @ignore
+#  @ignore
 #  Scenario: 2- Display PRE-PRODUCTION environment label in the header
 #    Given I am using the PACFS "PRE-PRODUCTION" environment
 #    When the My courts page is rendered

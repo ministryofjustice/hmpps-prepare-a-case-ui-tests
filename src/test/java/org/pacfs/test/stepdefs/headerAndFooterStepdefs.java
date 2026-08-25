@@ -168,7 +168,7 @@ public class headerAndFooterStepdefs extends Base {
     @Then("I should be redirected to the PACFS Home page")
     public void iShouldBeRedirectedToThePACFSHomePage() {
 
-        Assert.fail();
+        Assert.assertTrue(CurrentPage.as(HomePage.class).IsTitleHeaderDisplay());
     }
 
     @Given("I am logged into PACFS")

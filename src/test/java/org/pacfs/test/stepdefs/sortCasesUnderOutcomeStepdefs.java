@@ -295,7 +295,7 @@ public class sortCasesUnderOutcomeStepdefs extends Base {
         List<String> expectedOrder = dataTable.asList(String.class);
 
         // Remove table header
-        expectedOrder.remove(0);
+        //expectedOrder.remove(0);
 
         List<String> actualStatuses =
                 CurrentPage.as(HearingOutcomesPage.class)
