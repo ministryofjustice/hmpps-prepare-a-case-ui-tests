@@ -7,6 +7,11 @@ import org.pacfs.framework.base.BasePage;
 
 public class HomePage extends BasePage {
 
-    @FindBy(how = How.XPATH, using = "//a[contains(text(),'In progress')]")
-    private WebElement InProgressTab;
+    @FindBy(how = How.XPATH, using = "//h1[contains(text(),'Manage people on probation')]")
+    private WebElement headerTitle;
+
+    public boolean IsTitleHeaderDisplay(){
+
+        return headerTitle.isDisplayed();
+    }
 }
