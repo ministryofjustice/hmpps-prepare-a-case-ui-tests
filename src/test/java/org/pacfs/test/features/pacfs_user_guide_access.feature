@@ -1,4 +1,4 @@
-@PCFS-105 @Regression
+@PCFS-105 @Regression @ui
 Feature: User Guide accessibility from PACFS
 
   As a PACFS user
@@ -25,7 +25,7 @@ Feature: User Guide accessibility from PACFS
     Given I am viewing the User Guide link in PACFS
     When I select the User Guide link
     Then I should be redirected to the approved User Guide location
-    And the User Guide content should be displayed successfully "https://justiceuk.sharepoint.com/sites/HMPPS_Group_CSA/"
+    And the User Guide content should be displayed successfully "https://justiceuk.sharepoint.com/sites/HMPPS_Group_CSA/SitePages/HomeFeed.aspx"
 
   Scenario: 5- User Guide is not available from PACFS footer
     Given I am viewing the PACFS Cases page

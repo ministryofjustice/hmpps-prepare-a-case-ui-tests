@@ -339,4 +339,13 @@ public class DriverContext {
         WebElement elementLocator = ele;
         actions.doubleClick(elementLocator).perform();
     }
+
+    public static void waitFor(long seconds) {
+        try {
+            Thread.sleep(seconds * 1000);
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+            throw new RuntimeException("Wait interrupted", e);
+        }
+    }
 }

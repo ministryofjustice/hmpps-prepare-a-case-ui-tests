@@ -30,14 +30,16 @@ public class UserGuideSharepointPacfsPage extends BasePage {
             }
         }
 
+        DriverContext.waitFor(2);
         DriverContext.waitForPageToLoad();
 
         String currentUrl = LocalDriverContext.getRemoteWebDriver().getCurrentUrl();
 
         WebElement heading = LocalDriverContext.getRemoteWebDriver().findElement(
-                By.xpath("//h2[normalize-space()='Get the most out of Prepare a case for sentence in and out of court']")
+                By.xpath("//*[normalize-space()='Get the most out of Prepare a case for sentence in and out of court']")
         );
 
+        DriverContext.waitFor(2);
         return currentUrl.contains("https://justiceuk.sharepoint.com/sites/HMPPS_Group_CSA/")
                 && heading.isDisplayed();
     }
@@ -48,7 +50,7 @@ public class UserGuideSharepointPacfsPage extends BasePage {
 
         String currentUrl = LocalDriverContext.getRemoteWebDriver().getCurrentUrl();
 
-        WebElement heading = LocalDriverContext.getRemoteWebDriver().findElement(By.tagName("h2"));
+        WebElement heading = LocalDriverContext.getRemoteWebDriver().findElement(By.xpath("//div[@class='anchor-h1']/h1/span[position()=1]"));
 
         return currentUrl.contains(expectedUrl)
                 && heading.isDisplayed()

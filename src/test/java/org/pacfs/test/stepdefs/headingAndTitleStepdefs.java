@@ -25,9 +25,13 @@ public class headingAndTitleStepdefs extends Base {
 
         CurrentPage = CurrentPage.as(SignInPage.class).ClickSignInButton();
 
+        DriverContext.waitFor(1);
+
         DriverContext.waitForPageToLoad();
 
         CurrentPage = CurrentPage.as(MyCourtsPage.class).clickLinkByText("Oxford and Southern Oxfordshire Magistrates' Court");
+
+        DriverContext.waitFor(1);
 
         DriverContext.waitForPageToLoad();
     }
@@ -87,9 +91,13 @@ public class headingAndTitleStepdefs extends Base {
 
         CurrentPage = CurrentPage.as(SignInPage.class).ClickSignInButton();
 
+        DriverContext.waitFor(1);
+
         DriverContext.waitForPageToLoad();
 
         CurrentPage = CurrentPage.as(MyCourtsPage.class).clickLinkByText("Oxford and Southern Oxfordshire Magistrates' Court");
+
+        DriverContext.waitFor(1);
 
         DriverContext.waitForPageToLoad();
 
@@ -124,17 +132,25 @@ public class headingAndTitleStepdefs extends Base {
 
         CurrentPage = CurrentPage.as(SignInPage.class).ClickSignInButton();
 
+        DriverContext.waitFor(1);
+
         DriverContext.waitForPageToLoad();
 
         CurrentPage = CurrentPage.as(MyCourtsPage.class).clickLinkByText("Oxford and Southern Oxfordshire Magistrates' Court");
+
+        DriverContext.waitFor(1);
 
         DriverContext.waitForPageToLoad();
 
         CurrentPage = CurrentPage.as(CourtCasesDetailsPage.class).selectFirstDefendantName();
 
+        DriverContext.waitFor(1);
+
         DriverContext.waitForPageToLoad();
 
         CurrentPage = CurrentPage.as(CaseSummaryPage.class).ClickProbationRecord();
+
+        DriverContext.waitFor(1);
 
         DriverContext.waitForPageToLoad();
     }
@@ -185,17 +201,25 @@ public class headingAndTitleStepdefs extends Base {
 
         CurrentPage = CurrentPage.as(SignInPage.class).ClickSignInButton();
 
+        DriverContext.waitFor(1);
+
         DriverContext.waitForPageToLoad();
 
         CurrentPage = CurrentPage.as(MyCourtsPage.class).clickLinkByText("Oxford and Southern Oxfordshire Magistrates' Court");
 
         DriverContext.waitForPageToLoad();
 
+        DriverContext.waitFor(1);
+
         CurrentPage = CurrentPage.as(CourtCasesDetailsPage.class).selectFirstDefendantName();
 
         DriverContext.waitForPageToLoad();
 
+        DriverContext.waitFor(1);
+
         CurrentPage = CurrentPage.as(CaseSummaryPage.class).ClickRiskRegister();
+
+        DriverContext.waitFor(1);
 
         DriverContext.waitForPageToLoad();
     }
@@ -258,6 +282,8 @@ public class headingAndTitleStepdefs extends Base {
         CurrentPage.as(SignInPage.class).EnterPassword(Settings.Password);
 
         CurrentPage = CurrentPage.as(SignInPage.class).ClickSignInButton();
+
+        DriverContext.waitFor(1);
 
         DriverContext.waitForPageToLoad();
     }

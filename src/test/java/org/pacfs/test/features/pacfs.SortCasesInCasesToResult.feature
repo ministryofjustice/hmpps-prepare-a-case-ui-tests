@@ -1,9 +1,9 @@
-@Regression
-Feature: Sort Cases in Cases to Result table under Outcomes flow
-
-  As a Case Admin
-  I want to sort cases in the Cases to Result table
-  So that I can find cases of interest more quickly and perform my duties efficiently.
+@Regression @ui
+Feature: Sort Cases in CasDateTimeFormatter formatter =es to Result table under Outcomes flow
+                                  new DateTimeFormatterBuilder()
+  As a Case Admin                         .parseCaseInsensitive()
+  I want to sort cases in                 .appendPattern("d MMM yyyy")the Cases to Result table
+  So that I can find cases                .toFormatter(Locale.ENGLISH); of interest more quickly and perform my duties efficiently.
 
 
   Background:

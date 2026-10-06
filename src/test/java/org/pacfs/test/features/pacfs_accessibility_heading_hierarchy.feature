@@ -1,4 +1,4 @@
-@PCFS-91 @Regression
+@PCFS-91 @Regression @ui
 Feature: PACFS page heading hierarchy
 
   As a PACFS user relying on accessible content

@@ -1,4 +1,4 @@
-@PCFS-104 @Regression
+@PCFS-104 @Regression @ui
 Feature: Display environment label in PACFS header
 
   As a PACFS user

@@ -257,4 +257,54 @@ public class BasePage extends Base {
                 && outsideFooter;
     }
 
+    public boolean isPossibleMappaBadgeDisplayedBelowHeader() {
+
+        WebElement badge =
+                LocalDriverContext.getRemoteWebDriver()
+                        .findElement(
+                                By.xpath(
+                                        "//span[contains(.,'Possible MAPPA')]"
+                                )
+                        );
+
+        WebElement defendantHeader =
+                LocalDriverContext.getRemoteWebDriver()
+                        .findElement(
+                                By.tagName("h1")
+                        );
+
+        return badge.getLocation().getY()
+                > defendantHeader.getLocation().getY();
+    }
+
+    public boolean isMappaDisplayedBeforeSfo() {
+
+        List<WebElement> badges =
+                LocalDriverContext.getRemoteWebDriver()
+                        .findElements(
+                                By.xpath(
+                                        "//span[contains(@class,'moj-badge')]"
+                                )
+                        );
+
+        if (badges.size() < 2) {
+            return false;
+        }
+
+        String firstBadge =
+                badges.get(0).getText().trim();
+
+        String secondBadge =
+                badges.get(1).getText().trim();
+
+        System.out.println(
+                "Badge order: "
+                        + firstBadge
+                        + " -> "
+                        + secondBadge);
+
+        return firstBadge.contains("MAPPA")
+                && secondBadge.contains("SFO");
+    }
+
 }

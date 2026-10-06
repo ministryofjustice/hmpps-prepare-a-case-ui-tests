@@ -1,4 +1,4 @@
-@PCF-82
+@PCF-82 @ui
 Feature: PACFS Header and Footer Compliance
 
   As a PACFS user

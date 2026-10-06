@@ -1,4 +1,4 @@
-@PCFS-97 @Regression
+@PCFS-97 @Regression @ui
 Feature: Selected court visibility across PACFS
 
   As a PACFS user

@@ -19,6 +19,7 @@ public class caseSummaryPageStepdefs extends Base {
     @Given("^I navigate to \"([^\"]*)\" tab$")
     public void caseSummaryPageStepdefs(String value) {
 
+        DriverContext.waitFor(1);
         DriverContext.waitForPageToLoad();
         Assert.assertEquals(CurrentPage.as(CourtCasesDetailsPage.class).GetHearingOutcomeStillToBeAdded(),value);
     }
@@ -27,6 +28,7 @@ public class caseSummaryPageStepdefs extends Base {
     @When("I select a defendant from the case list")
     public void iSelectADefendantFromTheCaseList() {
 
+        DriverContext.waitFor(1);
         DriverContext.waitForPageToLoad();
         CurrentPage = CurrentPage.as(CourtCasesDetailsPage.class).selectFirstDefendantName();
     }
@@ -34,6 +36,7 @@ public class caseSummaryPageStepdefs extends Base {
     @Then("I should be navigated to the Case Summary page")
     public void iShouldBeNavigatedToTheCaseSummaryPage() {
 
+        DriverContext.waitFor(1);
         DriverContext.waitForPageToLoad();
         Assert.assertEquals(CurrentPage.as(CaseSummaryPage.class).GetCaseSummary(),"Case summary");
     }
@@ -41,6 +44,7 @@ public class caseSummaryPageStepdefs extends Base {
     @And("the defendant name should match the value from the cases page")
     public void theDefendantNameShouldMatchTheValueFromTheCasesPage() {
 
+        DriverContext.waitFor(1);
         DriverContext.waitForPageToLoad();
         CurrentPage.as(CaseSummaryPage.class).ValidateDefendantNameMatches();
     }
@@ -48,6 +52,7 @@ public class caseSummaryPageStepdefs extends Base {
     @And("the probation status should match the value from the cases page")
     public void theProbationStatusShouldMatchTheValueFromTheCasesPage() {
 
+        DriverContext.waitFor(1);
         DriverContext.waitForPageToLoad();
         CurrentPage.as(CaseSummaryPage.class).ValidateProbationStatusMatches2();
     }
@@ -55,6 +60,7 @@ public class caseSummaryPageStepdefs extends Base {
     @Given("I am on the Case Summary page")
     public void iAmOnTheCaseSummaryPage() {
 
+        DriverContext.waitFor(1);
         DriverContext.waitForPageToLoad();
         //CurrentPage = CurrentPage.as(MyCourtsPage.class).clickLinkByText("Oxford and Southern Oxfordshire Magistrates' Court");
         CurrentPage = CurrentPage.as(CourtCasesDetailsPage.class).selectFirstDefendantName();
@@ -64,6 +70,7 @@ public class caseSummaryPageStepdefs extends Base {
     @When("I am on Case Summary page")
     public void iAmOnCaseSummaryPage() {
 
+        DriverContext.waitFor(1);
         DriverContext.waitForPageToLoad();
         CurrentPage = CurrentPage.as(MyCourtsPage.class).clickLinkByText("Oxford and Southern Oxfordshire Magistrates' Court");
         CurrentPage = CurrentPage.as(CourtCasesDetailsPage.class).selectFirstDefendantName();
@@ -73,6 +80,7 @@ public class caseSummaryPageStepdefs extends Base {
     @When("I add a comment with notes and observations about the case")
     public void iAddACommentWithNotesAndObservationsAboutTheCase() {
 
+        DriverContext.waitFor(1);
         DriverContext.waitForPageToLoad();
         CurrentPage.as(CaseSummaryPage.class).addHearingNote("Suggested Assertion Example");
     }
@@ -80,6 +88,7 @@ public class caseSummaryPageStepdefs extends Base {
     @Then("the comment should be saved and visible to colleagues")
     public void theCommentShouldBeSavedAndVisibleToColleagues() {
 
+        DriverContext.waitFor(1);
         DriverContext.waitForPageToLoad();
         Assert.assertEquals(CurrentPage.as(CaseSummaryPage.class).getSavedHearingNoteText(),"Suggested Assertion Example");
     }
@@ -87,6 +96,7 @@ public class caseSummaryPageStepdefs extends Base {
     @And("the Edit and Cancel buttons are displayed.")
     public void theEditAndCancelButtonsAreDisplayed() {
 
+        DriverContext.waitFor(1);
         DriverContext.waitForPageToLoad();
         Assert.assertTrue(CurrentPage.as(CaseSummaryPage.class).isEditLinkDisplayed());
         Assert.assertTrue(CurrentPage.as(CaseSummaryPage.class).isDeleteLinkDisplayed());
@@ -95,6 +105,7 @@ public class caseSummaryPageStepdefs extends Base {
     @And("I delete the hearing note that was just created")
     public void iDeleteTheHearingNoteThatWasJustCreated() {
 
+        DriverContext.waitFor(1);
         DriverContext.waitForPageToLoad();
         CurrentPage.as(CaseSummaryPage.class).clickDeleteHearingNote();
     }
@@ -102,6 +113,7 @@ public class caseSummaryPageStepdefs extends Base {
     @And("the success message {string} should be displayed")
     public void theSuccessMessageShouldBeDisplayed(String successfullyMsg) {
 
+        DriverContext.waitFor(1);
         DriverContext.waitForPageToLoad();
         Assert.assertEquals(CurrentPage.as(CaseSummaryPage.class).getDeleteSuccessMessage(), successfullyMsg);
     }
@@ -109,6 +121,7 @@ public class caseSummaryPageStepdefs extends Base {
     @When("I update the hearing note by clicking the Edit button")
     public void iUpdateTheHearingNoteByClickingTheEditButton() {
 
+        DriverContext.waitFor(1);
         CurrentPage.as(CaseSummaryPage.class).editHearingNote();
     }
 

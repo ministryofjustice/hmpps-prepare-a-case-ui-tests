@@ -5,6 +5,7 @@ import io.cucumber.java.en.And;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import org.pacfs.framework.base.Base;
+import org.pacfs.framework.base.DriverContext;
 import org.pacfs.test.pages.CourtCasesDetailsPage;
 import org.pacfs.test.pages.HearingOutcomesPage;
 import org.testng.Assert;
@@ -18,11 +19,15 @@ public class sortResultedCasesStepdefs extends Base {
     @And("the Resulted Cases tab is displayed")
     public void theResultedCasesTabIsDisplayed() {
 
+        DriverContext.waitFor(1);
+
         CurrentPage.as(HearingOutcomesPage.class).ClickResultedCasesTab();
     }
 
     @And("the Resulted Cases table contains multiple cases")
     public void theResultedCasesTableContainsMultipleCases() {
+
+        DriverContext.waitFor(1);
 
         Assert.assertTrue(
                 CurrentPage.as(HearingOutcomesPage.class)
@@ -38,6 +43,8 @@ public class sortResultedCasesStepdefs extends Base {
 
     @Then("cases should be sorted alphabetically by Defendant Last Name from Z to A")
     public void casesShouldBeSortedAlphabeticallyByDefendantLastNameFromZToA() {
+
+        DriverContext.waitFor(1);
 
         List<String> actualLastNames =
                 CurrentPage.as(HearingOutcomesPage.class)

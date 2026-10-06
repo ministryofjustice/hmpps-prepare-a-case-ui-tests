@@ -1,4 +1,4 @@
-@Regression
+@Regression @ui
 Feature: Validate Outcomes page pagination, sorting and data consistency
 
   Background:

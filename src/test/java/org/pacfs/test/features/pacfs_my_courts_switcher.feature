@@ -1,4 +1,4 @@
-@PCFS-98 @Regression
+@PCFS-98 @Regression @ui
 Feature: My Courts switcher
 
   As a PACFS user

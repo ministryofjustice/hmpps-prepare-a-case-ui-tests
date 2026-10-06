@@ -6,6 +6,7 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.How;
 import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.pacfs.framework.base.BasePage;
 import org.pacfs.framework.base.DriverContext;
@@ -437,6 +438,217 @@ public static String expectedDefendantName;
         DriverContext.waitForPageToLoad();
 
         System.out.println("Returned to previous page successfully");
+        return getInstance(HearingOutcomesPage.class);
+    }
+
+    public boolean isPossibleMappaBadgeDisplayed() {
+
+        List<WebElement> badges =
+                LocalDriverContext.getRemoteWebDriver()
+                        .findElements(
+                                By.xpath(
+                                        "//span[contains(normalize-space(.),'POSSIBLE MAPPA')]"
+                                )
+                        );
+
+        return !badges.isEmpty();
+    }
+
+    public boolean isPossibleMappaBadgeRed() {
+
+        WebElement badge =
+                LocalDriverContext.getRemoteWebDriver()
+                        .findElement(
+                                By.xpath(
+                                        "//span[contains(normalize-space(.),'POSSIBLE MAPPA')]"
+                                )
+                        );
+
+        String classes =
+                badge.getAttribute("class");
+
+        System.out.println(
+                "MAPPA Badge Classes: "
+                        + classes);
+
+        return classes.contains("moj-badge--red");
+    }
+
+    public boolean isPossibleSfoBadgeDisplayed() {
+
+        List<WebElement> badges =
+                LocalDriverContext.getRemoteWebDriver()
+                        .findElements(
+                                By.xpath(
+                                        "//span[contains(normalize-space(.),'POSSIBLE SFO')]"
+                                )
+                        );
+
+        return !badges.isEmpty();
+    }
+
+    public boolean isPossibleSfoBadgePurple() {
+
+        WebElement badge =
+                LocalDriverContext.getRemoteWebDriver()
+                        .findElement(
+                                By.xpath(
+                                        "//span[contains(normalize-space(.),'POSSIBLE SFO')]"
+                                )
+                        );
+
+        String classes =
+                badge.getAttribute("class");
+
+        System.out.println(
+                "SFO Badge Classes: "
+                        + classes);
+
+        return classes.contains("moj-badge--purple");
+    }
+
+    public void expandHearingNoteSection() {
+
+        WebElement expandButton =
+                LocalDriverContext.getRemoteWebDriver()
+                        .findElement(
+                                By.xpath(
+                                        "//span[contains(text(),'Expand to add a hearing note')]"
+                                )
+                        );
+
+        DriverContext.waitForElementToBeClickable(expandButton);
+
+        //expandButton.click();
+    }
+
+    public void addHearingNote2(String noteText) {
+
+            WebElement noteBox =
+                    LocalDriverContext.getRemoteWebDriver()
+                            .findElement(
+                                    By.xpath("//textarea[@name='note']")
+                            );
+
+            noteBox.clear();
+
+            noteBox.sendKeys(noteText);
+
+            WebElement saveButton =
+                    LocalDriverContext.getRemoteWebDriver()
+                            .findElement(
+                                    By.xpath("//button[contains(text(),'Save')]")
+                            );
+
+            saveButton.click();
+
+            DriverContext.waitForPageToLoad();
+
+            System.out.println(
+                    "Hearing note added: " + noteText
+            );
+    }
+
+    public void sendOutcomeToAdmin() {
+
+        DriverContext.waitForPageToLoad();
+        WebElement sendOutcomeButton =
+                LocalDriverContext.getRemoteWebDriver()
+                        .findElement(
+                                By.xpath(
+                                        "//button[contains(text(),'Send outcome to admin')]"
+                                )
+                        );
+        DriverContext.waitForPageToLoad();
+        DriverContext.waitForElementToBeClickable(
+                sendOutcomeButton
+        );
+
+       // sendOutcomeButton.click();
+
+        DriverContext.waitForPageToLoad();
+
+        System.out.println(
+                "Clicked Send outcome to admin"
+        );
+    }
+
+    public void selectOutcomeType(
+            String outcomeType) {
+
+        WebElement dropdown =
+                LocalDriverContext.getRemoteWebDriver()
+                        .findElement(
+                                By.id("addHearingOutcomeType")
+                        );
+
+        Select outcomeSelect =
+                new Select(dropdown);
+
+        outcomeSelect.selectByValue(outcomeType);
+
+        System.out.println(
+                "Selected outcome type: "
+                        + outcomeType
+        );
+    }
+
+    public void clickSendToAdminInModal() {
+
+        DriverContext.waitForPageToLoad();
+        WebElement sendButton =
+                LocalDriverContext.getRemoteWebDriver()
+                        .findElement(
+                                By.id("send-outcome-to-admin")
+                        );
+
+        DriverContext.waitForElementToBeClickable(
+                sendButton
+        );
+
+        //sendButton.click();
+
+        DriverContext.waitForPageToLoad();
+
+        System.out.println(
+                "Clicked Send to admin"
+        );
+    }
+
+    public boolean isOutcomeSuccessMessageDisplayed() {
+
+        List<WebElement> messages =
+                LocalDriverContext.getRemoteWebDriver()
+                        .findElements(
+                                By.xpath(
+                                        "//*[contains(text(),'Outcome sent to admin')]"
+                                )
+                        );
+
+        return !messages.isEmpty();
+    }
+
+    public HearingOutcomesPage clickOutcomesTab() {
+
+        WebElement outcomesTab =
+                LocalDriverContext.getRemoteWebDriver()
+                        .findElement(
+                                By.xpath(
+                                        "//a[contains(@class,'moj-primary-navigation__link')" +
+                                                " and normalize-space()='Outcomes']"
+                                )
+                        );
+
+        DriverContext.waitForElementToBeClickable(outcomesTab);
+
+        //outcomesTab.click();
+
+        DriverContext.waitForPageToLoad();
+
+        System.out.println(
+                "Clicked Outcomes tab"
+        );
+
         return getInstance(HearingOutcomesPage.class);
     }
 }

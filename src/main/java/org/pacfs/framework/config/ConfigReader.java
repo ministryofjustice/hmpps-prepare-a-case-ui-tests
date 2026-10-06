@@ -70,6 +70,9 @@ public class ConfigReader {
         Settings.UserName = getConfigValue("PAC_USERNAME", "UserName");
         Settings.Password = getConfigValue("PAC_PASSWORD", "Password");
 
+        Settings.HMPPS_CLIENT_ID = getConfigValue("PAC_HMPPS_CLIENT_ID", "HMPPS_CLIENT_ID");
+        Settings.HMPPS_CLIENT_SECRET = getConfigValue("PAC_HMPPS_CLIENT_SECRET", "HMPPS_CLIENT_SECRET");
+
         String browserType = getConfigValue("PAC_BROWSER_TYPE", "BrowserType");
         if (browserType != null) {
             Settings.BrowserType = BrowserTypes.valueOf(browserType);

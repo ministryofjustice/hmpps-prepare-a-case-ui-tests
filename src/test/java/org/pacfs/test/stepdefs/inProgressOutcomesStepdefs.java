@@ -31,14 +31,18 @@ public class inProgressOutcomesStepdefs extends Base {
         CurrentPage.as(SignInPage.class).EnterPassword(Settings.Password);
 
         CurrentPage = CurrentPage.as(SignInPage.class).ClickSignInButton();
+
+        DriverContext.waitFor(1);
     }
 
     @And("the Case Admin has navigated to the Outcomes flow")
     public void theCaseAdminHasNavigatedToTheOutcomesFlow() {
 
         DriverContext.waitForPageToLoad();
+        DriverContext.waitFor(2);
         CurrentPage = CurrentPage.as(MyCourtsPage.class).clickLinkByText("Oxford and Southern Oxfordshire Magistrates' Court");
         DriverContext.waitForPageToLoad();
+        DriverContext.waitFor(1);
         CurrentPage = CurrentPage.as(CourtCasesDetailsPage.class).ClickOutcomeTab();
     }
 
@@ -47,6 +51,7 @@ public class inProgressOutcomesStepdefs extends Base {
 
         CurrentPage.as(HearingOutcomesPage.class).ClickInProgressTab();
         DriverContext.waitForPageToLoad();
+        DriverContext.waitFor(1);
     }
 
     @And("the In Progress table contains multiple cases")
@@ -77,6 +82,7 @@ public class inProgressOutcomesStepdefs extends Base {
     public void theCasesShouldBeSortedByHearingDateFromOldestToNewest() {
 
         DriverContext.waitForPageToLoad();
+        DriverContext.waitFor(1);
         CurrentPage.as(HearingOutcomesPage.class).validateInProgressAreSortedByOldestHearingDate();
     }
 
@@ -84,16 +90,19 @@ public class inProgressOutcomesStepdefs extends Base {
     public void theCaseAdminClicksTheDefendantSortingArrow() {
 
         DriverContext.waitForPageToLoad();
+        DriverContext.waitFor(1);
         CurrentPage.as(HearingOutcomesPage.class)
                 .clickDefendantSortingArrow();
         Settings.logs.write("I click the sorting arrow on the Defendant column");
         System.out.println("I click the sorting arrow on the Defendant column");
         DriverContext.waitForPageToLoad();
+        DriverContext.waitFor(1);
     }
 
     @Then("the cases should be sorted alphabetically by Defendant Last Name from A to Z")
     public void theCasesShouldBeSortedAlphabeticallyByDefendantLastNameFromAToZ() {
 
+        DriverContext.waitFor(1);
         DriverContext.waitForPageToLoad();
         Settings.logs.write("trying to sort alphabetically from A to Z by the defendant last name");
         System.out.println("trying to sort alphabetically from A to Z by the defendant last name");
@@ -108,6 +117,7 @@ public class inProgressOutcomesStepdefs extends Base {
         Settings.logs.write("Now sorted alphabetically from A to Z by the defendant last name");
         System.out.println("Now sorted alphabetically from A to Z by the defendant last name");
 
+        DriverContext.waitFor(1);
         DriverContext.waitForPageToLoad();
         Assert.assertEquals(
                 actualLastNames,
@@ -118,8 +128,10 @@ public class inProgressOutcomesStepdefs extends Base {
     @Given("the Defendant column is sorted from A to Z")
     public void theDefendantColumnIsSortedFromAToZ() {
 
+        DriverContext.waitFor(1);
         DriverContext.waitForPageToLoad();
         theCaseAdminClicksTheDefendantSortingArrow();
+        DriverContext.waitFor(1);
         DriverContext.waitForPageToLoad();
         theCasesShouldBeSortedAlphabeticallyByDefendantLastNameFromAToZ();
     }
@@ -127,6 +139,7 @@ public class inProgressOutcomesStepdefs extends Base {
     @When("the Case Admin clicks the Defendant sorting arrow again")
     public void theCaseAdminClicksTheDefendantSortingArrowAgain() {
 
+        DriverContext.waitFor(1);
         DriverContext.waitForPageToLoad();
         theCaseAdminClicksTheDefendantSortingArrow();
     }
@@ -188,7 +201,7 @@ public class inProgressOutcomesStepdefs extends Base {
 
         // Remove the header row
         expectedOrder.remove(0);
-
+        DriverContext.waitFor(2);
         DriverContext.waitForPageToLoad();
         List<String> actualStatuses =
                 CurrentPage.as(HearingOutcomesPage.class)
@@ -214,6 +227,7 @@ public class inProgressOutcomesStepdefs extends Base {
     @And("the Hearing Date sorting should be reset")
     public void theHearingDateSortingShouldBeReset() {
 
+        DriverContext.waitFor(1);
         DriverContext.waitForPageToLoad();
         CurrentPage.as(HearingOutcomesPage.class).verifyHearingDateSortingIsReset();
     }
@@ -234,6 +248,7 @@ public class inProgressOutcomesStepdefs extends Base {
                 .clickProbationStatusSortingArrow();
         System.out.println("I click the sorting arrow on the Probation Status column again");
         DriverContext.waitForPageToLoad();
+        DriverContext.waitFor(1);
     }
 
     @Given("the Probation Status column is sorted")
@@ -247,7 +262,7 @@ public class inProgressOutcomesStepdefs extends Base {
 
     @When("the Case Admin sorts by Defendant Last Name")
     public void theCaseAdminSortsByDefendantLastName() {
-
+        DriverContext.waitFor(1);
         DriverContext.waitForPageToLoad();
         theCaseAdminClicksTheDefendantSortingArrow();
     }
@@ -261,7 +276,7 @@ public class inProgressOutcomesStepdefs extends Base {
 
     @And("the Defendant sorting should become active")
     public void theDefendantSortingShouldBecomeActive() {
-
+        DriverContext.waitFor(1);
         DriverContext.waitForPageToLoad();
         CurrentPage.as(HearingOutcomesPage.class).verifyDefendantSortingIsActive();
     }
