@@ -29,12 +29,16 @@ public class sortCasesUnderOutcomeStepdefs extends Base {
         CurrentPage.as(SignInPage.class).EnterPassword(Settings.Password);
 
         CurrentPage = CurrentPage.as(SignInPage.class).ClickSignInButton();
+
+        DriverContext.waitFor(1);
     }
 
     @And("I navigate to the Cases to Result page under the Outcomes flow")
     public void iNavigateToTheCasesToResultPageUnderTheOutcomesFlow() {
 
         DriverContext.waitForPageToLoad();
+
+        DriverContext.waitFor(1);
 
         CurrentPage = CurrentPage.as(MyCourtsPage.class).clickLinkByText("Oxford and Southern Oxfordshire Magistrates' Court");
 
@@ -54,6 +58,7 @@ public class sortCasesUnderOutcomeStepdefs extends Base {
     @Given("the Cases to Result page has loaded")
     public void theCasesToResultPageHasLoaded() {
 
+        DriverContext.waitFor(1);
         Assert.assertTrue(
                 CurrentPage.as(HearingOutcomesPage.class).isCasesToResultHeaderDisplayed(),
                 "Cases to Result page heading is not displayed"
@@ -65,6 +70,7 @@ public class sortCasesUnderOutcomeStepdefs extends Base {
     @When("the results are displayed")
     public void theResultsAreDisplayed() {
 
+        DriverContext.waitFor(1);
         Assert.assertTrue(
                 CurrentPage.as(HearingOutcomesPage.class).isResultsTableDisplayed(),
                 "Cases to Result table is not displayed"
@@ -74,12 +80,14 @@ public class sortCasesUnderOutcomeStepdefs extends Base {
     @Then("the cases should be sorted by Hearing date with the oldest hearing first")
     public void theCasesShouldBeSortedByHearingDateWithTheOldestHearingFirst() {
 
+        DriverContext.waitFor(1);
         CurrentPage.as(HearingOutcomesPage.class).validateCasesAreSortedByOldestHearingDate();
     }
 
     @And("the column heading should display {string}")
     public void theColumnHeadingShouldDisplay(String expectedHeading) {
 
+        DriverContext.waitFor(1);
         if(expectedHeading.equalsIgnoreCase("Hearing date (oldest)")){
 
             Assert.assertEquals(CurrentPage.as(HearingOutcomesPage.class).getHearingDateColumnHeading(),expectedHeading);
@@ -112,7 +120,7 @@ public class sortCasesUnderOutcomeStepdefs extends Base {
 //                actualDates,
 //                expectedDates,
 //                "Cases are NOT sorted by Hearing Date (Newest -> Oldest)");
-
+        DriverContext.waitFor(1);
         List<LocalDate> actualDates =
                 CurrentPage.as(HearingOutcomesPage.class)
                         .getAllHearingDates();
@@ -131,6 +139,7 @@ public class sortCasesUnderOutcomeStepdefs extends Base {
     @When("I click the sorting arrow on the Hearing date column")
     public void iClickTheSortingArrowOnTheHearingDateColumn() {
 
+        DriverContext.waitFor(1);
         CurrentPage.as(HearingOutcomesPage.class).clickHearingDateSortingArrow();
     }
 
@@ -147,7 +156,7 @@ public class sortCasesUnderOutcomeStepdefs extends Base {
 //                actualDates,
 //                expectedDates,
 //                "Cases are NOT sorted by Hearing Date (Newest -> Oldest)");
-
+        DriverContext.waitFor(1);
         List<LocalDate> actualDates =
                 CurrentPage.as(HearingOutcomesPage.class)
                         .getAllHearingDates();
@@ -166,6 +175,7 @@ public class sortCasesUnderOutcomeStepdefs extends Base {
     @And("the oldest hearings should appear at the bottom of the list")
     public void theOldestHearingsShouldAppearAtTheBottomOfTheList() {
 
+        DriverContext.waitFor(1);
         List<LocalDate> hearingDates = CurrentPage.as(HearingOutcomesPage.class).getAllHearingDates2();
 
         Assert.assertFalse(
@@ -191,6 +201,7 @@ public class sortCasesUnderOutcomeStepdefs extends Base {
     @When("I click the sorting arrow on the Defendant column")
     public void iClickTheSortingArrowOnTheDefendantColumn() {
 
+        DriverContext.waitFor(1);
         CurrentPage.as(HearingOutcomesPage.class)
                 .clickDefendantSortingArrow();
         Settings.logs.write("I click the sorting arrow on the Defendant column");
@@ -200,6 +211,7 @@ public class sortCasesUnderOutcomeStepdefs extends Base {
     @Then("the cases should be sorted alphabetically from A to Z using the defendant last name")
     public void theCasesShouldBeSortedAlphabeticallyFromAToZUsingTheDefendantLastName() {
 
+        DriverContext.waitFor(1);
         Settings.logs.write("trying to sort alphabetically from A to Z by the defendant last name");
         System.out.println("trying to sort alphabetically from A to Z by the defendant last name");
         List<String> actualLastNames =
@@ -222,6 +234,7 @@ public class sortCasesUnderOutcomeStepdefs extends Base {
     @Given("cases are currently sorted by Defendant last name from A to Z")
     public void casesAreCurrentlySortedByDefendantLastNameFromAToZ() {
 
+        DriverContext.waitFor(1);
         DriverContext.waitForPageToLoad();
         theCasesToResultPageHasLoaded();
         iClickTheSortingArrowOnTheDefendantColumn();
@@ -230,6 +243,8 @@ public class sortCasesUnderOutcomeStepdefs extends Base {
 
     @Then("the cases should be sorted alphabetically from Z to A using the defendant last name")
     public void theCasesShouldBeSortedAlphabeticallyFromZToAUsingTheDefendantLastName() {
+
+        DriverContext.waitFor(1);
 
         List<String> actualLastNames =
                 CurrentPage.as(HearingOutcomesPage.class)
@@ -248,6 +263,7 @@ public class sortCasesUnderOutcomeStepdefs extends Base {
     @When("I click the sorting arrow on the Probation Status column")
     public void iClickTheSortingArrowOnTheProbationStatusColumn() {
 
+        DriverContext.waitFor(1);
         CurrentPage.as(HearingOutcomesPage.class)
                 .clickProbationStatusSortingArrow();
         System.out.println("I click the sorting arrow on the Probation Status column");
@@ -256,6 +272,7 @@ public class sortCasesUnderOutcomeStepdefs extends Base {
     @Then("the cases should be sorted in the following order:")
     public void theCasesShouldBeSortedInTheFollowingOrder(DataTable dataTable) {
 
+        DriverContext.waitFor(1);
         System.out.println("trying to sort in the following order: Probation Status, Current, Previously known, No record");
         List<String> expectedOrder = new ArrayList<>(dataTable.asList());
 
@@ -292,6 +309,7 @@ public class sortCasesUnderOutcomeStepdefs extends Base {
     @Then("the cases should be sorted in the following reverse order:")
     public void theCasesShouldBeSortedInTheFollowingReverseOrder(DataTable dataTable) {
 
+        DriverContext.waitFor(1);
         List<String> expectedOrder = dataTable.asList(String.class);
 
         // Remove table header
@@ -341,6 +359,7 @@ public class sortCasesUnderOutcomeStepdefs extends Base {
     @When("I navigate back to the previous page")
     public void iNavigateBackToThePreviousPage() {
 
+        DriverContext.waitFor(1);
         CurrentPage.as(HearingOutcomesPage.class)
                 .clickPreviousPage();
     }
@@ -348,6 +367,7 @@ public class sortCasesUnderOutcomeStepdefs extends Base {
     @When("I navigate to the next page of results")
     public void iNavigateToTheNextPageOfResults() {
 
+        DriverContext.waitFor(1);
         CurrentPage.as(HearingOutcomesPage.class)
                 .clickNextPage();
     }
@@ -361,6 +381,7 @@ public class sortCasesUnderOutcomeStepdefs extends Base {
     @Given("I have sorted the cases by Hearing date newest first")
     public void iHaveSortedTheCasesByHearingDateNewestFirst() {
 
+        DriverContext.waitFor(1);
         iClickTheSortingArrowOnTheHearingDateColumn();
         theCasesShouldBeSortedByTheMostRecentHearingDateFirst();
     }
@@ -368,6 +389,7 @@ public class sortCasesUnderOutcomeStepdefs extends Base {
     @When("I open a case from the results list")
     public void iOpenACaseFromTheResultsList() {
 
+        DriverContext.waitFor(1);
         CurrentPage = CurrentPage.as(HearingOutcomesPage.class)
                 .selectFirstCaseFromResults();
 
@@ -378,18 +400,21 @@ public class sortCasesUnderOutcomeStepdefs extends Base {
     @And("I return to the Cases to Result page")
     public void iReturnToTheCasesToResultPage() {
 
+        DriverContext.waitFor(1);
         CurrentPage = CurrentPage.as(CaseSummaryPage.class).clickBackArrow();
     }
 
     @Then("the Hearing date sorting should remain as newest first")
     public void theHearingDateSortingShouldRemainAsNewestFirst() {
 
+        DriverContext.waitFor(1);
         theOldestHearingsShouldAppearAtTheBottomOfTheList();
     }
 
     @Given("I have sorted the cases by Defendant A-Z")
     public void iHaveSortedTheCasesByDefendantAZ() {
 
+        DriverContext.waitFor(1);
         theCasesToResultPageHasLoaded();
         iClickTheSortingArrowOnTheDefendantColumn();
         theCasesShouldBeSortedAlphabeticallyFromAToZUsingTheDefendantLastName();

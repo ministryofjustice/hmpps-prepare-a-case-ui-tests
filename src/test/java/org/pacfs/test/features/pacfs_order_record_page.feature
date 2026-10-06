@@ -1,6 +1,6 @@
-#@PCFS-332 @Regression
-#Feature: Display defendant attendance and absence totals correctly on order record pages
-#
+@PCFS-332 @Regression @ui
+Feature: Display defendant attendance and absence totals correctly on order record pages
+
 #  Scenario: 1- Attendance and absence totals are displayed inline on the current order record page
 #    Given I am on the probation record page for a defendant with a current order
 #    And the defendant has attendance and absence records

@@ -25,7 +25,7 @@ import java.io.IOException;
  */
 public class TestInitialize extends FrameworkInitialize {
 
-    @Before
+    @Before("@ui")
     public void Initialize(Scenario scenario) throws IOException {
 
         System.out.println("\n---------------------------------------------------------");
@@ -60,7 +60,7 @@ public class TestInitialize extends FrameworkInitialize {
         DriverContext.implicitlyWait();
     }
 
-    @After
+    @After("@ui")
     public void TearDownTest(Scenario scenario) {
 
         Settings.logs.write(scenario.getName());

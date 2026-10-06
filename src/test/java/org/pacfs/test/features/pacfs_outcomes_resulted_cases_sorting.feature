@@ -1,3 +1,4 @@
+@ui
 Feature: Sort Cases in the Resulted Cases Outcomes Table
 
   As a Case Admin

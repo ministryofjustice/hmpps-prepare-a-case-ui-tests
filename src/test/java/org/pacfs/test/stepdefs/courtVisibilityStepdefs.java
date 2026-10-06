@@ -7,6 +7,7 @@ import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 import org.junit.Assert;
 import org.pacfs.framework.base.Base;
+import org.pacfs.framework.base.DriverContext;
 import org.pacfs.framework.config.Settings;
 import org.pacfs.test.pages.CourtCasesDetailsPage;
 import org.pacfs.test.pages.HearingOutcomesPage;
@@ -25,6 +26,8 @@ public class courtVisibilityStepdefs extends Base {
         CurrentPage.as(SignInPage.class).EnterPassword(Settings.Password);
 
         CurrentPage = CurrentPage.as(SignInPage.class).ClickSignInButton();
+
+        DriverContext.waitFor(1);
 
         CurrentPage = CurrentPage.as(MyCourtsPage.class).clickLinkByText("Oxford and Southern Oxfordshire Magistrates' Court");
     }

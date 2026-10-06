@@ -18,6 +18,7 @@ import org.testng.Assert;
 import java.time.Duration;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeFormatterBuilder;
 import java.util.*;
 
 public class HearingOutcomesPage extends BasePage {
@@ -77,11 +78,6 @@ public class HearingOutcomesPage extends BasePage {
 
     @FindBy(xpath = "//table/tbody/tr[1]/td[position()=1]/a")
     private WebElement defendantLink;
-
-
-
-
-
 
 
     public void validateDuplicateDefendantNamesAcrossPages2() {
@@ -641,7 +637,7 @@ public class HearingOutcomesPage extends BasePage {
     }
 
 
-    public void ClickInProgressTab(){
+    public void ClickInProgressTab() {
 
         DriverContext.waitForElementToBeClickable(InProgressTab);
 
@@ -768,7 +764,7 @@ public class HearingOutcomesPage extends BasePage {
 
             List<WebElement> nextButtons = LocalDriverContext.getRemoteWebDriver().findElements(
                     By.xpath("//nav[contains(@class,'govuk-pagination')]//a[@rel='next']"));
-                    //By.xpath("//nav[contains(@class,'moj-pagination')]//a[contains(text(),'Next')]"));
+            //By.xpath("//nav[contains(@class,'moj-pagination')]//a[contains(text(),'Next')]"));
 
             if (nextButtons.isEmpty()) {
 
@@ -1299,13 +1295,13 @@ public class HearingOutcomesPage extends BasePage {
                 actualDescription.endsWith("case to resulted cases."));
     }
 
-    public void ClickResultedCasesTab(){
+    public void ClickResultedCasesTab() {
 
         DriverContext.waitForElementToBeClickable(ResultedCasesTab);
         DriverContext.waitForPageToLoad();
     }
 
-    public CourtCasesDetailsPage ClickCasesTab(){
+    public CourtCasesDetailsPage ClickCasesTab() {
 
         DriverContext.waitForElementToBeClickable(CasesTab);
         DriverContext.waitForPageToLoad();
@@ -1386,7 +1382,7 @@ public class HearingOutcomesPage extends BasePage {
         return pageCaption.getText().trim();
     }
 
-    public boolean ConfirmActiveCourtOxfordAndSouthern(){
+    public boolean ConfirmActiveCourtOxfordAndSouthern() {
 
         return DriverContext.isElementPresent(activeCourtOxfordAndSouthern);
     }
@@ -1411,7 +1407,6 @@ public class HearingOutcomesPage extends BasePage {
             return false;
         }
     }
-
 
 
     public boolean isResultsTableDisplayed() {
@@ -1439,8 +1434,11 @@ public class HearingOutcomesPage extends BasePage {
 
         List<LocalDate> actualDates = new ArrayList<>();
 
+//        DateTimeFormatter formatter =
+//                DateTimeFormatter.ofPattern("d MMM yyyy", Locale.UK);
+
         DateTimeFormatter formatter =
-                DateTimeFormatter.ofPattern("d MMM yyyy", Locale.UK);
+                DateTimeFormatter.ofPattern("d MMM yyyy", Locale.ENGLISH);
 
         int currentPage = 1;
 
@@ -1456,13 +1454,28 @@ public class HearingOutcomesPage extends BasePage {
 
                 String hearingDate = dateCell.getText().trim();
 
-                System.out.println(hearingDate);
+//                System.out.println(hearingDate);
+//
+//                if (!hearingDate.isEmpty()) {
+//
+//                    actualDates.add(
+//                            LocalDate.parse(hearingDate, formatter)
+//                    );
+//                }
+
+                System.out.println("Date extracted: [" + hearingDate + "]");
+                System.out.println("Length: " + hearingDate.length());
 
                 if (!hearingDate.isEmpty()) {
 
-                    actualDates.add(
-                            LocalDate.parse(hearingDate, formatter)
-                    );
+                    try {
+                        actualDates.add(
+                                LocalDate.parse(hearingDate, formatter)
+                        );
+                    } catch (Exception e) {
+                        System.out.println("FAILED DATE = [" + hearingDate + "]");
+                        throw e;
+                    }
                 }
             }
 
@@ -1490,6 +1503,7 @@ public class HearingOutcomesPage extends BasePage {
 
             nextButton.click();
 
+            DriverContext.waitFor(1);
             DriverContext.waitForPageToLoad();
             WebDriverWait wait = new WebDriverWait(
                     LocalDriverContext.getRemoteWebDriver(),
@@ -1597,6 +1611,7 @@ public class HearingOutcomesPage extends BasePage {
 
     public String getHearingDateColumnHeading() {
 
+        DriverContext.waitFor(1);
         DriverContext.waitForPageToLoad();
         DriverContext.waitForElementVisible(hearingDateColumnHeading);
 
@@ -1607,8 +1622,14 @@ public class HearingOutcomesPage extends BasePage {
 
         List<LocalDate> actualDates = new ArrayList<>();
 
+//        DateTimeFormatter formatter =
+//                DateTimeFormatter.ofPattern("d MMM yyyy", Locale.ENGLISH);
+
         DateTimeFormatter formatter =
-                DateTimeFormatter.ofPattern("d MMM yyyy", Locale.UK);
+                new DateTimeFormatterBuilder()
+                        .parseCaseInsensitive()
+                        .appendPattern("d MMM yyyy")
+                        .toFormatter(Locale.ENGLISH);
 
         int currentPage = 1;
 
@@ -2287,5 +2308,347 @@ public class HearingOutcomesPage extends BasePage {
                 actualSortState.equals("ascending") || actualSortState.equals("descending"),
                 "Expected Defendant sorting to be active, but found: " + actualSortState
         );
+    }
+
+    public void assignHearingToMyself(
+            String defendantName) {
+
+        WebElement row =
+                LocalDriverContext.getRemoteWebDriver()
+                        .findElement(
+                                By.xpath(
+                                        "//tr[.//a[contains(@class,'pac-defendant-link') and contains(normalize-space(.),'" + defendantName + "')]]"
+                                )
+                        );
+
+        DriverContext.waitForPageToLoad();
+
+        WebElement label =
+                row.findElement(
+                        By.xpath(
+                                ".//label[contains(@class,'govuk-checkboxes__label')]"
+                        )
+                );
+
+        label.click();
+
+
+        System.out.println(
+                "Selected checkbox for: "
+                        + defendantName
+        );
+
+//        WebElement assignToMeButton =
+//                LocalDriverContext.getRemoteWebDriver()
+//                        .findElement(
+//                                By.xpath(
+//                                        "//button[contains(normalize-space(),'Assign to me')]"
+//                                )
+//                        );
+//
+//        DriverContext.waitForElementToBeClickable(
+//                assignToMeButton
+//        );
+//
+//        //assignToMeButton.click();
+
+
+        WebDriverWait wait =
+                new WebDriverWait(
+                        LocalDriverContext.getRemoteWebDriver(),
+                        Duration.ofSeconds(30));
+
+        WebElement assignToMeButton =
+                LocalDriverContext.getRemoteWebDriver()
+                        .findElement(
+                                By.xpath(
+                                        "//button[contains(text(),'Assign to me') and @value='assign']"
+                                )
+                        );
+
+        wait.until(driver ->
+                assignToMeButton.isEnabled());
+
+        assignToMeButton.click();
+
+
+        DriverContext.waitForPageToLoad();
+
+        System.out.println(
+                "Assigned hearing to myself for: "
+                        + defendantName
+        );
+    }
+
+    public boolean isAssignToMeSuccessMessageDisplayed(
+            String defendantName) {
+
+        WebElement successMessage =
+                LocalDriverContext.getRemoteWebDriver()
+                        .findElement(
+                                By.xpath(
+                                        "//p[contains(@class,'govuk-notification-banner__heading')]"
+                                )
+                        );
+
+        String actualMessage =
+                successMessage.getText();
+
+        System.out.println(
+                "Assignment Message: "
+                        + actualMessage
+        );
+
+        return actualMessage.contains(
+                "You are assigned to result "
+                        + defendantName
+        );
+    }
+
+    public void openInProgressTab() {
+
+        WebElement inProgressTab =
+                LocalDriverContext.getRemoteWebDriver()
+                        .findElement(
+                                By.xpath(
+                                        "//a[contains(text(),'In progress')]"
+                                )
+                        );
+
+        DriverContext.waitForElementToBeClickable(
+                inProgressTab
+        );
+
+        //inProgressTab.click();
+
+        DriverContext.waitForPageToLoad();
+
+        System.out.println(
+                "Opened In Progress tab"
+        );
+    }
+
+    public void moveHearingToResulted(
+            String defendantName) {
+
+        WebElement moveToResultedButton =
+                LocalDriverContext.getRemoteWebDriver()
+                        .findElement(
+                                By.xpath(
+                                        "//tr[.//a[contains(@class,'pac-defendant-link')" +
+                                                " and normalize-space()='" + defendantName + "']]" +
+                                                "//a[contains(text(),'Move to resulted')]"
+                                )
+                        );
+
+        DriverContext.waitForElementToBeClickable(
+                moveToResultedButton
+        );
+
+        //moveToResultedButton.click();
+
+        DriverContext.waitForPageToLoad();
+
+        System.out.println(
+                "Moved defendant to Resulted: "
+                        + defendantName
+        );
+    }
+
+    public void openResultedCasesTab() {
+
+        WebElement resultedTab =
+                LocalDriverContext.getRemoteWebDriver()
+                        .findElement(
+                                By.xpath(
+                                        "//a[contains(text(),'Resulted cases')]"
+                                )
+                        );
+
+        DriverContext.waitForElementToBeClickable(
+                resultedTab
+        );
+
+        //resultedTab.click();
+
+        DriverContext.waitForPageToLoad();
+
+        System.out.println(
+                "Opened Resulted Cases tab"
+        );
+    }
+
+    public boolean isPossibleMappaHighlightedInCasesToResult(
+            String defendantName) {
+
+        WebElement row =
+                findCasesToResultRow(defendantName);
+
+        List<WebElement> cells =
+                row.findElements(By.tagName("td"));
+
+        for (WebElement cell : cells) {
+
+            String colour =
+                    cell.getCssValue("background-color");
+
+            System.out.println(
+                    "Cell Colour = " + colour
+            );
+
+            if (!colour.equals("rgba(254, 251, 226, 1)")) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    private WebElement findCasesToResultRow(String defendantName) {
+
+        return LocalDriverContext.getRemoteWebDriver()
+                .findElement(
+                        By.xpath(
+                                "//tr[.//a[contains(@class,'pac-defendant-link')" +
+                                        " and normalize-space()='" +
+                                        defendantName +
+                                        "']]"
+                        )
+                );
+    }
+
+    public boolean isPossibleMappaPresentInCasesToResult(
+            String defendantName) {
+
+        WebElement row =
+                findCasesToResultRow(defendantName);
+
+        List<WebElement> badges =
+                row.findElements(
+                        By.xpath(
+                                ".//span[contains(normalize-space(.),'Possible MAPPA')]"
+                        )
+                );
+
+        boolean present =
+                !badges.isEmpty();
+
+        System.out.println(
+                "Possible MAPPA Present = " + present
+        );
+
+        return present;
+    }
+
+    public boolean isPossibleMappaBadgeRedInCasesToResult(
+            String defendantName) {
+
+        WebElement row =
+                findCasesToResultRow(defendantName);
+
+        WebElement badge =
+                row.findElement(
+                        By.xpath(
+                                ".//span[contains(normalize-space(.),'Possible MAPPA')]"
+                        )
+                );
+
+        String classes =
+                badge.getAttribute("class");
+
+        System.out.println(
+                "MAPPA Badge Classes = "
+                        + classes
+        );
+
+        return classes.contains("moj-badge--red");
+    }
+
+    public boolean isDefendantDisplayedInProgress(
+            String defendantName) {
+
+        List<WebElement> defendantRows =
+                LocalDriverContext.getRemoteWebDriver()
+                        .findElements(
+                                By.xpath(
+                                        "//tr[.//a[contains(@class,'pac-defendant-link')" +
+                                                " and contains(normalize-space(.),'" +
+                                                defendantName +
+                                                "')]]"
+                                )
+                        );
+
+        return !defendantRows.isEmpty();
+    }
+
+    public boolean isPossibleMappaPresentInProgress(
+            String defendantName) {
+
+        WebElement row =
+                findInProgressRow(defendantName);
+
+        List<WebElement> badges =
+                row.findElements(
+                        By.xpath(
+                                ".//*[contains(text(),'MAPPA')]"
+                        )
+                );
+
+        boolean present =
+                !badges.isEmpty();
+
+        System.out.println(
+                "In Progress MAPPA Present = "
+                        + present
+        );
+
+        return present;
+    }
+
+    private WebElement findInProgressRow(
+            String defendantName) {
+
+        return LocalDriverContext.getRemoteWebDriver()
+                .findElement(
+                        By.xpath(
+                                "//tr[.//a[contains(@class,'pac-defendant-link')" +
+                                        " and contains(normalize-space(.),'" +
+                                        defendantName +
+                                        "')]]"
+                        )
+                );
+    }
+
+    public boolean isPossibleMappaHighlightedInProgress(
+            String defendantName) {
+
+        WebElement row =
+                findInProgressRow(defendantName);
+
+        List<WebElement> cells =
+                row.findElements(
+                        By.tagName("td")
+                );
+
+        for (WebElement cell : cells) {
+
+            String colour =
+                    cell.getCssValue(
+                            "background-color"
+                    );
+
+            System.out.println(
+                    "In Progress Cell Colour = "
+                            + colour
+            );
+
+            if (!colour.equals(
+                    "rgba(254, 251, 226, 1)")) {
+
+                return false;
+            }
+        }
+
+        return true;
     }
 }

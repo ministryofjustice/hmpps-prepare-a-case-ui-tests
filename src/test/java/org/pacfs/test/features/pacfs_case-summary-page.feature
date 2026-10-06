@@ -1,3 +1,4 @@
+@ui
 Feature: Case Summary Page - Defendant details, case actions and updates
 
   Background:

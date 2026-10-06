@@ -1,4 +1,4 @@
-@Regression
+@Regression @ui
 Feature: Sort Cases in the In Progress Outcomes Table
 
   As a Case Admin

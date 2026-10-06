@@ -7,6 +7,7 @@ import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 import org.pacfs.framework.base.Base;
 import org.pacfs.framework.base.BasePage;
+import org.pacfs.framework.base.DriverContext;
 import org.pacfs.framework.config.Settings;
 import org.pacfs.test.pages.*;
 import org.testng.Assert;
@@ -23,6 +24,8 @@ public class headerAndFooterStepdefs extends Base {
         CurrentPage.as(SignInPage.class).EnterPassword(Settings.Password);
 
         CurrentPage = CurrentPage.as(SignInPage.class).ClickSignInButton();
+
+        DriverContext.waitFor(1);
     }
 
     @When("I navigate to any PACFS page")
@@ -40,6 +43,7 @@ public class headerAndFooterStepdefs extends Base {
     @And("the header should remain visible throughout the user journey")
     public void theHeaderShouldRemainVisibleThroughoutTheUserJourney() {
 
+        DriverContext.waitFor(1);
         CurrentPage = CurrentPage.as(MyCourtsPage.class).clickLinkByText("Oxford and Southern Oxfordshire Magistrates' Court");
         Assert.assertTrue(
                 CurrentPage.as(BasePage.class)
@@ -63,6 +67,7 @@ public class headerAndFooterStepdefs extends Base {
     @And("the header layout should remain consistent across all pages")
     public void theHeaderLayoutShouldRemainConsistentAcrossAllPages() {
 
+        DriverContext.waitFor(1);
         Assert.assertTrue(
                 CurrentPage.as(BasePage.class)
                         .isEnvironmentLabelVisuallyDistinct()
@@ -91,6 +96,7 @@ public class headerAndFooterStepdefs extends Base {
     @Then("the MoJ standard footer should be displayed")
     public void theMoJStandardFooterShouldBeDisplayed() {
 
+        DriverContext.waitFor(1);
         CurrentPage = CurrentPage.as(MyCourtsPage.class).clickLinkByText("Oxford and Southern Oxfordshire Magistrates' Court");
         Assert.assertTrue(
                 CurrentPage.as(BasePage.class)
@@ -114,6 +120,7 @@ public class headerAndFooterStepdefs extends Base {
     @And("the footer layout should remain consistent across all pages")
     public void theFooterLayoutShouldRemainConsistentAcrossAllPages() {
 
+        DriverContext.waitFor(1);
         CurrentPage = CurrentPage.as(CaseSummaryPage.class).ClickBackArrow();
         Assert.assertTrue(
                 CurrentPage.as(BasePage.class)
@@ -157,17 +164,21 @@ public class headerAndFooterStepdefs extends Base {
         CurrentPage.as(SignInPage.class).EnterPassword(Settings.Password);
 
         CurrentPage = CurrentPage.as(SignInPage.class).ClickSignInButton();
+
+        DriverContext.waitFor(1);
     }
 
     @When("I click the {string} link in the header")
     public void iClickTheLinkInTheHeader(String arg0) {
 
+        DriverContext.waitFor(1);
         CurrentPage = CurrentPage.as(MyCourtsPage.class).ClickProbationDigitalServicesLink();
     }
 
     @Then("I should be redirected to the PACFS Home page")
     public void iShouldBeRedirectedToThePACFSHomePage() {
 
+        DriverContext.waitFor(1);
         Assert.assertTrue(CurrentPage.as(HomePage.class).IsTitleHeaderDisplay());
     }
 
@@ -181,6 +192,8 @@ public class headerAndFooterStepdefs extends Base {
         CurrentPage.as(SignInPage.class).EnterPassword(Settings.Password);
 
         CurrentPage = CurrentPage.as(SignInPage.class).ClickSignInButton();
+
+        DriverContext.waitFor(1);
     }
 
     @When("the page loads")
@@ -192,6 +205,7 @@ public class headerAndFooterStepdefs extends Base {
     @Then("my user name should be displayed in the header")
     public void myUserNameShouldBeDisplayedInTheHeader() {
 
+        DriverContext.waitFor(1);
         Assert.assertTrue(
                 CurrentPage.as(MyCourtsPage.class)
                         .isUserNameDisplayedInHeader()
@@ -201,6 +215,7 @@ public class headerAndFooterStepdefs extends Base {
     @When("I click the Cookies link in the footer")
     public void iClickTheCookiesLinkInTheFooter() {
 
+        DriverContext.waitFor(1);
         CurrentPage = CurrentPage.as(MyCourtsPage.class)
                 .clickCookiesPolicyLink();
     }
@@ -208,6 +223,7 @@ public class headerAndFooterStepdefs extends Base {
     @Then("the latest Cookies policy page should be displayed")
     public void theLatestCookiesPolicyPageShouldBeDisplayed() {
 
+        DriverContext.waitFor(1);
         Assert.assertTrue(
                 CurrentPage.as(CookiesPolicyPage.class)
                         .isCookiesPolicyPageDisplayed()
@@ -223,6 +239,7 @@ public class headerAndFooterStepdefs extends Base {
     @Then("the {string} link should not be visible")
     public void theLinkShouldNotBeVisible(String linkText) {
 
+        DriverContext.waitFor(1);
         CurrentPage = CurrentPage.as(MyCourtsPage.class).clickLinkByText("Oxford and Southern Oxfordshire Magistrates' Court");
         Assert.assertTrue(
                 CurrentPage.as(BasePage.class)
@@ -258,6 +275,7 @@ public class headerAndFooterStepdefs extends Base {
     @When("I select {string} from My Courts")
     public void iSelectFromMyCourts(String footerLink) {
 
+        DriverContext.waitFor(1);
         CurrentPage.as(MyCourtsPage.class)
                 .selectFooterLink(footerLink);
     }
@@ -265,6 +283,7 @@ public class headerAndFooterStepdefs extends Base {
     @Then("the corresponding page should be displayed")
     public void theCorrespondingPageShouldBeDisplayed() {
 
+        DriverContext.waitFor(1);
         Assert.assertTrue(
                 CurrentPage.as(BasePage.class)
                         .isCorrespondingFooterPageDisplayed()
@@ -281,6 +300,7 @@ public class headerAndFooterStepdefs extends Base {
     @Then("the header should still be displayed")
     public void theHeaderShouldStillBeDisplayed() {
 
+        DriverContext.waitFor(1);
         Assert.assertTrue(CurrentPage.as(BasePage.class).isEnvironmentLabelDisplayedInHeader());
         Assert.assertTrue(CurrentPage.as(BasePage.class).isEnvironmentLabelVisuallyDistinct());
     }
@@ -288,6 +308,7 @@ public class headerAndFooterStepdefs extends Base {
     @And("the footer should still be displayed")
     public void theFooterShouldStillBeDisplayed() {
 
+        DriverContext.waitFor(1);
         Assert.assertTrue(CurrentPage.as(BasePage.class).isMoJStandardFooterDisplayed());
         Assert.assertTrue(CurrentPage.as(BasePage.class).isFooterLayoutConsistent());
     }

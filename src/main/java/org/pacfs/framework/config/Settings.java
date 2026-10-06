@@ -45,6 +45,8 @@ public class Settings {
     public static String AUT1;
     public static String UserName;
     public static String Password;
+    public static String HMPPS_CLIENT_ID;
+    public static String HMPPS_CLIENT_SECRET;
     public static String RedirectURL;
     public static String EnvironmentType;
     public static String Os;

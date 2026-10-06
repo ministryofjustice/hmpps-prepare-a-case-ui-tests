@@ -1,4 +1,4 @@
-@PCFS-83 @Regression
+@PCFS-83 @Regression @ui
 Feature: PACFS page heading and title structure
 
   As a PACFS user using assistive technology
