@@ -16,8 +16,8 @@ import static org.testng.Assert.assertEquals;
 
 public class authClientStepdefs extends Base {
 
-    private String token;
-    private CourtCaseServiceClient courtCaseServiceClient;
+    public String token;
+    public CourtCaseServiceClient courtCaseServiceClient;
 
     @Given("I have a valid court case service authentication token")
     public void generateAuthenticationToken() {

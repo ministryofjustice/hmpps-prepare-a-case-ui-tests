@@ -19,7 +19,8 @@ import org.testng.annotations.Test;
         "html:target/cucumber-reports/cucumber.html",
         "json:target/cucumber-reports/cucumber.json",
         "junit:target/cucumber-reports/cucumber.xml"
-})
+},
+tags = "@PCFS-11")
 public class TestRunner {
 
     private TestNGCucumberRunner testNGCucumberRunner;
