@@ -87,6 +87,36 @@ public class CaseSummaryPage extends BasePage {
     @FindBy(how = How.TAG_NAME, using = "h1")
     private WebElement defendantNameHeading;
 
+    @FindBy(how = How.XPATH, using = "//button[normalize-space()='Send outcome to admin']"
+    )
+    private WebElement sendOutcomeToAdminButton;
+
+//    @FindBy(how = How.XPATH, using = "//div[@id[contains(.,'case-progress-hearing')]]//strong")
+//    private WebElement hearingDetails;
+
+//    @FindBy(how = How.XPATH, using = "//div[contains(@id,'case-progress-hearing')]")
+//    private WebElement hearingDetails;
+
+    @FindBy(how = How.XPATH, using = "//div[contains(@id,'hearing-progress-wrapper')]/child::div/child::div[position()=1]/child::div[position()=1]/child::div/child::div/child::div")
+    private WebElement hearingDetails;
+
+    @FindBy(how = How.XPATH, using = "//span[contains(text(),\"Add a note for\")]")
+    private WebElement hearingNotesLink;
+
+    @FindBy(how = How.XPATH, using = "//span[contains(@class,'govuk-details__summary-text') and contains(.,'Expand to add a hearing note')]")
+    private WebElement ExpandHearingNotesLink;
+
+    @FindBy(how = How.XPATH, using = "//strong[normalize-space()=\"Today's hearing\"]")
+    private WebElement todaysHearingTag;
+
+    @FindBy(how = How.XPATH, using = "//strong[normalize-space()=\"Future hearing\"]")
+    private WebElement futureHearingTag;
+
+    @FindBy(how = How.XPATH, using = "//div[contains(@class,'govuk-notification-banner--success')]")
+    private WebElement outcomeSuccessBanner;
+
+    @FindBy(how = How.XPATH, using = "//p[contains(@class,'govuk-notification-banner__heading') and contains(.,'Outcome sent to admin')]")
+    private WebElement outcomeSentToAdminMessage;
 
 
     public String GetCaseSummary(){
@@ -174,6 +204,7 @@ public static String expectedDefendantName;
     public void expandHearingNote() {
 
         //expandIcon.click();
+        DriverContext.waitFor(1);
         DriverContext.waitForElementToBeClickable(expandIcon);
     }
 
@@ -181,12 +212,14 @@ public static String expectedDefendantName;
 
         //DriverContext.WaitForElementToBePresenceLocated(textBox);
         textBox.clear();
+        DriverContext.waitFor(1);
         textBox.sendKeys(noteText);
     }
 
     public void clickSaveHearingNote() {
 
         //saveButton.click();
+        DriverContext.waitFor(1);
         DriverContext.waitForElementToBeClickable(saveButton);
     }
 
@@ -650,5 +683,112 @@ public static String expectedDefendantName;
         );
 
         return getInstance(HearingOutcomesPage.class);
+    }
+
+    public void ensureHearingNoteExists(String noteText) {
+        if (!isSendOutcomeToAdminButtonDisplayed()) {
+            DriverContext.waitFor(1);
+            addHearingNote(noteText);
+        }
+    }
+
+    public boolean isSendOutcomeToAdminButtonDisplayed() {
+        try {
+            return sendOutcomeToAdminButton.isDisplayed();
+        } catch (NoSuchElementException e) {
+            return false;
+        }
+    }
+
+    public boolean isButtonDisplayedBelowHearingDetails() {
+        int hearingDetailsY = hearingDetails.getLocation().getY();
+        int buttonY = sendOutcomeToAdminButton.getLocation().getY();
+
+        return buttonY > hearingDetailsY;
+    }
+
+    public boolean isButtonDisplayedAboveHearingNotes() {
+        int buttonY = sendOutcomeToAdminButton.getLocation().getY();
+        int hearingNotesY = hearingNotesLink.getLocation().getY();
+
+        return buttonY < hearingNotesY;
+    }
+
+    public boolean isButtonDisplayedAboveHearingNotesPrevious() {
+        int buttonY = sendOutcomeToAdminButton.getLocation().getY();
+        int hearingNotesY = ExpandHearingNotesLink.getLocation().getY();
+
+        return buttonY < hearingNotesY;
+    }
+
+    public boolean isTodaysHearingTagDisplayed() {
+
+        DriverContext.waitForElementVisible(todaysHearingTag);
+
+        return todaysHearingTag.isDisplayed();
+    }
+
+    public boolean isTFutureHearingTagDisplayed() {
+
+        DriverContext.waitForElementVisible(futureHearingTag);
+
+        return futureHearingTag.isDisplayed();
+    }
+
+    public boolean isTodaysHearingTagGreen() {
+
+        String classes = todaysHearingTag.getAttribute("class");
+
+        System.out.println("Today's hearing tag classes: " + classes);
+
+        return classes.contains("govuk-tag--green");
+    }
+
+    public boolean isHearingDetailsDisplayed() {
+
+        WebElement hearingDate =
+                LocalDriverContext.getRemoteWebDriver()
+                        .findElement(By.xpath(
+                                "//div[contains(@id,'hearing-progress-wrapper')]/child::div/child::div[position()=1]/child::div[position()=1]/child::div/child::div/child::div"));
+
+        WebElement hearingLocation =
+                LocalDriverContext.getRemoteWebDriver()
+                        .findElement(By.xpath(
+                                "//div[contains(@id,'hearing-progress-wrapper')]/child::div/child::div[position()=1]/child::div[position()=1]/child::div/child::div/child::div"));
+
+        return hearingDate.isDisplayed()
+                && hearingLocation.isDisplayed();
+    }
+
+    public String getAddNoteForTodayHearing(){
+
+        return hearingNotesLink.getText();
+    }
+
+    public boolean isOutcomeDisplayedOnGreenBackground() {
+
+        DriverContext.waitForElementVisible(outcomeSuccessBanner);
+
+        return outcomeSuccessBanner.isDisplayed()
+                && outcomeSuccessBanner.getAttribute("class")
+                .contains("govuk-notification-banner--success");
+    }
+
+    public boolean isOutcomeSentToAdminDisplayed() {
+
+        DriverContext.waitForElementVisible(outcomeSentToAdminMessage);
+
+        return outcomeSentToAdminMessage.isDisplayed();
+    }
+
+    public boolean isFutureHearingTagBlue() {
+
+        DriverContext.waitForElementVisible(futureHearingTag);
+
+        String classes = futureHearingTag.getAttribute("class");
+
+        System.out.println("Future hearing tag classes: " + classes);
+
+        return classes.contains("govuk-tag--blue");
     }
 }

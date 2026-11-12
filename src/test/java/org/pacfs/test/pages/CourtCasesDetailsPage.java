@@ -1,6 +1,7 @@
 package org.pacfs.test.pages;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.How;
@@ -972,5 +973,90 @@ public class CourtCasesDetailsPage extends BasePage {
         DriverContext.waitForPageToLoad();
 
         return getInstance(HearingOutcomesPage.class);
+    }
+
+    public CourtCasesDetailsPage selectPreviousDate() {
+
+        DriverContext.waitForPageToLoad();
+        DriverContext.waitFor(1);
+
+        // Example heading: "Tuesday 10 November (Today)"
+        WebElement heading =
+                LocalDriverContext.getRemoteWebDriver()
+                        .findElement(By.xpath("//h2[contains(@class,'qa-case-list-day')]"));
+
+        String headingText = heading.getText();
+
+        // Extract day number (10 from "Tuesday 10 November (Today)")
+        int currentDay = Integer.parseInt(
+                headingText.replaceAll(".*?(\\d+).*", "$1")
+        );
+
+        int previousDay = currentDay - 1;
+
+//        WebElement previousDateLink =
+//                LocalDriverContext.getRemoteWebDriver()
+//                        .findElement(By.xpath(
+//                                "//a[contains(@href,'-" + String.format("%02d", previousDay) + "')]"
+//                        ));
+//
+////        DriverContext.waitForElementToBeClickable(previousDateLink);
+//
+//        previousDateLink.click();
+
+        WebElement previousDateLink =
+                LocalDriverContext.getRemoteWebDriver()
+                        .findElement(By.xpath(
+                                "//a[contains(@href,'-" +
+                                        String.format("%02d", previousDay) +
+                                        "')]"));
+
+        ((JavascriptExecutor) LocalDriverContext.getRemoteWebDriver())
+                .executeScript(
+                        "arguments[0].scrollIntoView({block:'center'});",
+                        previousDateLink);
+
+        DriverContext.waitFor(1);
+
+        ((JavascriptExecutor) LocalDriverContext.getRemoteWebDriver())
+                .executeScript("arguments[0].click();", previousDateLink);
+
+        DriverContext.waitForPageToLoad();
+
+        return this;
+    }
+
+
+    public CourtCasesDetailsPage selectNextDate() {
+
+        DriverContext.waitForPageToLoad();
+
+        WebElement heading =
+                LocalDriverContext.getRemoteWebDriver()
+                        .findElement(By.xpath("//h2[contains(@class,'qa-case-list-day')]"));
+
+        String headingText = heading.getText();
+
+        int currentDay = Integer.parseInt(
+                headingText.replaceAll(".*?(\\d+).*", "$1")
+        );
+
+        int nextDay = currentDay + 1;
+
+        WebElement nextDate =
+                LocalDriverContext.getRemoteWebDriver()
+                        .findElement(
+                                By.xpath("//a[contains(@aria-label,' " + nextDay + "')]")
+                        );
+
+        DriverContext.waitForElementToBeClickable(nextDate);
+
+        //nextDate.click();
+
+        DriverContext.waitForPageToLoad();
+
+        System.out.println("Selected future hearing date: " + nextDay);
+
+        return this;
     }
 }
